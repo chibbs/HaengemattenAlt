@@ -1,0 +1,2 @@
+class Hammock < ApplicationRecord
+end
