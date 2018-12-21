@@ -1,0 +1,41 @@
+<%= form_with(model: @hammock, local: true) do |form| %>
+ 
+  <% if @hammock.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@hammock.errors.count, "error") %> prohibited
+        this hammock from being saved:
+      </h2>
+      <ul>
+        <% @hammock.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <p>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </p>
+ 
+  <p>
+    <%= form.label :description %><br>
+    <%= form.text_area :description %>
+  </p>
+  
+  <p>
+    <%= form.label :longitude %><br>
+    <%= form.text_field :longitude %>
+  </p>
+  
+  <p>
+    <%= form.label :latitude %><br>
+    <%= form.text_field :latitude %>
+  </p>
+ 
+  <p>
+    <%= form.submit %>
+  </p>
+ 
+<% end %>

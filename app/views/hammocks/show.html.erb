@@ -1,0 +1,22 @@
+<p>
+  <strong>Title:</strong>
+  <%= @hammock.name %>
+</p>
+ 
+<p>
+  <strong>Description:</strong>
+  <%= @hammock.description %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @hammock.longitude %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @hammock.latitude %>
+</p>
+
+<%= link_to 'Edit', edit_hammock_path(@hammock) %> |
+<%= link_to 'Back', hammocks_path %>

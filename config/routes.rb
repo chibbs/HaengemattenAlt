@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+	get 'home/index'
+	
 	resources :hammocks
-	root 'hammocks#index'
+	
+	root 'home#index'
 end

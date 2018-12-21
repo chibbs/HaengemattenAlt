@@ -1,1 +1,26 @@
-<h1>Hammock-Page</h1>
+<h1>Listing hammocks</h1>
+ 
+<%= link_to 'New hammock', new_hammock_path %>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+	<th>Longitude</th>
+	<th>Latitude</th>
+    <th></th>
+  </tr>
+ 
+  <% @hammocks.each do |hammock| %>
+    <tr>
+      <td><%= hammock.name %></td>
+      <td><%= hammock.description %></td>
+	  <td><%= hammock.longitude %></td>
+	  <td><%= hammock.latitude %></td>
+      <td><%= link_to 'Show', hammock_path(hammock) %></td>
+	  <td><%= link_to 'Edit', edit_hammock_path(hammock) %></td>
+	  <td><%= link_to 'Destroy', hammock_path(hammock),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>
