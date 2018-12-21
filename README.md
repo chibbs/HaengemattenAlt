@@ -56,9 +56,10 @@ Below are the setups to run Ruby on Rails application on your system.
   ```
   
   Create db and migrate schema
+  ~~rake db:create~~
+  ~~rake db:migrate~~
   ```
-    rake db:create
-    rake db:migrate
+    rails db:schema:load
   ```
   
   Now run your application
