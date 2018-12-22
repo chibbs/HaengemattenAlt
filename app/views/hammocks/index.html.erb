@@ -7,6 +7,7 @@
     <th>Description</th>
 	<th>Longitude</th>
 	<th>Latitude</th>
+	<th>Stars</th>
     <th></th>
   </tr>
  
@@ -16,6 +17,7 @@
       <td><%= hammock.description %></td>
 	  <td><%= hammock.longitude %></td>
 	  <td><%= hammock.latitude %></td>
+	  <td><%= hammock.stars %></td>
       <td><%= link_to 'Show', hammock_path(hammock) %></td>
 	  <td><%= link_to 'Edit', edit_hammock_path(hammock) %></td>
 	  <td><%= link_to 'Destroy', hammock_path(hammock),

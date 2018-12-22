@@ -44,6 +44,6 @@ class HammocksController < ApplicationController
  
   private
     def hammock_params
-      params.require(:hammock).permit(:name, :description, :longitude, :latitude)
+      params.require(:hammock).permit(:name, :description, :longitude, :latitude, :stars)
     end
   end
