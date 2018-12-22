@@ -1,22 +1,36 @@
-<p>
-  <strong>Title:</strong>
-  <%= @hammock.name %>
-</p>
+<div class="container">
+  <div class="row">
+	<h1>Detail of <%= @hammock.name %></h1>
+  </div>
  
-<p>
-  <strong>Description:</strong>
-  <%= @hammock.description %>
-</p>
-
-<p>
-  <strong>Longitude:</strong>
-  <%= @hammock.longitude %>
-</p>
-
-<p>
-  <strong>Latitude:</strong>
-  <%= @hammock.latitude %>
-</p>
-
-<%= link_to 'Edit', edit_hammock_path(@hammock) %> |
-<%= link_to 'Back', hammocks_path %>
+  <div class="row">
+	<div class="col-xs-8">
+	  <strong>Title:</strong>
+      <%= @hammock.name %>
+	</div>
+	<div class="col-xs-4"></div>
+  </div>
+ 
+  <div class="row">
+	<div class="col-xs-12">
+	  <strong>Description:</strong>
+	  <%= @hammock.description %>
+	</div>
+  </div>
+ 
+  <div class="row">
+	<div class="col-xs-12 col-sm-6">
+	  <strong>Longitude:</strong>
+	  <%= @hammock.longitude %>
+	</div>
+	<div class="col-xs-12 col-sm-6">
+	  <strong>Latitude:</strong>
+	  <%= @hammock.latitude %>
+	</div>
+  </div>
+  
+  <div class="row">
+	<%= link_to 'Edit', edit_hammock_path(@hammock) %> |
+	<%= link_to 'Back', hammocks_path %>
+  </div>
+</div>

@@ -1,6 +1,13 @@
-<h1>Listing hammocks</h1>
- 
-<%= link_to 'New hammock', new_hammock_path %>
+<div class="container">
+  <div class="row">
+	<h1>Listing hammocks</h1>
+  </div>
+  
+  <div class="row">
+	<%= link_to '<i class="fa fa-plus"></i> New hammock'.html_safe, new_hammock_path %> 
+  </div>
+  
+  <div class="row">
 <table>
   <tr>
     <th>Name</th>
@@ -16,11 +23,13 @@
       <td><%= hammock.description %></td>
 	  <td><%= hammock.longitude %></td>
 	  <td><%= hammock.latitude %></td>
-      <td><%= link_to 'Show', hammock_path(hammock) %></td>
-	  <td><%= link_to 'Edit', edit_hammock_path(hammock) %></td>
-	  <td><%= link_to 'Destroy', hammock_path(hammock),
+      <td><%= link_to '<i class="fa fa-search"></i>'.html_safe, hammock_path(hammock) %></td>
+	  <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_hammock_path(hammock) %></td>
+	  <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, hammock_path(hammock),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
 </table>
+  </div>
+</div>
