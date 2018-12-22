@@ -57,7 +57,8 @@ Below are the setups to run Ruby on Rails application on your system.
   ~~rake db:create~~
   ~~rake db:migrate~~
   
-  `rails db:schema:load`
+        rails db:schema:load
+		rails db:seed
   
   * Now run your application
   
