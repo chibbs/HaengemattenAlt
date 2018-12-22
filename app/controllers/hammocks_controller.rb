@@ -1,4 +1,7 @@
 class HammocksController < ApplicationController
+  before_action :set_hammock, only: [:show, :edit, :update, :destroy]
+  
+  # GET \hammocks
   def index
     @hammocks = Hammock.all
   end
@@ -42,8 +45,9 @@ class HammocksController < ApplicationController
     redirect_to hammocks_path
   end
  
+  # Never trust parameters from the scary internet, only allow the white list through.
   private
     def hammock_params
-      params.require(:hammock).permit(:name, :description, :longitude, :latitude, :stars)
+      params.require(:hammock).permit(:name, :description, :longitude, :latitude)
     end
   end

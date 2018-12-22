@@ -20,6 +20,11 @@
     <%= form.label :comment %>
     <%= form.text_area :comment %>
   </div>
+  
+  <div class="field">
+    <%= form.label :hammock %>
+    <%= form.collection_select :hammock_id, Hammock.all, :id , :name, {prompt: "Choose a hammock"} %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>

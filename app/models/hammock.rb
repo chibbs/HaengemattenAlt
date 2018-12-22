@@ -1,8 +1,6 @@
 class Hammock < ApplicationRecord
-  validates :name, presence: true
-  validates :stars, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5}
+  has_many :reviews
   
-  def blank_stars
-	5 - stars.to_i
-  end
+  validates :name, presence: true
+
 end
