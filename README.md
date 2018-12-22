@@ -59,7 +59,9 @@ Below are the setups to run Ruby on Rails application on your system.
   
         rails db:schema:load
 		rails db:seed
-  
+  (oder:)
+        rake db:reset db:migrate db:seed
+		
   * Now run your application
   
   `rails s`
