@@ -2,13 +2,16 @@
   <div class="row">
 	<h1>Detail of <%= @hammock.name %></h1>
   </div>
- 
+
   <div class="row">
 	<div class="col-xs-8">
 	  <strong>Title:</strong>
       <%= @hammock.name %>
 	</div>
-	<div class="col-xs-4"></div>
+	<div class="col-xs-4">
+	  <strong>Description:</strong>
+	  <%= @hammock.description %>
+	</div>
   </div>
  
   <div class="row">
