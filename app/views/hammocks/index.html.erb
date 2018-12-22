@@ -24,7 +24,14 @@
       <td><%= hammock.description %></td>
 	  <td><%= hammock.longitude %></td>
 	  <td><%= hammock.latitude %></td>
-	  <td><%= hammock.stars %></td>
+	  <td>
+		<% hammock.stars.to_i.times do  %>
+			<span class="glyphicon glyphicon-star text-warning"></span>
+		<% end %>
+		<% hammock.blank_stars.times do %>
+			<span class="glyphicon glyphicon-star-empty text-muted"></span>
+		<% end %>
+	  </td>
       <td><%= link_to '<i class="fa fa-search"></i>'.html_safe, hammock_path(hammock) %></td>
 	  <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_hammock_path(hammock) %></td>
 	  <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, hammock_path(hammock),
