@@ -63,3 +63,7 @@ Below are the setups to run Ruby on Rails application on your system.
   * Now run your application
   
   `rails s`
+
+## Important: Line Endings ##
+It seems, that CRLF line endings (Windows) cause problems with shebangs in ruby files. Please make sure you only commit LF line endings (let Git convert them).
+See: https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#Formatting-and-Whitespace and https://help.github.com/articles/dealing-with-line-endings/. There is also a .gitattributes settings file in place.
