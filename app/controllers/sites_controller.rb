@@ -4,7 +4,13 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
-    @sites = Site.all
+    if params[:id].blank?
+      @sites = Site.all
+	else
+	  # workaround for links to sites from reviews
+	  @site = Site.find(params[:id])
+	  redirect_to @site
+	end
   end
 
   # GET /sites/1

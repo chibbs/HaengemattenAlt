@@ -7,6 +7,7 @@ class ReviewsController < ApplicationController
     if params[:site].blank?
 		@reviews = Review.all.order("created_at DESC")
 	else
+		# for filtering by site in review list
 		@site_id = Site.find_by(name: params[:site]).id
 		@reviews = Review.where(site_id: @site_id).order("created_at DESC")
 	end
