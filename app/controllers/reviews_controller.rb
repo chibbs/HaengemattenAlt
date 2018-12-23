@@ -1,15 +1,17 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_sitesref, only: [:index, :destroy]
 
   # GET /reviews
   # GET /reviews.json
   def index
     if params[:site].blank?
-		@reviews = Review.all.order("created_at DESC")
+		# get all reviews and their corresponding sites and order them descending
+		@reviews = Review.joins(:site).order(created_at: :desc).includes(:site)
 	else
 		# for filtering by site in review list
-		@site_id = Site.find_by(name: params[:site]).id
-		@reviews = Review.where(site_id: @site_id).order("created_at DESC")
+		# get all reviews which belong to site name in parameter, order them descending and also get corresponding site
+		@reviews = Review.joins(:site).where( sites: { name: params[:site] }).order(created_at: :desc).includes(:site)
 	end
   end
 
@@ -71,6 +73,11 @@ class ReviewsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_review
       @review = Review.find(params[:id])
+    end
+	
+	# load all sites that are referenced by reviews for use in filter
+	def set_sitesref
+      @sitesref = Site.joins(:reviews).group('name')
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

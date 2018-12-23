@@ -2,8 +2,8 @@
 
 <h1>Reviews</h1>
 
-Filter:
-			<% Site.all.each do |site| %> 
+Filter: <%= link_to 'All', reviews_path %>
+			<% @sitesref.find_each do |site| %> 
 				<%= link_to site.name, reviews_path(site: site.name) %>
 			<% end %>
 <table>
