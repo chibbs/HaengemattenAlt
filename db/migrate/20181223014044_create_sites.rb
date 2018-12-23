@@ -1,6 +1,6 @@
 class CreateSites < ActiveRecord::Migration[5.2]
   def change
-    create_table :sites do |t|
+	create_table :sites do |t|
       t.string :name
       t.text :description
       t.float :longitude
@@ -8,7 +8,6 @@ class CreateSites < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-	remove_reference :reviews, :entry, index: true, foreign_key: true
 	add_reference :reviews, :site, index: true, foreign_key: true
   end
 end

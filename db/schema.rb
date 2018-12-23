@@ -10,24 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_23_012650) do
-
-  create_table "hammocks", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.float "longitude"
-    t.float "latitude"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2018_12_23_014044) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "hammock_id"
-    t.index ["hammock_id"], name: "index_reviews_on_hammock_id"
+    t.integer "site_id"
+    t.index ["site_id"], name: "index_reviews_on_site_id"
+  end
+
+  create_table "sites", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.float "longitude"
+    t.float "latitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
