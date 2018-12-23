@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :sites
-  resources :reviews
-  
   get 'home/index'
   root 'home#index'
+  
+  resources :sites
+  resources :reviews
 end
