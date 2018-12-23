@@ -22,8 +22,8 @@
   </div>
   
   <div class="field">
-    <%= form.label :entry %>
-    <%= form.collection_select :entry_id, Entry.all, :id , :name, {prompt: "Choose an entry"} %>
+    <%= form.label :site %>
+    <%= form.collection_select :site_id, Site.all, :id , :name, {prompt: "Choose a site"} %>
   </div>
 
   <div class="actions">

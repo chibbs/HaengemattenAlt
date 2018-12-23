@@ -4,11 +4,11 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   def index
-    if params[:entry].blank?
+    if params[:site].blank?
 		@reviews = Review.all.order("created_at DESC")
 	else
-		@entry_id = Entry.find_by(name: params[:entry]).id
-		@reviews = Review.where(entry_id: @entry_id).order("created_at DESC")
+		@site_id = Site.find_by(name: params[:site]).id
+		@reviews = Review.where(site_id: @site_id).order("created_at DESC")
 	end
   end
 
@@ -74,6 +74,6 @@ class ReviewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
-      params.require(:review).permit(:rating, :comment, :entry_id)
+      params.require(:review).permit(:rating, :comment, :site_id)
     end
 end
