@@ -10,5 +10,10 @@
   <%= @review.comment %>
 </p>
 
+<p>
+  <strong>Entry:</strong>
+  <%= @review.entry_id %>
+</p>
+
 <%= link_to 'Edit', edit_review_path(@review) %> |
 <%= link_to 'Back', reviews_path %>

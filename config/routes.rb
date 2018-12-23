@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
+  resources :entries
   resources :reviews
-	get 'home/index'
-	
-	resources :hammocks
-	
-	root 'home#index'
+  resources :hammocks
+  
+  get 'home/index'
+  root 'home#index'
 end

@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_22_220826) do
+ActiveRecord::Schema.define(version: 2018_12_22_230344) do
+
+  create_table "entries", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.float "longitude"
+    t.float "latitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "hammocks", force: :cascade do |t|
     t.string "name"
@@ -26,8 +35,8 @@ ActiveRecord::Schema.define(version: 2018_12_22_220826) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "hammock_id"
-    t.index ["hammock_id"], name: "index_reviews_on_hammock_id"
+    t.integer "entry_id"
+    t.index ["entry_id"], name: "index_reviews_on_entry_id"
   end
 
 end
