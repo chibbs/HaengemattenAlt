@@ -28,7 +28,7 @@ Filter:
 		<% end %>
 	    </td>
         <td><%= review.comment %></td>
-		<td><%= review.site_id %></td>
+		<td><%= review.site.name %></td>
         <td><%= link_to '<i class="fa fa-search"></i>'.html_safe, review %></td>
         <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_review_path(review) %></td>
         <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, review, method: :delete, data: { confirm: 'Are you sure?' } %></td>
