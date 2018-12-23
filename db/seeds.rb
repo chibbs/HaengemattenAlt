@@ -5,14 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Hammock.delete_all
 Review.delete_all
 Entry.delete_all
 
-hammock1 = Hammock.create(name: 'Stadtpark', description: 'ganz super chillig da', latitude: '1.234', longitude: '19.234')
-hammock2 = Hammock.create(name: 'Uni-Strand', description: 'mit Blick auf die Spree', latitude: '1.234', longitude: '19.234')
-hammock3 = Hammock.create(name: 'Autobahn', description: 'Mittelstreifen', latitude: '1.234', longitude: '19.234')
-hammock4 = Hammock.create(name: 'Schöneweide', description: 'neben dem Penny', latitude: '1.234', longitude: '19.234')
 entry1 = Entry.create(name: 'Stadtpark', description: 'ganz super chillig da', latitude: '1.234', longitude: '19.234')
 entry2 = Entry.create(name: 'Uni-Strand', description: 'mit Blick auf die Spree', latitude: '1.234', longitude: '19.234')
 entry3 = Entry.create(name: 'Autobahn', description: 'Mittelstreifen', latitude: '1.234', longitude: '19.234')
