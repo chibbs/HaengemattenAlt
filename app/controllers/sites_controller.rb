@@ -16,6 +16,7 @@ class SitesController < ApplicationController
   # GET /sites/1
   # GET /sites/1.json
   def show
+    @reviews = Review.where(site_id: @site.id).order("created_at DESC")
   end
 
   # GET /sites/new

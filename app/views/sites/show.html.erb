@@ -20,5 +20,20 @@
   <%= @site.latitude %>
 </p>
 
+<p>
+  <strong>Reviews</strong>
+  <% @reviews.each do |review| %>
+      <ul>
+	  <li><% review.rating.to_i.times do  %>
+			<span class="glyphicon glyphicon-star text-warning"></span>
+		<% end %>
+		<% review.blank_stars.times do %>
+			<span class="glyphicon glyphicon-star-empty text-muted"></span>
+		<% end %></li>
+		<li><%= review.comment %></li>
+	</ul>
+    <% end %>
+</p>
+
 <%= link_to 'Edit', edit_site_path(@site) %> |
 <%= link_to 'Back', sites_path %>
