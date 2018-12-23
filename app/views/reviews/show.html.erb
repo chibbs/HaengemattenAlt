@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Rating:</strong>
+  <% @review.rating.to_i.times do  %>
+	<span class="glyphicon glyphicon-star text-warning"></span>
+  <% end %>
+  <% @review.blank_stars.times do %>
+	<span class="glyphicon glyphicon-star-empty text-muted"></span>
+  <% end %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @review.comment %>
+</p>
+
+<p>
+  <strong>Reviewed Site</strong>
+  <%= link_to @review.site_name, sites_path(id: @review.site_id) %>
+</p>
+
+<%= link_to 'Edit', edit_review_path(@review) %> |
+<%= link_to 'Back', reviews_path %>

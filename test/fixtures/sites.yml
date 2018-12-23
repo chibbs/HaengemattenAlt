@@ -3,13 +3,11 @@
 one:
   name: MyString
   description: MyText
-  user: 
-  lang: 1.5
-  lat: 1.5
+  longitude: 1.5
+  latitude: 1.5
 
 two:
   name: MyString
   description: MyText
-  user: 
-  lang: 1.5
-  lat: 1.5
+  longitude: 1.5
+  latitude: 1.5

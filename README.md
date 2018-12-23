@@ -1,9 +1,5 @@
 # README
 
-## Important: Line Endings ##
-It seems, that CRLF line endings (Windows) cause problems with shebangs in ruby files. Please make sure you only commit LF line endings (let Git convert them).
-See: https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#Formatting-and-Whitespace and https://help.github.com/articles/dealing-with-line-endings/. There is also a .gitattributes settings file in place.
-
 ## Requirements ##
 Ruby Version: 2.5.1
 Rails Version >=5.2.1
@@ -61,8 +57,15 @@ Below are the setups to run Ruby on Rails application on your system.
   ~~rake db:create~~
   ~~rake db:migrate~~
   
-  `rails db:schema:load`
-  
+        rails db:schema:load
+		rails db:seed
+  (oder:)
+        rake db:reset db:migrate db:seed
+		
   * Now run your application
   
   `rails s`
+
+## Important: Line Endings ##
+It seems, that CRLF line endings (Windows) cause problems with shebangs in ruby files. Please make sure you only commit LF line endings (let Git convert them).
+See: https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#Formatting-and-Whitespace and https://help.github.com/articles/dealing-with-line-endings/. There is also a .gitattributes settings file in place.
