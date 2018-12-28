@@ -10,15 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_15_172852) do
+ActiveRecord::Schema.define(version: 2018_12_23_014044) do
 
-  create_table "hammocks", force: :cascade do |t|
+  create_table "sites", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.float "lang"
-    t.float "lat"
+    t.float "longitude"
+    t.float "latitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+  
+  create_table "reviews", force: :cascade do |t|
+    t.integer "rating"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "site_id"
+    t.index ["site_id"], name: "index_reviews_on_site_id"
   end
 
 end

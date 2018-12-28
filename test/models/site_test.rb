@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class HammockTest < ActiveSupport::TestCase
+class SiteTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
