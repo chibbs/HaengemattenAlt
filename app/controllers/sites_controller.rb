@@ -23,33 +23,35 @@ class SitesController < ApplicationController
   # POST /sites
   def create
     @site = Site.new(site_params)
+
+	sizesgroup = Size.find params[:site][:size_ids]
+	@site.sizes = sizesgroup
 	
     if @site.save
       redirect_to @site, notice: 'Site was successfully created.' 
     else
       render :new
     end
-	params[:site][:size_ids].each do |size_id|
-		unless size_id.empty?
-			size = Size.find(size_id)
-			@site.sizes << size
-		end
-	end
   end
 
   # PATCH/PUT /sites/1
   def update
-	if @site.update(site_params)
+	#@site.sizes.clear
+    #params[:site][:size_ids].each do |size_id|
+	#	unless size_id.empty?
+	#		size = Size.find(size_id)
+	#		@site.sizes << size
+	#	end
+	#end
+
+	sizesgroup = Size.find params[:site][:size_ids]
+	@site.sizes = sizesgroup
+	
+    if @site.update(site_params)
       redirect_to @site, notice: 'Site was successfully updated.'
     else
       render :edit
     end
-	params[:site][:size_ids].each do |size_id|
-		unless size_id.empty?
-			size = Size.find(size_id)
-			@site.sizes << size
-		end
-	end
   end
 
   # DELETE /sites/1
