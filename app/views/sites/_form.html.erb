@@ -33,7 +33,7 @@
   
   <div class="field">
 	<%= form.label :sizes %>
-	<%= collection_select(:site, :size_ids, Size.all, :id, :name, {}, { :multiple => true } )%>
+	<%= collection_select(:site, :size_ids, Size.all, :id, :name, { include_hidden: false }, { :multiple => true } )%>
   </div>
 
   <div class="actions">
