@@ -17,8 +17,9 @@
 
 <p>
   <strong>Reviewed Site</strong>
-  <%= link_to @review.site_name, sites_path(id: @review.site_id) %>
+  <%= link_to @review.site.name, @review.site %>
 </p>
 
 <%= link_to 'Edit', edit_review_path(@review) %> |
+<%= link_to 'Delete', @review, method: :delete, data: { confirm: 'Are you sure?' } %> |
 <%= link_to 'Back', reviews_path %>
