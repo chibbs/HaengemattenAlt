@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_review, only: [:edit, :update, :destroy]
   before_action :set_sitesref, only: [:index, :destroy]
 
   # GET /reviews
@@ -18,6 +18,7 @@ class ReviewsController < ApplicationController
   # GET /reviews/1
   # GET /reviews/1.json
   def show
+	@review = Review.joins(:site).includes(:site).find(params[:id])
   end
 
   # GET /reviews/new
