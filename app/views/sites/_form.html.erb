@@ -30,6 +30,11 @@
     <%= form.label :latitude %>
     <%= form.text_field :latitude %>
   </div>
+  
+  <div class="field">
+	<%= form.label :sizes %>
+	<%= collection_select(:site, :size_ids, Size.all, :id, :name, {}, { :multiple => true } )%>
+  </div>
 
   <div class="actions">
     <%= form.submit %>

@@ -10,6 +10,7 @@ class SitesController < ApplicationController
   # GET /sites/1
   # GET /sites/1.json
   def show
+	#@site = Site.joins(:reviews).includes(:reviews).find(params[:id])
     @reviews = Review.where(site_id: @site.id).order("created_at DESC")
   end
 
@@ -36,6 +37,12 @@ class SitesController < ApplicationController
         format.json { render json: @site.errors, status: :unprocessable_entity }
       end
     end
+	params[:site][:size_ids].each do |size_id|
+		unless size_id.empty?
+			size = Size.find(size_id)
+			@site.sizes << size
+		end
+	end
   end
 
   # PATCH/PUT /sites/1
@@ -50,6 +57,12 @@ class SitesController < ApplicationController
         format.json { render json: @site.errors, status: :unprocessable_entity }
       end
     end
+	params[:site][:size_ids].each do |size_id|
+		unless size_id.empty?
+			size = Size.find(size_id)
+			@site.sizes << size
+		end
+	end
   end
 
   # DELETE /sites/1

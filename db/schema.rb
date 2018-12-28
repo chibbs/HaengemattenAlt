@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_28_152642) do
+ActiveRecord::Schema.define(version: 2018_12_28_152752) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
@@ -29,6 +29,20 @@ ActiveRecord::Schema.define(version: 2018_12_28_152642) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "reviews_count"
+  end
+
+  create_table "sites_sizes", id: false, force: :cascade do |t|
+    t.integer "site_id"
+    t.integer "size_id"
+    t.index ["site_id"], name: "index_sites_sizes_on_site_id"
+    t.index ["size_id"], name: "index_sites_sizes_on_size_id"
+  end
+
+  create_table "sizes", force: :cascade do |t|
+    t.string "name"
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

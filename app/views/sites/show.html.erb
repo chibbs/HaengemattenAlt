@@ -21,8 +21,13 @@
 </p>
 
 <p>
+  <strong>Sizes:</strong>
+  <%= @site.sizes.map(&:name).join(', ') %>
+</p>
+
+<p>
   <strong>Reviews (<%= @site.reviews.size %>)</strong>
-  <% @reviews.each do |review| %>
+  <% @site.reviews.each do |review| %>
       <ul>
 	  <li><% review.rating.to_i.times do  %>
 			<span class="glyphicon glyphicon-star text-warning"></span>
