@@ -21,7 +21,7 @@
 </p>
 
 <p>
-  <strong>Reviews</strong>
+  <strong>Reviews (<%= @site.reviews.size %>)</strong>
   <% @reviews.each do |review| %>
       <ul>
 	  <li><% review.rating.to_i.times do  %>
