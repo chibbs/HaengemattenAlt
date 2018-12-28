@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_28_152752) do
+ActiveRecord::Schema.define(version: 2018_12_28_162109) do
 
   create_table "reviews", force: :cascade do |t|
     t.integer "rating"
@@ -24,11 +24,11 @@ ActiveRecord::Schema.define(version: 2018_12_28_152752) do
   create_table "sites", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.float "longitude"
-    t.float "latitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "reviews_count"
+    t.decimal "latitude", precision: 15, scale: 13
+    t.decimal "longitude", precision: 15, scale: 13
   end
 
   create_table "sites_sizes", id: false, force: :cascade do |t|
