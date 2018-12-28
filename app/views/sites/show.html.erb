@@ -25,6 +25,17 @@
   <%= @site.sizes.map(&:name).join(', ') %>
 </p>
 
+<% if @site.images.attached? %>
+<!-- @site.images.present? will always return true, use attached? to check presence -->
+  <p>
+    <strong>Images:</strong>
+    <br>
+	<% @site.images.each do |image| %>
+		<%= image_tag image.variant(resize: "100x100") %>
+	<% end %>
+  </p>
+<% end %>
+
 <p>
   <strong>Reviews (<%= @site.reviews.size %>)</strong>
   <% @site.reviews.each do |review| %>

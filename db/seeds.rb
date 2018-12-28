@@ -8,6 +8,7 @@
 Review.delete_all
 Site.delete_all
 Size.delete_all
+ActiveStorage::Attachment.all.each { |attachment| attachment.purge }
 
 sizes = Size.create(name: 'small', text: '2-3 m')
 sizem = Size.create(name: 'medium', text: '4-5 m')
@@ -20,6 +21,7 @@ site1.sizes << [sizes, sizem]
 site2.sizes << [sizem]
 site3.sizes << [sizel]
 site4.sizes << [sizes, sizem, sizel]
+site4.images.attach(io: File.open('app/assets/images/avatar.png'), filename: 'avatar.png', content_type: 'image/png')
 Review.create(rating: 1, comment: 'Echt eklig da!', site_id: site4.id)
 Review.create(rating: 5, comment: 'genial', site_id: site2.id)
 Review.create(rating: 3, comment: 'schon okay da...', site_id: site1.id)

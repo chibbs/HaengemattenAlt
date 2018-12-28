@@ -4,6 +4,7 @@ class SitesController < ApplicationController
   # GET /sites
   def index
       @sites = Site.all
+	  #@sites = Site.with_eager_loaded_site_photos
   end
 
   # GET /sites/1
@@ -36,18 +37,25 @@ class SitesController < ApplicationController
 
   # PATCH/PUT /sites/1
   def update
-	#@site.sizes.clear
-    #params[:site][:size_ids].each do |size_id|
-	#	unless size_id.empty?
-	#		size = Size.find(size_id)
-	#		@site.sizes << size
-	#	end
-	#end
-
 	sizesgroup = Size.find params[:site][:size_ids]
 	@site.sizes = sizesgroup
 	
-    if @site.update(site_params)
+	# We use an atomic transaction so that we can rollback
+    # the update if anything goes wrong.
+    Site.transaction do
+      if @site.update(site_params)
+        # Avoid passing a nil value to `attach` since it'll raise
+        # a 'Blob must exist' validation error.
+        if params[:site][:images]
+          # As of today, we cannot attach an
+          # associated file without saving. It'll always
+          # call `create!`. This might change soon.
+          @site.images.attach(params[:site][:images])
+        end
+      end
+    end
+
+    if @site.errors.none?
       redirect_to @site, notice: 'Site was successfully updated.'
     else
       render :edit
@@ -63,11 +71,12 @@ class SitesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_site
-      @site = Site.find(params[:id])
+      @site = Site.joins(:sizes).includes(:sizes).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def site_params
-      params.require(:site).permit(:name, :description, :longitude, :latitude)
+      #params.require(:site).permit(:name, :description, :longitude, :latitude, :site_photo)
+	  params.require(:site).permit(:name, :description, :longitude, :latitude, :images, images_attachments_attributes: [:id, :_destroy])
     end
 end

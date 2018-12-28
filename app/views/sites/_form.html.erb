@@ -36,6 +36,24 @@
 	<%= collection_select(:site, :size_ids, Size.all, :id, :name, { include_hidden: false }, { :multiple => true } )%>
   </div>
 
+  <div class="field">  
+	<%= form.label :images %>
+		<% if @site.images.attached? %>
+			<p>
+				<% @site.images.each do |image| %>
+					<% #image_tag url_for(image) %>
+					<%= image_tag image.variant(resize: "100x100") %>
+					<% #note: nesting on :images_attachments, not :images %>
+					<%= form.fields_for :images_attachments, image do |fields| %>
+						<% #If checked it marks the image_attachment for destruction. %>
+						delete: <%= fields.check_box :_destroy %>
+					<% end %>
+				<% end %>
+			</p>
+		<% end %>
+	<%= form.file_field :images, multiple: true %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
