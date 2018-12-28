@@ -76,7 +76,6 @@ class SitesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def site_params
-      #params.require(:site).permit(:name, :description, :longitude, :latitude, :site_photo)
 	  params.require(:site).permit(:name, :description, :longitude, :latitude, :images, images_attachments_attributes: [:id, :_destroy])
     end
 end
