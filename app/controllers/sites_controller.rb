@@ -2,15 +2,12 @@ class SitesController < ApplicationController
   before_action :set_site, only: [:show, :edit, :update, :destroy]
 
   # GET /sites
-  # GET /sites.json
   def index
       @sites = Site.all
   end
 
   # GET /sites/1
-  # GET /sites/1.json
   def show
-	#@site = Site.joins(:reviews).includes(:reviews).find(params[:id])
     @reviews = Review.where(site_id: @site.id).order("created_at DESC")
   end
 
@@ -24,18 +21,13 @@ class SitesController < ApplicationController
   end
 
   # POST /sites
-  # POST /sites.json
   def create
     @site = Site.new(site_params)
-
-    respond_to do |format|
-      if @site.save
-        format.html { redirect_to @site, notice: 'Site was successfully created.' }
-        format.json { render :show, status: :created, location: @site }
-      else
-        format.html { render :new }
-        format.json { render json: @site.errors, status: :unprocessable_entity }
-      end
+	
+    if @site.save
+      redirect_to @site, notice: 'Site was successfully created.' 
+    else
+      render :new
     end
 	params[:site][:size_ids].each do |size_id|
 		unless size_id.empty?
@@ -46,16 +38,11 @@ class SitesController < ApplicationController
   end
 
   # PATCH/PUT /sites/1
-  # PATCH/PUT /sites/1.json
   def update
-    respond_to do |format|
-      if @site.update(site_params)
-        format.html { redirect_to @site, notice: 'Site was successfully updated.' }
-        format.json { render :show, status: :ok, location: @site }
-      else
-        format.html { render :edit }
-        format.json { render json: @site.errors, status: :unprocessable_entity }
-      end
+	if @site.update(site_params)
+      redirect_to @site, notice: 'Site was successfully updated.'
+    else
+      render :edit
     end
 	params[:site][:size_ids].each do |size_id|
 		unless size_id.empty?
@@ -66,13 +53,9 @@ class SitesController < ApplicationController
   end
 
   # DELETE /sites/1
-  # DELETE /sites/1.json
   def destroy
     @site.destroy
-    respond_to do |format|
-      format.html { redirect_to sites_url, notice: 'Site was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+      redirect_to sites_url, notice: 'Site was successfully destroyed.'
   end
 
   private
