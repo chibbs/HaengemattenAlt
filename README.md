@@ -35,7 +35,10 @@ Make sure Ruby and Rails is installed on your system.
         gem install bundler
         gem install nokogiri -- --use-system-libraries
         gem install rails
-  
+
+  * install Image Magick
+  (depends on your platform)
+
   ***
 
 ## Installation
