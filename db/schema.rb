@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_112721) do
+ActiveRecord::Schema.define(version: 2019_01_03_135557) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -39,7 +39,9 @@ ActiveRecord::Schema.define(version: 2019_01_03_112721) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "site_id"
+    t.integer "user_id"
     t.index ["site_id"], name: "index_reviews_on_site_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "sites", force: :cascade do |t|
@@ -50,6 +52,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_112721) do
     t.integer "reviews_count"
     t.decimal "latitude", precision: 15, scale: 13
     t.decimal "longitude", precision: 15, scale: 13
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_sites_on_user_id"
   end
 
   create_table "sites_sizes", id: false, force: :cascade do |t|
