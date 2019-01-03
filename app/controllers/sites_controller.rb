@@ -5,8 +5,9 @@ class SitesController < ApplicationController
   def index
       #@sites = Site.all
 	  #@sites = Site.with_eager_loaded_site_photos
-	  scoped  = Site.within(5, :origin => [52.477995,13.566360])
-	  @sites = scoped.all
+	  @somewhere = [52.477995,13.566360]
+	  @sites = Site.within(5, :origin => @somewhere).order('distance ASC')
+	  #@sites = Site.by_distance(:origin => @somewhere).order('distance ASC')
   end
 
   # GET /sites/1
