@@ -24,6 +24,7 @@ class SitesController < ApplicationController
   # POST /sites
   def create
     @site = Site.new(site_params)
+	@site.user_id = current_user.id
 	
 	if params[:site][:size_ids].present?
 		sizesgroup = Size.find params[:site][:size_ids]
@@ -39,6 +40,7 @@ class SitesController < ApplicationController
 
   # PATCH/PUT /sites/1
   def update
+    @site.user_id = current_user.id
 	if params[:site][:size_ids].present?
 	  sizesgroup = Size.find params[:site][:size_ids]
 	  @site.sizes = sizesgroup
