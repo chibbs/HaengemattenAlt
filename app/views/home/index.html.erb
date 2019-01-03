@@ -3,7 +3,7 @@
 <h1>Home</h1>
 
 <% if current_user %>
-  Logged in as <%= current_user.email %>.<br />
+  Logged in as <a href="mailto:<%= current_user.email %>"><%= current_user.first_name %> <%= current_user.last_name %></a>.<br />
   <%= link_to 'Liste der Hängematten', controller: 'sites' %><br />
   <%= link_to "Log Out", logout_path %>
 <% else %>
