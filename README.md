@@ -3,7 +3,8 @@
 ## Requirements ##
 Ruby Version: 2.5.1
 Rails Version >=5.2.1
-
+SQLite3
+ImageMagick
 
 Make sure Ruby and Rails is installed on your system. 
   Fire command prompt and run command:
