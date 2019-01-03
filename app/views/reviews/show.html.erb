@@ -1,6 +1,16 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Review on Site</strong>
+  <%= link_to @review.site.name, @review.site %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @review.user.first_name %> <%= @site.user.last_name %>
+</p>
+
+<p>
   <strong>Rating:</strong>
   <% @review.rating.to_i.times do  %>
 	<span class="glyphicon glyphicon-star text-warning"></span>
@@ -13,11 +23,6 @@
 <p>
   <strong>Comment:</strong>
   <%= @review.comment %>
-</p>
-
-<p>
-  <strong>Reviewed Site</strong>
-  <%= link_to @review.site.name, @review.site %>
 </p>
 
 <%= link_to 'Edit', edit_review_path(@review) %> |

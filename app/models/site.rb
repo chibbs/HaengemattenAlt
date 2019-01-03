@@ -1,6 +1,7 @@
 class Site < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :sizes
+  belongs_to :user
   has_many_attached :images
 
   # We need to nest on :images_attachments since :images

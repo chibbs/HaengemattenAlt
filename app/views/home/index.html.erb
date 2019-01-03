@@ -1,2 +1,13 @@
+<p id="notice"><%= notice %></p>
+
 <h1>Home</h1>
-<%= link_to 'Liste der Hängematten', controller: 'sites' %>
+
+<% if current_user %>
+  Logged in as <a href="mailto:<%= current_user.email %>"><%= current_user.first_name %> <%= current_user.last_name %></a>.<br />
+  <%= link_to 'Liste der Hängematten', controller: 'sites' %><br />
+  <%= link_to "Log Out", logout_path %>
+<% else %>
+  <%= link_to "Sign Up", signup_path %> or 
+  <%= link_to "Log In", login_path %>
+<% end %>
+
