@@ -24,9 +24,11 @@ class SitesController < ApplicationController
   # POST /sites
   def create
     @site = Site.new(site_params)
-
-	sizesgroup = Size.find params[:site][:size_ids]
-	@site.sizes = sizesgroup
+	
+	if params[:site][:size_ids].present?
+		sizesgroup = Size.find params[:site][:size_ids]
+		@site.sizes = sizesgroup
+	end
 	
     if @site.save
       redirect_to @site, notice: 'Site was successfully created.' 
@@ -37,8 +39,10 @@ class SitesController < ApplicationController
 
   # PATCH/PUT /sites/1
   def update
-	sizesgroup = Size.find params[:site][:size_ids]
-	@site.sizes = sizesgroup
+	if params[:site][:size_ids].present?
+	  sizesgroup = Size.find params[:site][:size_ids]
+	  @site.sizes = sizesgroup
+	end
 	
 	# We use an atomic transaction so that we can rollback
     # the update if anything goes wrong.
