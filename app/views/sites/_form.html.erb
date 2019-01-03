@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
+    <%= form.label :name %>*
     <%= form.text_field :name %>
   </div>
 
@@ -22,17 +22,17 @@
   </div>
 
   <div class="field">
-    <%= form.label :longitude %>
+    <%= form.label :longitude %>*
     <%= form.text_field :longitude %>
   </div>
 
   <div class="field">
-    <%= form.label :latitude %>
+    <%= form.label :latitude %>*
     <%= form.text_field :latitude %>
   </div>
   
   <div class="field">
-	<%= form.label :sizes %>
+	<%= form.label :sizes %>* 
 	<%= collection_select(:site, :size_ids, Size.all, :id, :name, { include_hidden: false }, { :multiple => true } )%>
   </div>
 
@@ -43,7 +43,7 @@
 				<% @site.images.each do |image| %>
 					<% #image_tag url_for(image) %>
 					<%= image_tag image.variant(resize: "100x100") %>
-					<% #note: nesting on :images_attachments, not :images %>
+					<!-- note: nesting on :images_attachments, not :images -->
 					<%= form.fields_for :images_attachments, image do |fields| %>
 						<% #If checked it marks the image_attachment for destruction. %>
 						delete: <%= fields.check_box :_destroy %>
