@@ -1,4 +1,4 @@
-class RemoveLatitudeFromSites < ActiveRecord::Migration[5.2]
+class ChangeLongLat < ActiveRecord::Migration[5.2]
   def change
     remove_column :sites, :latitude, :float
     remove_column :sites, :longitude, :float

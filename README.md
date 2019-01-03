@@ -3,7 +3,8 @@
 ## Requirements ##
 Ruby Version: 2.5.1
 Rails Version >=5.2.1
-
+SQLite3
+ImageMagick
 
 Make sure Ruby and Rails is installed on your system. 
   Fire command prompt and run command:
@@ -35,7 +36,17 @@ Make sure Ruby and Rails is installed on your system.
         gem install bundler
         gem install nokogiri -- --use-system-libraries
         gem install rails
+	
+  Hint: the above nokogiri needs system libraries (libxml2-dev, libxslt-dev and others) in order to run.
+
+  * install Image Magick
+  (depends on your platform)
+  see http://im.snibgo.com/cygwin.htm for installation under Cygwin (Windows)
   
+  * check Image Magick Installation
+  
+        $ convert --help
+
   ***
 
 ## Installation
