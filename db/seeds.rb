@@ -15,10 +15,10 @@ user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@must
 sizes = Size.create(name: 'small', text: '2-3 m')
 sizem = Size.create(name: 'medium', text: '4-5 m')
 sizel = Size.create(name: 'large', text: '6+ m')
-site1 = Site.create(name: 'Stadtpark', description: 'ganz super chillig da', latitude: '1.234', longitude: '19.234', user_id: user1.id)
-site2 = Site.create(name: 'Uni-Strand', description: 'mit Blick auf die Spree', latitude: '1.234', longitude: '19.234', user_id: user1.id)
-site3 = Site.create(name: 'Autobahn', description: 'Mittelstreifen', latitude: '1.234', longitude: '19.234', user_id: user1.id)
-site4 = Site.create(name: 'Schöneweide', description: 'neben dem Penny', latitude: '1.234', longitude: '19.234', user_id: user1.id)
+site1 = Site.create(name: 'Monbijoupark', description: 'ganz super chillig da', latitude: '52.523269', longitude: '13.395811', user_id: user1.id)
+site2 = Site.create(name: 'Uni-Strand', description: 'mit Blick auf die Spree', latitude: '52.455040', longitude: '13.524629', user_id: user1.id)
+site3 = Site.create(name: 'Autobahn', description: 'Mittelstreifen', latitude: '52.307034', longitude: '13.342271', user_id: user1.id)
+site4 = Site.create(name: 'Schöneweide', description: 'neben dem Penny', latitude: '52.459328', longitude: '13.536597', user_id: user1.id)
 site1.sizes << [sizes, sizem]
 site2.sizes << [sizem]
 site3.sizes << [sizel]
