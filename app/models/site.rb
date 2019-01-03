@@ -18,6 +18,12 @@ class Site < ApplicationRecord
   
   scope :with_eager_loaded_images, -> { eager_load(images_attachments: :blob) }
   
+  acts_as_mappable :default_units => :kms,
+                   :default_formula => :sphere,
+                   :distance_field_name => :distance,
+                   :lat_column_name => :latitude,
+                   :lng_column_name => :longitude
+  
   # The post form in our views has a checkbox that marks
   # images_attachments for destruction. We can check if
   # they're marked with `marked_for_destruction?` and

@@ -3,8 +3,10 @@ class SitesController < ApplicationController
 
   # GET /sites
   def index
-      @sites = Site.all
+      #@sites = Site.all
 	  #@sites = Site.with_eager_loaded_site_photos
+	  scoped  = Site.within(5, :origin => [52.477995,13.566360])
+	  @sites = scoped.all
   end
 
   # GET /sites/1
