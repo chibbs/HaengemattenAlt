@@ -1,10 +1,23 @@
 # README
 
+## About ##
+
+https://htw-imi-wt1-rails-hammockapp.herokuapp.com
+
+This is a student work belonging to a web technology course at HTW Berlin. 
+We built a web app, that enables people to share knowledge about locations where one can put his/her hammock :-)
+It is a Ruby on Rails project, which uses sqlite2 as a database (on heroku we switched to postgresql), Bootstrap 3 for the frontend and openstreetmap for map rendering.
+
+Authors: Jannis Jahr, Max Menzel and Laura Woelbeling
+
+Berlin, January 2019
+
 ## Requirements ##
 Ruby Version: 2.5.1
 Rails Version >=5.2.1
 SQLite3
 ImageMagick
+(PostgreSQL in Production)
 
 Make sure Ruby and Rails is installed on your system. 
   Fire command prompt and run command:
