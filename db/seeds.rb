@@ -24,6 +24,10 @@ site2.sizes << [sizem]
 site3.sizes << [sizel]
 site4.sizes << [sizes, sizem, sizel]
 site4.images.attach(io: File.open('app/assets/images/avatar.png'), filename: 'avatar.png', content_type: 'image/png')
+site1.save(validate: false)
+site2.save(validate: false)
+site3.save(validate: false)
+site4.save(validate: false)
 Review.create(rating: 1, comment: 'Echt eklig da!', site_id: site4.id, user_id: user1.id)
 Review.create(rating: 5, comment: 'genial', site_id: site2.id, user_id: user1.id)
 Review.create(rating: 3, comment: 'schon okay da...', site_id: site1.id, user_id: user1.id)

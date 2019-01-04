@@ -7,6 +7,7 @@
     <tr>
       <th>Name</th>
       <th>Description</th>
+	  <th>Author</th>
       <th>Longitude</th>
       <th>Latitude</th>
 	  <th>Sizes</th>
@@ -20,13 +21,18 @@
       <tr>
         <td><%= site.name %></td>
         <td><%= site.description %></td>
+		<td><%= site.user.first_name %> <%= site.user.last_name %></td>
         <td><%= site.longitude %></td>
         <td><%= site.latitude %></td>
 		<td><%= site.sizes.map(&:name).join(', ') %></td>
 		<td><%= site.reviews.size %> reviews</td>
         <td><%= link_to '<i class="fa fa-search"></i>'.html_safe, site %></td>
-        <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_site_path(site) %></td>
-        <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, site, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<% if current_user %>
+		<% if site.user_id==current_user.id %>
+			<td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_site_path(site) %></td>
+			<td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, site, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<% end %>
+		<% end %>
       </tr>
     <% end %>
   </tbody>
