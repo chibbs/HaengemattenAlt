@@ -20,7 +20,10 @@ Make sure Ruby and Rails is installed on your system.
         \curl -sSL https://get.rvm.io | bash -s stable
         rvm get master
         rvm install "ruby-2.5.1"
-  
+        
+    * on cygwin you might need to make the cygwin installer accessible via the PATH variable
+      via `PATH=/your/path:$PATH`
+        
   * Use the newly installed Ruby:
    
         rvm use 2.5.1 
@@ -37,7 +40,7 @@ Make sure Ruby and Rails is installed on your system.
         gem install nokogiri -- --use-system-libraries
         gem install rails
 	
-  Hint: the above nokogiri needs system libraries (libxml2-dev, libxslt-dev and others) in order to run.
+  Hint: the above nokogiri needs system libraries / cygwin (libxml2-dev, libxslt-dev, zlib, sqlite3, libcrypt-devel, libsqlite3-devel, libgmp-devel, make and others) in order to run.
 
   * install Image Magick
   (depends on your platform)
