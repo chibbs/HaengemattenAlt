@@ -54,5 +54,3 @@ function displayNotification() {
     });
   }
 }
-
-$(document).ready(main);

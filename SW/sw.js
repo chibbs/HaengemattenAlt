@@ -2,7 +2,6 @@ var CACHE_NAME = 'my-site-cache-v5';
 var urlsToCache = [
   '/sw.html',
   '/main.js',
-  '/jquery-3.3.1.min.js',
   '/sw.css',
   '/a.html',
   '/P1230904.JPG',
