@@ -1,11 +1,15 @@
-var CACHE_NAME = 'my-site-cache-v4';
+var CACHE_NAME = 'my-site-cache-v5';
 var urlsToCache = [
   '/sw.html',
+  '/main.js',
   '/jquery-3.3.1.min.js',
   '/sw.css',
   '/a.html',
   '/P1230904.JPG',
-  '/b.html'
+  '/b.html',
+  '/cat.svg',
+  '/favicon.ico',
+  '/example.png'
 ];
 
 self.addEventListener("install", function(event) {
@@ -28,8 +32,16 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log('WORKER: fetch event in progress.', event.request.url);
+  console.log('WORKER: fetch new event in progress.', event.request.url);
+  const url = new URL(event.request.url);
 
+  // serve the cat SVG from the cache if the request is
+  // same-origin and the path is '/dog.svg'
+  if (url.origin == location.origin && url.pathname == '/dog.svg') {
+	console.log('WORKER: get cat image from cache instead of dog image');
+	event.respondWith(caches.match('/cat.svg'));
+  } else {
+  
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
@@ -41,6 +53,7 @@ self.addEventListener('fetch', function(event) {
       }
     )
   );
+  }
 });
 
 self.addEventListener('sync', function(event) {

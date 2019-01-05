@@ -27,6 +27,12 @@ function main(){
       console.log('ServiceWorker registration failed: ', err.message, err);
     });
   };
+  
+  setTimeout(() => {
+		const img = new Image();
+		img.src = '/dog.svg';
+		document.body.appendChild(img);
+	}, 3000);
 }
 
 function displayNotification() {
@@ -36,7 +42,7 @@ function displayNotification() {
       console.log('displayNotification 2');
       var options = {
         body: 'Here is a notification body!',
-        icon: 'images/example.png',
+        icon: 'example.png',
         vibrate: [100, 50, 100],
         data: {
           dateOfArrival: Date.now(),
