@@ -145,7 +145,7 @@
     }
 
 </script>
-
+<div style="display: none">
 <%= form_for(Site.new) do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name, class: "form-control" %>
@@ -160,3 +160,4 @@
 
   <%= f.submit "Create", :class => "btn btn-success btn-block" %>
 <% end %>
+</div>
