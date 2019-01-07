@@ -1,6 +1,4 @@
-<style>
 
-</style>
 <div id="map" class ="ol-map">
   <p id="notice" class="ol-notice"><%= notice %></p>
 </div>
@@ -33,11 +31,11 @@
         point.transform('EPSG:4326', 'EPSG:900913');
       var hammock = new ol.Feature({
             geometry: point,
-            name: '<%=site.name %>',
-            description: '<%=site.description %>',
+            name: '<%=escape_javascript site.name %>',
+            description: '<%=escape_javascript site.description %>',
             user: {
-                first: "<%= site.user.first_name %>",
-                last: "<%= site.user.last_name %>"
+                first: "<%=escape_javascript site.user.first_name %>",
+                last: "<%=escape_javascript site.user.last_name %>"
             },
             review_count: <%= site.reviews.size %>,
             belongs_to_user: <%= site.user == current_user %>,
@@ -69,7 +67,11 @@
     });
 
     var tileLayer = new ol.layer.Tile({
-        source: new ol.source.OSM()
+        source: new ol.source.OSM({
+            wrapX: false,
+            noWrap: true,
+        }),
+
     });
 
 
@@ -88,7 +90,11 @@
         target: 'map',
         view: new ol.View({
             center: [0, 0],
-            zoom: 2
+            //extent: ol.proj.get("EPSG:3857").getExtent(),
+
+            minZoom: 2,
+
+            zoom:2,
         })
     });
 
@@ -106,7 +112,10 @@
             content.innerHTML = featureToHTML(feature);
         } else {
             $(container).removeClass("marker");
-            content.innerHTML = emptySlot();
+            var lonLat = ol.proj.toLonLat(coordinate)
+            content.innerHTML = emptySlot(lonLat);
+            document.getElementById("site_longitude").value = lonLat[0];
+            document.getElementById("site_latitude").value = lonLat[1];
         }
         overlay.setPosition(coordinate);
     });
@@ -122,18 +131,32 @@
             postfix = feature.get("edit") + feature.get("delete");
         }
         return "<h2>" + feature.get("name") + "</h2> " +
-            "<span class='discoverer'>" + feature.get("user").first + " " + feature.get("user").last + "</span>" +
-        "<div class='description'>" +
-        feature.get("description") +
-        "</div>" +
+            "<div class='description'>" +
+            feature.get("description") + "</div>" +
+        "<div class='discoverer'>" + feature.get("user").first + " " + feature.get("user").last + "</div>" +
         "<a href='#'>" +
         feature.get("review_count") + " " + comment +
         "</a>" + postfix;
     }
 
-    function emptySlot() {
-        var edit = '<%= button_to "Hängematte hinzufügen", new_site_path, :class => "btn btn-success btn-block", :method => :get %>';
-        return "<p>Hier ist noch keine Hängematte abgespeichert worden!</p>" + edit ;
+    function emptySlot(position) {
+        var form = document.getElementById("new_site").outerHTML;
+        return "<code>" + ol.coordinate.toStringHDMS(position) + "</code>" + "<p>Hier ist noch keine Hängematte abgespeichert worden!</p>" + form;
     }
 
 </script>
+
+<%= form_for(Site.new) do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name, class: "form-control" %>
+  <%= f.label :description %>
+  <%= f.text_field :description, class: "form-control" %>
+  <%= f.label :longitude %>
+  <%= f.text_field :longitude, class: "form-control" %>
+  <%= f.label :latitude %>
+  <%= f.text_field :latitude, class: "form-control" %>
+  <%= f.label :size_ids %>
+  <%= f.select :size_ids, Size.all.collect {|x| [x.name, x.id]}, {include_blank: false, include_hidden: false}, :multiple => true, class: "form-control"%>
+
+  <%= f.submit "Create", :class => "btn btn-success btn-block" %>
+<% end %>
