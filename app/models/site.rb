@@ -1,6 +1,7 @@
 class Site < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_and_belongs_to_many :sizes
+  belongs_to :user
   has_many_attached :images
 
   # We need to nest on :images_attachments since :images
@@ -9,6 +10,15 @@ class Site < ApplicationRecord
   accepts_nested_attributes_for :images_attachments, allow_destroy: true
   
   validates :name, presence: true
+  validates :longitude, presence: true
+  validates :latitude, presence: true
+  validate :has_one_size_at_least
+
+  def has_one_size_at_least
+    if sizes.empty?
+      errors.add(:sizes, "need one size at least")
+    end
+  end
   
   # The method accepts_nested_attributes_for will auto-delete
   # images_attachments for us. Therefore, we need to make sure that the

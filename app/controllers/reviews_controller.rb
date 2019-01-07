@@ -31,6 +31,7 @@ class ReviewsController < ApplicationController
   # POST /reviews
   def create
     @review = Review.new(review_params)
+	@review.user_id = current_user.id
 
     if @review.save
       redirect_to @review, notice: 'Review was successfully created.'
@@ -41,6 +42,7 @@ class ReviewsController < ApplicationController
 
   # PATCH/PUT /reviews/1
   def update
+	@review.user_id = current_user.id
     if @review.update(review_params)
       redirect_to @review, notice: 'Review was successfully updated.'
     else

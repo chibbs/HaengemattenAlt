@@ -1,0 +1,9 @@
+h1 {
+  color: red;
+  font-style: italic;
+}
+
+img {
+  width: 100%;
+  max-width: 500px;
+}
