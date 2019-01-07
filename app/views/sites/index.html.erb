@@ -1,6 +1,151 @@
 <p id="notice"><%= notice %></p>
-
+<style>
+  .ol-popup {
+    position: absolute;
+    background-color: white;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    bottom: 12px;
+    left: -50px;
+    min-width: 280px;
+  }
+  .ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  .ol-popup:after {
+    border-top-color: white;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+  }
+  .ol-popup:before {
+    border-top-color: #cccccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+  }
+  .ol-popup-closer {
+    text-decoration: none;
+    position: absolute;
+    top: 2px;
+    right: 8px;
+  }
+  .ol-popup-closer:after {
+    content: "✖";
+  }
+</style>
 <h1>Sites</h1>
+<h2>My Map</h2>
+<div id="map" style="width: 100%; height: 400px"></div>
+<div style="display: none;">
+  <!-- Clickable label for Vienna -->
+  <a class="overlay" id="vienna" target="_blank" href="http://en.wikipedia.org/wiki/Vienna">Vienna</a>
+  <div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+  </div>
+</div>
+<script>
+
+
+    var container = document.getElementById('popup');
+    var content = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
+    var overlay = new ol.Overlay({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+            duration: 250
+        }
+    });
+
+
+    // Adding all hammocks
+    var hammocks = [];
+    var test = 0;
+    <% @sites.each do |site| %>
+        var point = new ol.geom.Point([<%= site.longitude %>, <%= site.latitude %>]);
+        point.transform('EPSG:4326', 'EPSG:900913');
+      var hammock = new ol.Feature({
+            geometry: point,
+            name: '<%=site.name %>',
+            description: '<%=site.description %>',
+            rainfall: 500,
+        });
+        test++;
+        hammocks.push(hammock);
+    <% end %>
+
+    var iconStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {module:ol/style/Icon~Options} */ ({
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            src: "<%= asset_path('hammock.png') %>"
+        }))
+    });
+
+    hammocks.forEach(hammock => hammock.setStyle(iconStyle));
+
+    var vectorSource = new ol.source.Vector({
+        features: hammocks
+    });
+
+    var vectorLayer = new ol.layer.Vector({
+        source: vectorSource
+    });
+
+    var tileLayer = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    });
+
+
+    closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+        return false;
+    };
+
+    var map = new ol.Map({
+        layers: [
+            tileLayer,
+            vectorLayer
+        ],
+        overlays: [overlay],
+        target: 'map',
+        view: new ol.View({
+            center: [0, 0],
+            zoom: 2
+        })
+    });
+
+
+
+    map.on('singleclick', function(evt) {
+        var feature = map.forEachFeatureAtPixel(evt.pixel,
+            function(feature) {
+                return feature;
+          });
+        if(feature) {
+            content.innerHTML = "<h1>" + feature.get("name") + "</h1><div>" + feature.get("description") + "</div>";
+        } else {
+            content.innerHTML = '<p>You clicked at empty spot.';
+        }
+        var coordinate = evt.coordinate;
+
+        overlay.setPosition(coordinate);
+    });
+
+</script>
 
 <table>
   <thead>
