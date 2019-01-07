@@ -1,14 +1,15 @@
-var CACHE_NAME = 'my-site-cache-v5';
+var CACHE_NAME = 'my-site-cache-v6';
 var urlsToCache = [
-  '/sw.html',
+  '/',
+  '/index.html',
   '/main.js',
   '/sw.css',
   '/a.html',
-  '/P1230904.JPG',
   '/b.html',
-  '/cat.svg',
-  '/favicon.ico',
-  '/example.png'
+  'images/P1230904.JPG',
+  'images/cat.svg',
+  'images/favicon.ico',
+  'images/example.png'
 ];
 
 self.addEventListener("install", function(event) {
@@ -36,9 +37,9 @@ self.addEventListener('fetch', function(event) {
 
   // serve the cat SVG from the cache if the request is
   // same-origin and the path is '/dog.svg'
-  if (url.origin == location.origin && url.pathname == '/dog.svg') {
+  if (url.origin == location.origin && url.pathname == '/images/dog.svg') {
 	console.log('WORKER: get cat image from cache instead of dog image');
-	event.respondWith(caches.match('/cat.svg'));
+	event.respondWith(caches.match('images/cat.svg'));
   } else {
   
   event.respondWith(
@@ -55,18 +56,15 @@ self.addEventListener('fetch', function(event) {
   }
 });
 
-self.addEventListener('sync', function(event) {
-  console.log('WORKER: sync event in progress.', event);
-});
+// self.addEventListener('sync', function(event) {
+//   console.log('WORKER: sync event in progress.', event);
+// });
 
-self.addEventListener('push', function(e) {
-  console.log('WORKER: push event in progress.', e);
+self.addEventListener('push', function(event) {
+  console.log('WORKER: push event in progress.', event);
 
-  const promiseChain = self.registration.showNotification('Hello, ', {
-     body: 'World.'
-  }).then(function(){
-    console.log("WORKER: notification send");
-  });
-
-  e.waitUntil(promiseChain);
+  event.waitUntil(self.registration.showNotification('Hello ', {
+     body: event.data.text(),
+     icon: 'images/favicon.ico'
+  }));
 });
