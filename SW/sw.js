@@ -37,6 +37,7 @@ self.addEventListener('fetch', function(event) {
 
   // serve the cat SVG from the cache if the request is
   // same-origin and the path is '/dog.svg'
+  // code from https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
   if (url.origin == location.origin && url.pathname == '/images/dog.svg') {
 	console.log('WORKER: get cat image from cache instead of dog image');
 	event.respondWith(caches.match('images/cat.svg'));
