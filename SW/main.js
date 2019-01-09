@@ -30,7 +30,7 @@ function main(){
   setTimeout(() => {
 		const img = new Image();
 		img.src = 'images/dog.svg';
-		document.body.appendChild(img);
+		document.getElementById("spawn_image").appendChild(img);
 	}, 3000);
 }
 

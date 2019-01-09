@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Service Worker Example</title>
   <link rel="stylesheet" href="sw.css"/>
   <link rel="icon" href="/images/favicon.ico"/>
@@ -9,12 +11,40 @@
   <script>main();</script>
 </head>
 <body>
-  <a href="a.html">a.html</a>
-  <a href="b.html">b.html</a>
-  
-  <input id="clickMe" type="button" value="clickme" onclick="displayNotification();" />
-  
-  <br />
-  An image will appear here in 3 seconds:<br />
+  <div class="container">
+    <h1>Service-Worker Demo</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Page A</th>
+          <th><a href="a.html">a.html</a></th>
+        </tr>
+        <tr>
+          <th>Page B</th>
+          <th><a href="b.html">b.html</a></th>
+        </tr>
+        <tr>
+          <th>Notification</th>
+          <th>
+            <input id="clickMe" type="button" value="Notification" class="btn btn-primary" onclick="displayNotification();" />
+          </th>
+        </tr>
+      </tbody>
+    </table>
+
+    <a href="b.html">b.html</a>
+
+
+    <p>An image will appear here in 3 seconds:</p>
+    <div id="spawn_image">
+
+    </div>
+  </div>
 </body>
 </html>
