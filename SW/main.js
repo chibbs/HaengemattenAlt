@@ -14,17 +14,14 @@ function main(){
 
   if ('serviceWorker' in navigator && 'PushManager' in window) {
     console.log('Service Worker and Push is supported');
-    navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(function(registration) {
-      console.log('ServiceWorker registration successful with scope: ', registration);
-          
-      // add sync events
-      // registration.sync.register("hello").then(function(){
-      //    console.log("CLIENT: sync");
-      // });
+	window.addEventListener('load', function() {
+		navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none', scope: '/' }).then(function(registration) {
+		  console.log('ServiceWorker registration successful with scope: ', registration);
 
-    }, function(err) {
-      console.log('ServiceWorker registration failed: ', err.message, err);
-    });
+		}, function(err) {
+		  console.log('ServiceWorker registration failed: ', err.message, err);
+		});
+	});
   }
   
   setTimeout(() => {

@@ -14,6 +14,9 @@ var urlsToCache = [
 
 self.addEventListener("install", function(event) {
   console.log('WORKER: install event in progress.');
+  self.registration.update();
+  self.skipWaiting();
+  console.log('WORKER: Update service worker.');
 
   event.waitUntil(
     caches
@@ -32,7 +35,7 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log('WORKER: fetch new event in progress.', event.request.url);
+  console.log('WORKER: new fetch event in progress.', event.request.url);
   const url = new URL(event.request.url);
 
   // serve the cat SVG from the cache if the request is
@@ -56,10 +59,6 @@ self.addEventListener('fetch', function(event) {
   );
   }
 });
-
-// self.addEventListener('sync', function(event) {
-//   console.log('WORKER: sync event in progress.', event);
-// });
 
 self.addEventListener('push', function(event) {
   console.log('WORKER: push event in progress.', event);
