@@ -35,9 +35,9 @@ class SitesController < ApplicationController
 	end
 	
     if @site.save
-      redirect_to @site, notice: 'Site was successfully created.' 
+      redirect_to sites_url, notice: 'Hängematte wurde angelegt.'
     else
-      render :new
+      redirect_to sites_url, notice: 'Hängematte konnte nicht angelegt werden, weil Attribute fehlen.'
     end
   end
 

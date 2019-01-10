@@ -1,0 +1,80 @@
+.ol {
+  &-popup {
+    position: absolute;
+    background-color: white;
+    -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #cccccc;
+    bottom: 12px;
+    left: -50px;
+    min-width: 340px;
+    text-align:center;
+    &.marker {
+      bottom: 58px;
+    }
+    &:after, &:before {
+      top: 100%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+    &:after {
+      border-top-color: white;
+      border-width: 10px;
+      left: 48px;
+      margin-left: -10px;
+    }
+    &:before {
+      border-top-color: #cccccc;
+      border-width: 11px;
+      left: 48px;
+      margin-left: -11px;
+    }
+    &-closer {
+      text-decoration: none;
+      position: absolute;
+      top: 2px;
+      right: 8px;
+      &:after {
+        content: "✖";
+
+      }
+    }
+    .description {
+      font-style: italic;
+      &:before, &:after {
+        content: "\"";
+      }
+    }
+    h2 {
+      font-size: 32px;
+      font-weight: 100;
+      margin-top: 0;
+    }
+    .discoverer {
+      &:before {
+        content: "Entdecker: ";
+      }
+      font-size: 12px;
+    }
+  }
+
+  &-map {
+    width: 100%;
+    height: 100%;
+    .ol-notice {
+      right: 0;
+      position: absolute;
+      z-index: 1;
+      background: white;
+      padding: 12px;
+      font-weight: bold;
+      border-bottom-left-radius: 12px;
+    }
+  }
+}
