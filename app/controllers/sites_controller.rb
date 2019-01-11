@@ -3,12 +3,12 @@ class SitesController < ApplicationController
 
   # GET /sites
   def index
-	  @somewhere = [52.477995,13.566360]
+	  #@somewhere = [52.477995,13.566360]
 	  #@sites = Site.within(5, :origin => @somewhere).order('distance ASC')
 	  #@sites = Site.by_distance(:origin => @somewhere).order('distance ASC')
-	  bounds=Geokit::Bounds.from_point_and_radius(@somewhere,5)
-      @sites = Site.includes([:reviews,:sizes]).in_bounds(bounds)
-	  @sites.sort_by{|s| s.distance_to(@somewhere)}
+	  #bounds=Geokit::Bounds.from_point_and_radius(@somewhere,5)
+    #@sites = Site.includes([:reviews,:sizes]).in_bounds(bounds)
+	  #@sites.sort_by{|s| s.distance_to(@somewhere)}
   end
 
   # GET /sites/1

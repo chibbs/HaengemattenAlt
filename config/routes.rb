@@ -6,6 +6,13 @@ Rails.application.routes.draw do
   resources :reviews
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+
+  namespace :api do
+    namespace :v1 do
+      resources :sites, only: [:index, :create, :show, :update, :destroy]
+      resources :microposts, only: [:index, :create, :show, :update, :destroy]
+    end
+  end
   
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'

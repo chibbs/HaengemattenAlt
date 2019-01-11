@@ -1,54 +1,8 @@
-<div class="container">
-<div class="row">
-</div> <!-- .row -->
-
-<div class="row">
-	<div class="col-sm-1">
-		<table>
-		  <thead>
-			<tr>
-			  <th>Name</th>
-			  <th>Description</th>
-			  <th>Author</th>
-			  <th>Longitude</th>
-			  <th>Latitude</th>
-			  <th>Sizes</th>
-			  <th>Reviews</th>
-			  <th>Distance</th>
-			  <th colspan="3"></th>
-			</tr>
-		  </thead>
-
-		  <tbody>
-			<% @sites.each do |site| %>
-			  <tr>
-				<td><%= site.name %></td>
-				<td><%= site.description %></td>
-				<td><%= site.user.first_name %> <%= site.user.last_name %></td>
-				<td><%= site.longitude %></td>
-				<td><%= site.latitude %></td>
-				<td><%= site.sizes.map(&:name).join(', ') %></td>
-				<td><%= site.reviews.size %> reviews</td>
-				<td><%= number_with_precision(site.distance_to(@somewhere), precision: 1) %> km</td>
-				<td><%= link_to '<i class="fa fa-search"></i>'.html_safe, site %></td>
-				<% if current_user %>
-					<% if site.user_id==current_user.id %>
-						<td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_site_path(site) %></td>
-						<td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, site, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-					<% end %>
-				<% end %>
-			  </tr>
-			<% end %>
-		  </tbody>
-		</table>
-	</div> <!-- .col-sm-1 -->
-
-	<div id="map" class ="ol-map col-sm-11">
-	  <p id="notice" class="ol-notice"><%= notice %></p>
-	</div>
+<div id="map" class ="ol-map">
+  <p id="notice" class="ol-notice"><%= notice %></p>
+</div>
 	
 <div style="display: none;">
-  <!-- Clickable label for Vienna -->
   <div id="popup" class="ol-popup">
     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
     <div id="popup-content"></div>
@@ -56,9 +10,11 @@
 </div>
 
 <script>
+    // TODO auslagern
     var container = document.getElementById('popup');
     var content = document.getElementById('popup-content');
     var closer = document.getElementById('popup-closer');
+    var hammocks = [];
     var overlay = new ol.Overlay({
         element: container,
         autoPan: true,
@@ -67,69 +23,17 @@
         }
     });
 
-
-    // Adding all hammocks
-    var hammocks = [];
-    <% @sites.each do |site| %>
-        var point = new ol.geom.Point([<%= site.longitude %>, <%= site.latitude %>]);
-        point.transform('EPSG:4326', 'EPSG:900913');
-      var hammock = new ol.Feature({
-            geometry: point,
-            name: '<%=escape_javascript site.name %>',
-            description: '<%=escape_javascript site.description %>',
-            user: {
-                first: "<%=escape_javascript site.user.first_name %>",
-                last: "<%=escape_javascript site.user.last_name %>"
-            },
-            review_count: <%= site.reviews.size %>,
-            belongs_to_user: <%= site.user == current_user %>,
-            detail_page: '<%= site_path(site) %>',
-            <%if site.user == current_user%>
-              edit: '<%= button_to "Bearbeiten", edit_site_path(site), :class => "btn btn-primary btn-block", :method => :get %>',
-              delete: '<%= button_to "Löschen",  site, method: :delete, :class => "btn btn-warning btn-block" , confirm: 'Are you sure?' %>',
-            <% end %>
-        });
-        hammocks.push(hammock);
-    <% end %>
-
-    var iconStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {module:ol/style/Icon~Options} */ ({
-            anchor: [0.5, 1],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'fraction',
-            src: "<%= asset_path('hammock.png') %>"
-        }))
-    });
-
-    hammocks.forEach(hammock => hammock.setStyle(iconStyle));
-
-    var vectorSource = new ol.source.Vector({
-        features: hammocks
-    });
-
-    var vectorLayer = new ol.layer.Vector({
-        source: vectorSource
-    });
-
     var tileLayer = new ol.layer.Tile({
         source: new ol.source.OSM({
             wrapX: false,
             noWrap: true,
         }),
-
     });
-
-
-    closer.onclick = function() {
-        overlay.setPosition(undefined);
-        closer.blur();
-        return false;
-    };
 
     var map = new ol.Map({
         layers: [
             tileLayer,
-            vectorLayer
+            new ol.layer.Vector(),
         ],
         overlays: [overlay],
         target: 'map',
@@ -142,28 +46,104 @@
             zoom:12,
         })
     });
+
+
+    // Defining the Marker Style...
+    var iconStyle = new ol.style.Style({
+        image: new ol.style.Icon(({
+            anchor: [0.5, 1],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'fraction',
+            src: "<#%= asset_path('hammock.png') %>"
+        }))
+    });
+
+    // Update Map
+    function buildHammocks(hammocks) {
+        // TODO: Vector Source nehmen.
+        console.log(hammocks);
+        var vectorSource = new ol.source.Vector({
+            features: hammocks
+        });
+
+        var vectorLayer = new ol.layer.Vector({
+            source: vectorSource
+        });
+
+        map.addLayer(vectorLayer);
+    }
+
+    // Request all hammocks from the Server via Ajax
+    function requestHammocksFromServer(handler) {
+        $.ajax({
+            url: "/api/v1/sites",
+        }).done(function(data) {
+            hammocks = [];
+            // Converting hamocks to a Feature Object
+            data.forEach(value => {
+                value["geometry"] = new ol.geom.Point(value["geometry"][0], value["geometry"][1]).transform('EPSG:4326', 'EPSG:900913');
+                hammocks.push(new ol.Feature(value));
+            });
+            hammocks.forEach(hammock => hammock.setStyle(iconStyle));
+            handler(hammocks)
+        });
+    }
+
+    // Empty the Info Notice and insert form
+    function emptySlot(position) {
+        var form = document.getElementById("new_site").outerHTML;
+        return "<code>" + ol.coordinate.toStringHDMS(position) + "</code>" + "<p>Hier ist noch keine Hängematte abgespeichert worden!</p>" + form;
+    }
+
+    // Request and handle Hammocks
+    $(document).ready(function(){
+      requestHammocksFromServer(buildHammocks);
+
+      // Registering Click Handler
+      map.on('singleclick', function(evt) {
+          var coordinate = evt.coordinate;
+          console.log(evt.pixel);
+          var feature = map.forEachFeatureAtPixel(evt.pixel,
+              function(feature) {
+                  return feature;
+              });
+          if(feature) {
+              coordinate = feature.get("geometry").flatCoordinates;
+              $(container).addClass("marker");
+              content.innerHTML = featureToHTML(feature);
+
+          } else {
+              $(container).removeClass("marker");
+              var lonLat = ol.proj.toLonLat(coordinate);
+              content.innerHTML = emptySlot(lonLat);
+              document.getElementById("site_longitude").value = lonLat[0];
+              document.getElementById("site_latitude").value = lonLat[1];
+          }
+          overlay.setPosition(coordinate);
+          $("#popup").hide();
+          $("#popup").fadeIn();
+      });
+
+      // Register Close Button for Notice
+      closer.onclick = function() {
+          overlay.setPosition(undefined);
+          closer.blur();
+          return false;
+      };
+    });
+
+
+
+    // Making an Ajax Call to Update the Map
+    /*
+
+
+
+
 	
 	
 
-    map.on('singleclick', function(evt) {
-        var coordinate = evt.coordinate;
-        var feature = map.forEachFeatureAtPixel(evt.pixel,
-            function(feature) {
-                return feature;
-          });
-        if(feature) {
-            coordinate = feature.get("geometry").flatCoordinates;
-            $(container).addClass("marker");
-            content.innerHTML = featureToHTML(feature);
-        } else {
-            $(container).removeClass("marker");
-            var lonLat = ol.proj.toLonLat(coordinate)
-            content.innerHTML = emptySlot(lonLat);
-            document.getElementById("site_longitude").value = lonLat[0];
-            document.getElementById("site_latitude").value = lonLat[1];
-        }
-        overlay.setPosition(coordinate);
-    });
+
 
     function featureToHTML(feature) {
         var comment = "Kommentare";
@@ -184,11 +164,67 @@
         "</a>" + postfix;
     }
 
-    function emptySlot(position) {
-        var form = document.getElementById("new_site").outerHTML;
-        return "<code>" + ol.coordinate.toStringHDMS(position) + "</code>" + "<p>Hier ist noch keine Hängematte abgespeichert worden!</p>" + form;
+
+
+    $("#search-input").on("input", function() {
+        searchQuery(this.value);
+    });
+
+    function searchQuery(query) {
+        query = query.toLowerCase();
+        result = hammocks.filter(hammock => hammock.get("name").toLowerCase().includes(query) ||
+                                                   hammock.get("description").toLowerCase().includes(query));
+        updateMap(result);
     }
 
+    $(document).ready(function(e) {
+        searchQuery("");
+    });
+
+    function updateMap(values) {
+        var search_results = $("#search-results");
+        search_results.empty();
+        values.forEach(value => {
+            var object = $("<li class='search-entry'></li>");
+            var header = $("<h2></h2>");
+            var content = $("<div class='description'></div>");
+            var author = $("<span></span>");
+            content.text(value.get("description"));
+            header.text(value.get("name"));
+            object.append(header);
+            object.append(content);
+            var button = $("<button class='btn btn-primary search-link' type='button'><i class='fa fa-arrow-right'></i></button>");
+            button.click(function() {
+                navigateTo(value.get("geometry"));
+            });
+            object.append(button);
+            search_results.append(object);
+        });
+
+    }
+
+    function navigateTo(point) {
+
+        map.getView().animate({center: point.flatCoordinates, duration: 500, zoom: 14}, function () {
+                var feature = map.forEachFeatureAtPixel(map.getPixelFromCoordinate(point.flatCoordinates), function (feature) {
+                    return feature;
+                });
+                if (feature) {
+                    console.log(feature);
+                    coordinate = feature.get("geometry").flatCoordinates;
+                    $(container).addClass("marker");
+                    content.innerHTML = featureToHTML(feature);
+                    overlay.setPosition(coordinate);
+                    $("#popup").hide();
+                    $("#popup").fadeIn();
+                }
+        });
+    }
+
+    $(".sidebar-toggle").on("click tap", function() {
+        setTimeout( function() { map.updateSize();}, 500);
+    });
+    console.log("TEST");*/
 </script>
 <div style="display: none; height: 0;">
 <%= form_for(Site.new) do |f| %>
@@ -205,12 +241,4 @@
 
   <%= f.submit "Create", :class => "btn btn-success btn-block" %>
 <% end %>
-</div>
-<style>
-  pre {
-    display: none;
-  }
-</style>
-</div> <!-- .row -->
-</div> <!-- .container -->
 </div>
