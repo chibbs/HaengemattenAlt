@@ -120,10 +120,12 @@
             "<div class='description'>" +
             feature.get("description") + "</div>" +
             "<div class='discoverer'>" + feature.get("user").first + " " + feature.get("user").last + "</div>" +
-            "<a href='"+ feature.get('detail_page') +"'>" +
+            "<a href='"+ feature.get('detail_page') +"' id='click_on_detail'>" +
             feature.get("review_count") + " " + comment +
             "</a>" + postfix;
     }
+
+
 
     // Request and handle Hammocks
     $(document).ready(function(){
@@ -141,6 +143,17 @@
               coordinate = feature.get("geometry").flatCoordinates;
               $(container).addClass("marker");
               content.innerHTML = featureToHTML(feature);
+              $("#click_on_detail").on("click", function(e) {
+                  e.preventDefault();
+                  $.ajax({
+                      url:this.href,
+                      method: "GET",
+
+                  }).done(function(data) {
+                      // TODO
+                      data["reviews"].forEach(item => console.log(item));
+                  });
+              });
 
           } else {
               $(container).removeClass("marker");
