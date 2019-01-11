@@ -172,10 +172,17 @@
      *
      * */
     $("#search-input").on("input load", function() {
-        var erg = searchQuery(this.value);
+        doQuery(this.value);
+    });
+
+    /***
+     * Do the Query and update all (sidebar & map)
+     * **/
+    function doQuery(query) {
+        var erg = searchQuery(query);
         updateMap(erg);
         updateSidebar(erg);
-    });
+    }
 
     /**
      *  Actual "Query"
