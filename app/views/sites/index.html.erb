@@ -1,7 +1,7 @@
 <div id="map" class ="ol-map">
   <p id="notice" class="ol-notice"><%= notice %></p>
 </div>
-	
+
 <div style="display: none;">
   <div id="popup" class="ol-popup">
     <a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -15,6 +15,8 @@
     var content = document.getElementById('popup-content');
     var closer = document.getElementById('popup-closer');
     var hammocks = [];
+    var map;
+    var vectorSource = new ol.source.Vector();
     var overlay = new ol.Overlay({
         element: container,
         autoPan: true,
@@ -23,6 +25,9 @@
         }
     });
 
+    /**
+     * This is for the Map, a tile Layer is built
+     **/
     var tileLayer = new ol.layer.Tile({
         source: new ol.source.OSM({
             wrapX: false,
@@ -30,23 +35,27 @@
         }),
     });
 
-    var map = new ol.Map({
+    var vectorLayer = new ol.layer.Vector({
+        source: vectorSource
+    });
+
+    /**
+     * The actual Map
+     **/
+    map = new ol.Map({
         layers: [
             tileLayer,
-            new ol.layer.Vector(),
+            vectorLayer,
+
         ],
         overlays: [overlay],
         target: 'map',
         view: new ol.View({
             center: ol.proj.fromLonLat([13.566360, 52.477995]),
-            //extent: ol.proj.get("EPSG:3857").getExtent(),
-
             minZoom: 2,
-
             zoom:12,
         })
     });
-
 
     // Defining the Marker Style...
     var iconStyle = new ol.style.Style({
@@ -54,22 +63,14 @@
             anchor: [0.5, 1],
             anchorXUnits: 'fraction',
             anchorYUnits: 'fraction',
-            src: "<#%= asset_path('hammock.png') %>"
+            src: "<%= asset_path('hammock.png') %>"
         }))
     });
 
     // Update Map
-    function buildHammocks(hammocks) {
-        // TODO: Vector Source nehmen.
-        var vectorSource = new ol.source.Vector({
-            features: hammocks
-        });
-
-        var vectorLayer = new ol.layer.Vector({
-            source: vectorSource
-        });
-
-        map.addLayer(vectorLayer);
+    function updateMap(hammocks) {
+        vectorSource.clear();
+        vectorSource.addFeatures(hammocks);
     }
 
     // Request all hammocks from the Server via Ajax
@@ -81,6 +82,7 @@
             // Converting hamocks to a Feature Object
             data.forEach(value => {
                 var position = value["position"];
+                // Transform from lonlat to Openlayers
                 var geometry = new ol.geom.Point([position["lon"], position["lat"]]);
                 geometry.transform('EPSG:4326', 'EPSG:900913');
                 value["geometry"] = geometry;
@@ -88,20 +90,43 @@
                 feature.setStyle(iconStyle);
                 hammocks.push(feature);
             });
-            console.log(hammocks);
             handler(hammocks);
         });
     }
 
-    // Empty the Info Notice and insert form
+    /**
+     *  Helpers for manipulating the DOM
+     *
+     * */
+    // Empty slot, gives a new form
     function emptySlot(position) {
         var form = document.getElementById("new_site").outerHTML;
         return "<code>" + ol.coordinate.toStringHDMS(position) + "</code>" + "<p>Hier ist noch keine Hängematte abgespeichert worden!</p>" + form;
     }
 
+    // Converts the point to html
+    function featureToHTML(feature) {
+        var comment = "Kommentare";
+        if(feature.get("review_count") === 1) {
+            comment = "Kommentar";
+        }
+        var isMine = feature.get("belongs_to_user");
+        var postfix = "";
+        if(isMine) {
+            postfix = feature.get("edit") + feature.get("delete");
+        }
+        return "<h2>" + feature.get("name") + "</h2> " +
+            "<div class='description'>" +
+            feature.get("description") + "</div>" +
+            "<div class='discoverer'>" + feature.get("user").first + " " + feature.get("user").last + "</div>" +
+            "<a href='"+ feature.get('detail_page') +"'>" +
+            feature.get("review_count") + " " + comment +
+            "</a>" + postfix;
+    }
+
     // Request and handle Hammocks
     $(document).ready(function(){
-      requestHammocksFromServer(buildHammocks);
+      requestHammocksFromServer(updateMap);
 
       // Registering Click Handler
       map.on('singleclick', function(evt) {
@@ -125,6 +150,9 @@
           overlay.setPosition(coordinate);
           $("#popup").hide();
           $("#popup").fadeIn();
+          $(".sidebar-toggle").on("click tap", function() {
+              setTimeout( function() { map.updateSize();}, 500);
+          });
       });
 
       // Register Close Button for Notice
@@ -136,55 +164,30 @@
     });
 
 
-
-    // Making an Ajax Call to Update the Map
-    /*
-
-
-
-
-	
-	
-
-
-
-    function featureToHTML(feature) {
-        var comment = "Kommentare";
-        if(feature.get("review_count") === 1) {
-          comment = "Kommentar";
-        }
-        var isMine = feature.get("belongs_to_user");
-        var postfix = "";
-        if(isMine) {
-            postfix = feature.get("edit") + feature.get("delete");
-        }
-        return "<h2>" + feature.get("name") + "</h2> " +
-            "<div class='description'>" +
-            feature.get("description") + "</div>" +
-        "<div class='discoverer'>" + feature.get("user").first + " " + feature.get("user").last + "</div>" +
-        "<a href='"+ feature.get('detail_page') +"'>" +
-        feature.get("review_count") + " " + comment +
-        "</a>" + postfix;
-    }
-
-
-
+    /**
+     * Search functions and for Live Search
+     *
+     * */
     $("#search-input").on("input", function() {
-        searchQuery(this.value);
+        var erg = searchQuery(this.value);
+        updateMap(erg);
+        updateSidebar(erg);
     });
 
+    /**
+     *  Actual "Query"
+     * */
     function searchQuery(query) {
         query = query.toLowerCase();
         result = hammocks.filter(hammock => hammock.get("name").toLowerCase().includes(query) ||
-                                                   hammock.get("description").toLowerCase().includes(query));
-        updateMap(result);
+            hammock.get("description").toLowerCase().includes(query));
+        return result;
     }
 
-    $(document).ready(function(e) {
-        searchQuery("");
-    });
-
-    function updateMap(values) {
+    /**
+     * Sidebar
+     * */
+    function updateSidebar(values) {
         var search_results = $("#search-results");
         search_results.empty();
         values.forEach(value => {
@@ -203,31 +206,24 @@
             object.append(button);
             search_results.append(object);
         });
-
     }
 
+    /**
+     * Navigate to Marker in Map
+     * */
     function navigateTo(point) {
-
         map.getView().animate({center: point.flatCoordinates, duration: 500, zoom: 14}, function () {
-                var feature = map.forEachFeatureAtPixel(map.getPixelFromCoordinate(point.flatCoordinates), function (feature) {
-                    return feature;
-                });
-                if (feature) {
-                    console.log(feature);
-                    coordinate = feature.get("geometry").flatCoordinates;
-                    $(container).addClass("marker");
-                    content.innerHTML = featureToHTML(feature);
-                    overlay.setPosition(coordinate);
-                    $("#popup").hide();
-                    $("#popup").fadeIn();
-                }
+            var feature = map.forEachFeatureAtPixel(map.getPixelFromCoordinate(point.flatCoordinates), function (feature) {
+                return feature;
+            });
+            if (feature) {
+                coordinate = feature.get("geometry").flatCoordinates;
+                $(container).addClass("marker");
+                content.innerHTML = featureToHTML(feature);
+                overlay.setPosition(coordinate);
+            }
         });
     }
-
-    $(".sidebar-toggle").on("click tap", function() {
-        setTimeout( function() { map.updateSize();}, 500);
-    });
-    console.log("TEST");*/
 </script>
 <div style="display: none; height: 0;">
 <%= form_for(Site.new) do |f| %>

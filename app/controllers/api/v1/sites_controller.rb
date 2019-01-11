@@ -26,4 +26,32 @@ class Api::V1::SitesController < Api::V1::BaseController
     end
     render(json:serialized)
   end
+
+
+  def create
+    @site = Site.new(site_params)
+    @site.user_id = current_user.id
+
+    if params[:site][:size_ids].present?
+      sizesgroup = Size.find params[:site][:size_ids]
+      @site.sizes = sizesgroup
+    end
+
+    if @site.save
+      redirect_to sites_url, notice: 'Hängematte wurde angelegt.'
+    else
+      redirect_to sites_url, notice: 'Hängematte konnte nicht angelegt werden, weil Attribute fehlen.'
+    end
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_site
+    @site = Site.joins(:sizes).includes([:sizes, :reviews]).find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def site_params
+    params.require(:site).permit(:name, :description, :longitude, :latitude, :images, images_attachments_attributes: [:id, :_destroy])
+  end
 end
