@@ -10,7 +10,10 @@ class Api::V1::SitesController < Api::V1::BaseController
               first: site.user.first_name,
               last: site.user.last_name,
           },
-          geometry: [site.longitude, site.latitude],
+          position: {
+              lon: site.longitude.to_f,
+              lat: site.latitude.to_f,
+          },
           belongs_to_user: site.user == current_user,
           review_count: site.reviews.size,
           detail_page: site_path(site)
