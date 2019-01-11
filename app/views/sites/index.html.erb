@@ -30,8 +30,6 @@
      **/
     var tileLayer = new ol.layer.Tile({
         source: new ol.source.OSM({
-            wrapX: false,
-            noWrap: true,
         }),
     });
 
@@ -46,7 +44,6 @@
         layers: [
             tileLayer,
             vectorLayer,
-
         ],
         overlays: [overlay],
         target: 'map',
@@ -89,6 +86,8 @@
                 var feature = new ol.Feature(value);
                 feature.setStyle(iconStyle);
                 hammocks.push(feature);
+                updateMap(hammocks);
+                updateSidebar(hammocks);
             });
             handler(hammocks);
         });
@@ -113,7 +112,9 @@
         var isMine = feature.get("belongs_to_user");
         var postfix = "";
         if(isMine) {
-            postfix = feature.get("edit") + feature.get("delete");
+            postfix = "<a class='btn btn-primary btn-block' href='"+ feature.get("edit") +"'>Bearbeiten</a>" +
+                "<a class='btn btn-danger btn-block' href='"+ feature.get("delete") +"'>Löschen</a>"
+
         }
         return "<h2>" + feature.get("name") + "</h2> " +
             "<div class='description'>" +
@@ -127,6 +128,7 @@
     // Request and handle Hammocks
     $(document).ready(function(){
       requestHammocksFromServer(updateMap);
+      // Trigger once to fill sidebar with values
 
       // Registering Click Handler
       map.on('singleclick', function(evt) {
@@ -161,6 +163,7 @@
           closer.blur();
           return false;
       };
+
     });
 
 
@@ -168,7 +171,7 @@
      * Search functions and for Live Search
      *
      * */
-    $("#search-input").on("input", function() {
+    $("#search-input").on("input load", function() {
         var erg = searchQuery(this.value);
         updateMap(erg);
         updateSidebar(erg);

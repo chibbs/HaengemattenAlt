@@ -19,8 +19,8 @@ class Api::V1::SitesController < Api::V1::BaseController
           detail_page: site_path(site)
       }
       if site.user == current_user
-        #attribute.merge!(delete_button: (button_to "Löschen",  site, method: :delete, :class => "btn btn-danger btn-block" , confirm: 'Are you sure?'),
-        #edit_button: (button_to "Bearbeiten", edit_site_path(site), :class => "btn btn-primary btn-block", :method => :get))
+        attribute.merge!(delete: "TODO:IMPLEMENT",
+                         edit: edit_site_path(site))
       end
       serialized.push(attribute)
     end
