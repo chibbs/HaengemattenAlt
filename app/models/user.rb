@@ -4,4 +4,12 @@ class User < ApplicationRecord
   has_many :sites
   
   validates :email, presence: true, uniqueness: true
+
+  Roles = [:admin, :user , :guest]
+  validates :role, presence: true
+
+  def is?(requested_role)
+      self.role == requested_role
+  end
+
 end
