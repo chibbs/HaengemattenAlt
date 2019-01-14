@@ -11,29 +11,29 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group field">
     <%= form.label :name %>*
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group field">
     <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group field">
     <%= form.label :longitude %>*
-    <%= form.text_field :longitude %>
+    <%= form.text_field :longitude, class: "form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group field">
     <%= form.label :latitude %>*
-    <%= form.text_field :latitude %>
+    <%= form.text_field :latitude, class: "form-control" %>
   </div>
-  
-  <div class="field">
-	<%= form.label :sizes %>* 
-	<%= collection_select(:site, :size_ids, Size.all, :id, :name, { include_hidden: false }, { :multiple => true } )%>
+
+  <div class="form-group field">
+    <%= form.label :sizes %>*
+    <%= collection_select(:site, :size_ids, Size.all, :id, :name, { include_hidden: false }, { :multiple => true }) %>
   </div>
 
   <div class="field">  
@@ -55,6 +55,6 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Update Site", :class => 'btn btn-primary' %>
   </div>
 <% end %>
