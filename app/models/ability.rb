@@ -28,5 +28,27 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+    #
+    user ||= User.new # guest user (not logged in)
+
+    # p 'user'
+    # p user
+
+    if user.id.nil?
+      # p 'ano'
+      can [:create], [User]
+      can [:read, :index, :show], [Site, Review]
+
+    elsif user.admin?
+      # p 'admin'
+      can [:manage], [:all]
+
+    else
+      # p 'registered user'
+      can [:read, :index, :show, :create], [User, Site, Review]
+      can [:update, :destroy], [User], :id => user.id
+      can [:update, :destroy], [Site, Review], :user_id => user.id
+    end
+
   end
 end

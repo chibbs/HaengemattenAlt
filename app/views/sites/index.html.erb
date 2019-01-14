@@ -261,6 +261,11 @@
   <%= f.label :size_ids %>
   <%= f.select :size_ids, Size.all.collect {|x| [x.name, x.id]}, {include_blank: false, include_hidden: false}, :multiple => true, class: "form-control"%>
 
-  <%= f.submit "Create", :class => "btn btn-success btn-block" %>
+  <%= f.submit "Create", :class => "btn btn-success btn-block" if can? :create, Site %>
+  <p>
+    <%= 'Zum Erstellen von Sites bitte anmelden' if cannot? :create, Site %>
+    <br/>
+    <%= link_to "Log In", login_path if cannot? :create, Site %>
+  </p>
 <% end %>
 </div>

@@ -1,4 +1,5 @@
 class SitesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_site, only: [:show, :edit, :update, :destroy]
 
   # GET /sites
@@ -28,12 +29,12 @@ class SitesController < ApplicationController
   # POST /sites
   def create
     @site = Site.new(site_params)
-	@site.user_id = current_user.id
-	
-	if params[:site][:size_ids].present?
-		sizesgroup = Size.find params[:site][:size_ids]
-		@site.sizes = sizesgroup
-	end
+    @site.user_id = current_user.id
+
+    if params[:site][:size_ids].present?
+      sizesgroup = Size.find params[:site][:size_ids]
+      @site.sizes = sizesgroup
+    end
 	
     if @site.save
       redirect_to sites_url, notice: 'Hängematte wurde angelegt.'
