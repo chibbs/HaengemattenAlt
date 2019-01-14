@@ -68,3 +68,6 @@ end
 
 # Authorizations
 gem 'cancancan', '~> 2.0'
+
+# Geoservices for Rails
+gem 'geokit-rails'

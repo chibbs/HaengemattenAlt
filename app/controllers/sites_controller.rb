@@ -3,8 +3,12 @@ class SitesController < ApplicationController
 
   # GET /sites
   def index
-      @sites = Site.all
-	  #@sites = Site.with_eager_loaded_site_photos
+	  #@somewhere = [52.477995,13.566360]
+	  #@sites = Site.within(5, :origin => @somewhere).order('distance ASC')
+	  #@sites = Site.by_distance(:origin => @somewhere).order('distance ASC')
+	  #bounds=Geokit::Bounds.from_point_and_radius(@somewhere,5)
+    #@sites = Site.includes([:reviews,:sizes]).in_bounds(bounds)
+	  #@sites.sort_by{|s| s.distance_to(@somewhere)}
   end
 
   # GET /sites/1
@@ -32,9 +36,9 @@ class SitesController < ApplicationController
 	end
 	
     if @site.save
-      redirect_to @site, notice: 'Site was successfully created.' 
+      redirect_to sites_url, notice: 'Hängematte wurde angelegt.'
     else
-      render :new
+      redirect_to sites_url, notice: 'Hängematte konnte nicht angelegt werden, weil Attribute fehlen.'
     end
   end
 
@@ -77,7 +81,7 @@ class SitesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_site
-      @site = Site.joins(:sizes).includes(:sizes).find(params[:id])
+      @site = Site.joins(:sizes).includes([:sizes, :reviews]).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
