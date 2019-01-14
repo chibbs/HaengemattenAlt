@@ -33,4 +33,6 @@
 # IDEA
 .idea
 *.iml
+
+# Ruby error reports
 ruby.exe.stackdump

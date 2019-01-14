@@ -1,4 +1,5 @@
 class ReviewsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_review, only: [:edit, :update, :destroy]
   before_action :set_sitesref, only: [:index, :destroy]
 

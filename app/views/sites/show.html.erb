@@ -56,5 +56,5 @@
     <% end %>
 </p>
 
-<%= link_to 'Edit', edit_site_path(@site), class: 'btn btn-default'%>
-<%= link_to 'Back', sites_path, class: 'btn btn-default'%>
+<%= link_to 'Edit', edit_site_path(@site), class: 'btn btn-primary' if can? :update, Review %>
+<%= link_to 'Back', sites_path, class: 'btn btn-default' %>

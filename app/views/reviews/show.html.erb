@@ -25,6 +25,6 @@
   <%= @review.comment %>
 </p>
 
-<%= link_to 'Edit', edit_review_path(@review) %> |
-<%= link_to 'Delete', @review, method: :delete, data: { confirm: 'Are you sure?' } %> |
-<%= link_to 'Back', reviews_path %>
+<%= link_to 'Edit', edit_review_path(@review), class: 'btn btn-primary' if can? :update, @review %>
+<%= link_to 'Delete', @review, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } if can? :destroy, @review %>
+<%= link_to 'Back', reviews_path, class: 'btn btn-default'%>

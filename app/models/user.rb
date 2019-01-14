@@ -4,4 +4,5 @@ class User < ApplicationRecord
   has_many :sites
   
   validates :email, presence: true, uniqueness: true
+
 end
