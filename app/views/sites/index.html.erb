@@ -54,6 +54,13 @@
         })
     });
 
+    map.on("moveend", function() {
+        mapUpdate();
+    });
+    map.on("zoomend", function() {
+        mapUpdate();
+    });
+
     // Defining the Marker Style...
     var iconStyle = new ol.style.Style({
         image: new ol.style.Icon(({
@@ -91,6 +98,13 @@
             });
             handler(hammocks);
         });
+    }
+
+    function mapUpdate() {
+        erg = mapQuery();
+        updateMap(erg);
+        updateSidebar(erg);
+        $("#search-input").val("");
     }
 
     /**
@@ -204,6 +218,20 @@
         query = query.toLowerCase();
         result = hammocks.filter(hammock => hammock.get("name").toLowerCase().includes(query) ||
             hammock.get("description").toLowerCase().includes(query));
+        return result;
+    }
+
+    function mapQuery() {
+        var result = hammocks.filter(hammock =>
+            {
+                var box = map.getView().calculateExtent();
+                var lonlat = ol.proj.transformExtent(box,'EPSG:3857','EPSG:4326');
+                var lon = hammock.get("position")["lon"];
+                var lat = hammock.get("position")["lat"];
+                console.log(lonlat);
+                return lonlat[0] < lon && lon < lonlat[2] && lonlat[1] < lat && lat < lonlat[3];
+            });
+        console.log(result);
         return result;
     }
 
