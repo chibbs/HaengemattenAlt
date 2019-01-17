@@ -206,7 +206,8 @@
      * Do the Query and update all (sidebar & map)
      * **/
     function doQuery(query) {
-        var erg = searchQuery(query);
+        var erg = mapQuery(query);
+        erg = searchQuery(erg);
         updateMap(erg);
         updateSidebar(erg);
     }
