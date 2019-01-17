@@ -101,10 +101,7 @@
     }
 
     function mapUpdate() {
-        erg = mapQuery();
-        updateMap(erg);
-        updateSidebar(erg);
-        $("#search-input").val("");
+        queryUpdate();
     }
 
     /**
@@ -199,40 +196,54 @@
      *
      * */
     $("#search-input").on("input load", function() {
-        doQuery(this.value);
+        queryUpdate()
     });
+
+    function queryUpdate() {
+        doQuery();
+    }
 
     /***
      * Do the Query and update all (sidebar & map)
      * **/
-    function doQuery(query) {
-        var erg = mapQuery(query);
-        erg = searchQuery(erg);
+    function doQuery() {
+        // 1: Query the map Position
+        erg = mapQuery(hammocks);
+        // 2. Do the Search Query
+        erg = searchQuery(erg, $("#search-input").val());
+        //
         updateMap(erg);
         updateSidebar(erg);
     }
 
     /**
-     *  Actual "Query"
+     *  Filter for a String in Name or Description
      * */
-    function searchQuery(query) {
+    function searchQuery(dataset, query) {
         query = query.toLowerCase();
-        result = hammocks.filter(hammock => hammock.get("name").toLowerCase().includes(query) ||
+        result = dataset.filter(hammock => hammock.get("name").toLowerCase().includes(query) ||
             hammock.get("description").toLowerCase().includes(query));
         return result;
     }
 
-    function mapQuery() {
-        var result = hammocks.filter(hammock =>
+    /**
+     * Do the checkbox query
+     * */
+    function checkboxQuery(dataset) {
+
+    }
+
+
+
+    function mapQuery(dataset) {
+        var result = dataset.filter(hammock =>
             {
                 var box = map.getView().calculateExtent();
                 var lonlat = ol.proj.transformExtent(box,'EPSG:3857','EPSG:4326');
                 var lon = hammock.get("position")["lon"];
                 var lat = hammock.get("position")["lat"];
-                console.log(lonlat);
                 return lonlat[0] < lon && lon < lonlat[2] && lonlat[1] < lat && lat < lonlat[3];
             });
-        console.log(result);
         return result;
     }
 

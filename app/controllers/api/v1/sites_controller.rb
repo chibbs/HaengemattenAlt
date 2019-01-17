@@ -36,10 +36,19 @@ class Api::V1::SitesController < Api::V1::BaseController
         belongs_to_user: site.user == current_user,
         review_count: site.reviews.size,
         detail_page: api_v1_site_path(site),
+        sizes: format_sizes(site.sizes)
     }
     if site.user == current_user
       attribute.merge!(delete: "TODO:IMPLEMENT",
                        edit: edit_site_path(site))
+    end
+    attribute
+  end
+
+  def format_sizes(sizes)
+    attribute = []
+    sizes.all.each do |size|
+      attribute.push(size.name)
     end
     attribute
   end
