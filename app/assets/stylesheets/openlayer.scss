@@ -143,13 +143,16 @@
       }
 
       .ol-notice {
-        right: 0;
         position: absolute;
         z-index: 1;
-        background: white;
         padding: 12px;
         font-weight: bold;
-        border-bottom-left-radius: 12px;
+        right: 0;
+        color: white;
+        background: #00000091;
+        margin-top: 10px;
+        margin-right: 10px;
+        border-radius: 10px;
       }
     }
   }

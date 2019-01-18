@@ -1,5 +1,7 @@
 <div id="map" class ="ol-map">
+  <%if notice %>
   <p id="notice" class="ol-notice"><%= notice %></p>
+  <%end %>
 </div>
 
 <div style="display: none;">
@@ -212,6 +214,9 @@
           console.log("Sidebar tap");
           setTimeout( function() { map.updateSize();}, 500);
       });
+      setTimeout(function() {
+          $(".ol-notice").fadeOut()
+      }, 2000);
     });
 
 
