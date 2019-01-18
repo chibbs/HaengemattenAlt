@@ -40,3 +40,4 @@ Filter: <%= link_to 'All', reviews_path %>
 
 <br>
 <%= link_to 'New Review', new_review_path, class: 'btn btn-primary' if can? :create, Review %>
+<%= link_to 'Back', home_index_path, class: 'btn btn-default' %>
