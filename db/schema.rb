@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_180418) do
+ActiveRecord::Schema.define(version: 2019_01_18_112400) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_01_14_180418) do
     t.decimal "longitude", precision: 15, scale: 13
     t.integer "user_id"
     t.float "distance"
+    t.integer "meanrating", default: 0
     t.index ["user_id"], name: "index_sites_on_user_id"
   end
 

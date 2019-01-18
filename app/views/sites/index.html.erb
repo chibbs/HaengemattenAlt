@@ -125,7 +125,7 @@
         var isMine = feature.get("belongs_to_user");
         var postfix = "";
         if(isMine) {
-            postfix = "<a class='btn btn-primary btn-block' href='"+ feature.get("edit") +"'>Bearbeiten</a>" +
+            postfix = "<a class='btn btn-primary btn-block hammock-btn' href='"+ feature.get("edit") +"'>Bearbeiten</a>" +
                 "<a class='btn btn-danger btn-block' href='"+ feature.get("delete") +"'>Löschen</a>"
 
         }
@@ -278,15 +278,20 @@
         var search_results = $("#search-results");
         search_results.empty();
         values.forEach(value => {
+			console.log(value);
             var object = $("<li class='search-entry'></li>");
-            var header = $("<h2></h2>");
+            var header = $("<h2 class='hammock-header'></h2>");
             var content = $("<div class='description'></div>");
             var author = $("<span></span>");
             content.text(value.get("description"));
             header.text(value.get("name"));
             object.append(header);
+			for (i = 0; i < value.get("meanrating"); i++) {
+				var stars = $('<span class="glyphicon glyphicon-star text-warning"></span>');
+				object.append(stars);
+			}
             object.append(content);
-            var button = $("<button class='btn btn-primary search-link' type='button'><i class='fa fa-arrow-right'></i></button>");
+            var button = $("<button class='btn btn-primary search-link hammock-btn' type='button'><i class='fa fa-arrow-right'></i></button>");
             button.click(function() {
                 navigateTo(value.get("geometry"));
             });
