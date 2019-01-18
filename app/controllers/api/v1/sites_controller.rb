@@ -35,8 +35,8 @@ class Api::V1::SitesController < Api::V1::BaseController
         belongs_to_user: site.user == current_user,
         review_count: site.reviews.size,
         detail_page: site,
-		meanrating: site.meanrating
-        sizes: format_sizes(site.sizes)
+		meanrating: site.meanrating,
+        sizes: format_sizes(site.sizes),
     }
     if site.user == current_user
       attribute.merge!(delete: 'TODO',#link_to 'delete', site, method: :delete, data: { confirm: 'Are you sure?' },
