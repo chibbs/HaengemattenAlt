@@ -14,6 +14,16 @@ class Site < ApplicationRecord
   validates :latitude, presence: true
   validate :has_one_size_at_least
 
+  def meanrating
+	meanreviews = 0
+	if !reviews.empty?
+		reviews.each do |r|
+			meanreviews = meanreviews + r.rating.to_i
+		end
+		meanreviews = (meanreviews / reviews.size).to_i
+	end
+  end
+  
   def has_one_size_at_least
     if sizes.empty?
       errors.add(:sizes, "need one size at least")
