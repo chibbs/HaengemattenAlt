@@ -194,10 +194,9 @@
           overlay.setPosition(coordinate);
           $("#popup").hide();
           $("#popup").fadeIn();
-          $(".sidebar-toggle").on("click tap", function() {
-              setTimeout( function() { map.updateSize();}, 500);
-          });
       });
+
+
 
       // Register Close Button for Notice
       closer.onclick = function() {
@@ -207,7 +206,11 @@
       };
       // Trigerring resize event so map gets updated at start
       window.dispatchEvent(new Event('resize'));
-
+      // Sidebar Toggle updates Map size after 500ms
+      $(".sidebar-toggle").on("click tap", function() {
+          console.log("Sidebar tap");
+          setTimeout( function() { map.updateSize();}, 500);
+      });
     });
 
 
