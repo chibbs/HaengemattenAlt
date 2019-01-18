@@ -1,5 +1,4 @@
-<script>
-    // TODO auslagern
+<script type="text/javascript">
     var container = document.getElementById('popup');
     var content = document.getElementById('popup-content');
     var closer = document.getElementById('popup-closer');
@@ -69,9 +68,10 @@
     // Request all hammocks from the Server via Ajax
     function requestHammocksFromServer(handler) {
         $.ajax({
-            url: "/api/v1/sites",
+            url: "sites.json",
         }).done(function(data) {
             hammocks = [];
+			console.log(data);
             // Converting hamocks to a Feature Object
             data.forEach(value => {
                 var position = value["position"];
@@ -130,6 +130,7 @@
 
     // Request and handle Hammocks
     $(document).ready(function(){
+		
       requestHammocksFromServer(updateMap);
       // Trigger once to fill sidebar with values
 

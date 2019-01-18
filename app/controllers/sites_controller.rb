@@ -11,6 +11,7 @@ class SitesController < ApplicationController
 	  #bounds=Geokit::Bounds.from_point_and_radius(@somewhere,5)
     #@sites = Site.includes([:reviews,:sizes]).in_bounds(bounds)
 	  #@sites.sort_by{|s| s.distance_to(@somewhere)}
+	  @sites = Site.joins(:sizes).includes([:sizes, :reviews])
   end
 
   # GET /sites/1
