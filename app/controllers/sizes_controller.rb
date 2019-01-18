@@ -1,38 +1,73 @@
 class SizesController < ApplicationController
   load_and_authorize_resource
+  before_action :set_size, only: [:show, :edit, :update, :destroy]
 
   # GET /sizes
+  # GET /sizes.json
   def index
-		@sizes = Size.order(name: :asc)
+    @sizes = Size.order(name: :asc)
+  end
+
+  # GET /sizes/1
+  # GET /sizes/1.json
+  def show
+  end
+
+  # GET /sizes/new
+  def new
+    @size = Size.new
+  end
+
+  # GET /sizes/1/edit
+  def edit
   end
 
   # POST /sizes
+  # POST /sizes.json
   def create
     @size = Size.new(size_params)
 
-    if @size.save
-      redirect_to @size, notice: 'Size was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+      if @size.save
+        format.html { redirect_to @size, notice: 'Size was successfully created.' }
+        format.json { render :show, status: :created, location: @size }
+      else
+        format.html { render :new }
+        format.json { render json: @size.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /sizes/1
+  # PATCH/PUT /sizes/1.json
   def update
-    if @size.update(size_params)
-      redirect_to @size, notice: 'Size was successfully updated.'
-    else
-      render :edit
+    respond_to do |format|
+      if @size.update(size_params)
+        format.html { redirect_to @size, notice: 'Size was successfully updated.' }
+        format.json { render :show, status: :ok, location: @size }
+      else
+        format.html { render :edit }
+        format.json { render json: @size.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  # DELETE /reviews/1
+  # DELETE /sizes/1
+  # DELETE /sizes/1.json
   def destroy
     @size.destroy
-    redirect_to sizes_url, notice: 'Size was successfully destroyed.'
+    respond_to do |format|
+      format.html { redirect_to sizes_url, notice: 'Size was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_size
+      @size = Size.find(params[:id])
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def size_params
       params.require(:size).permit(:name, :text)

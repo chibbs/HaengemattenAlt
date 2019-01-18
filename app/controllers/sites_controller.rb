@@ -3,6 +3,7 @@ class SitesController < ApplicationController
   before_action :set_site, only: [:show, :edit, :update, :destroy]
 
   # GET /sites
+  # GET /sites.json
   def index
 	  #@somewhere = [52.477995,13.566360]
 	  #@sites = Site.within(5, :origin => @somewhere).order('distance ASC')
@@ -13,7 +14,9 @@ class SitesController < ApplicationController
   end
 
   # GET /sites/1
+  # GET /sites/1.json
   def show
+	#@site = Site.joins(:reviews).includes(:reviews).find(params[:id])
     @reviews = Review.where(site_id: @site.id).order("created_at DESC")
   end
 
@@ -27,6 +30,7 @@ class SitesController < ApplicationController
   end
 
   # POST /sites
+  # POST /sites.json
   def create
     @site = Site.new(site_params)
     @site.user_id = current_user.id
@@ -35,15 +39,20 @@ class SitesController < ApplicationController
       sizesgroup = Size.find params[:site][:size_ids]
       @site.sizes = sizesgroup
     end
-	
-    if @site.save
-      redirect_to sites_url, notice: 'Hängematte wurde angelegt.'
-    else
-      redirect_to sites_url, notice: 'Hängematte konnte nicht angelegt werden, weil Attribute fehlen.'
+
+    respond_to do |format|
+      if @site.save
+        format.html { redirect_to @site, notice: 'Site was successfully created.' }
+        format.json { render :show, status: :created, location: @site }
+      else
+        format.html { render :new }
+        format.json { render json: @site.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /sites/1
+  # PATCH/PUT /sites/1.json
   def update
     @site.user_id = current_user.id
 	if params[:site][:size_ids].present?
@@ -51,32 +60,40 @@ class SitesController < ApplicationController
 	  @site.sizes = sizesgroup
 	end
 	
-	# We use an atomic transaction so that we can rollback
-    # the update if anything goes wrong.
-    Site.transaction do
-      if @site.update(site_params)
-        # Avoid passing a nil value to `attach` since it'll raise
-        # a 'Blob must exist' validation error.
-        if params[:site][:images]
-          # As of today, we cannot attach an
-          # associated file without saving. It'll always
-          # call `create!`. This might change soon.
-          @site.images.attach(params[:site][:images])
-        end
-      end
-    end
+	respond_to do |format|
+		# We use an atomic transaction so that we can rollback
+		# the update if anything goes wrong.
+		Site.transaction do
+		  if @site.update(site_params)
+			# Avoid passing a nil value to `attach` since it'll raise
+			# a 'Blob must exist' validation error.
+			if params[:site][:images]
+			  # As of today, we cannot attach an
+			  # associated file without saving. It'll always
+			  # call `create!`. This might change soon.
+			  @site.images.attach(params[:site][:images])
+			end
+		  end
+		end
 
-    if @site.errors.none?
-      redirect_to @site, notice: 'Site was successfully updated.'
-    else
-      render :edit
+		if @site.errors.none?
+		  format.html { redirect_to @site, notice: 'Site was successfully updated.' }
+		  format.json { render :show, status: :ok, location: @site }
+		else
+			format.html { render :edit }
+			format.json { render json: @site.errors, status: :unprocessable_entity }
+		end
     end
   end
 
   # DELETE /sites/1
+  # DELETE /sites/1.json
   def destroy
     @site.destroy
-      redirect_to sites_url, notice: 'Site was successfully destroyed.'
+    respond_to do |format|
+      format.html { redirect_to sites_url, notice: 'Site was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private

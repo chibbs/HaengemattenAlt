@@ -3,11 +3,13 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
+  # GET /users.json
   def index
     @users = User.all
   end
 
   # GET /users/1
+  # GET /users/1.json
   def show
   end
 
@@ -19,37 +21,59 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
   end
+  
+  # POST /users/1/promote
+  def promote
+    @user.update(:admin => true)
+	respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was promoted.' }
+        format.json { render :show, status: :promoted, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # POST /users
+  # POST /users.json
   def create
     @user = User.new(user_params)
 
-    if @user.save
-      redirect_to @user, notice: 'User was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /users/1
+  # PATCH/PUT /users/1.json
   def update
-    if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
-    else
-      render :edit
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # DELETE /users/1
+  # DELETE /users/1.json
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully destroyed.'
-  end
-
-  # POST /users/1/promote
-  def promote
-    @user.update(:admin => true)
-    redirect_to users_url, notice: 'User was promoted.'
+    respond_to do |format|
+      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.json { head :no_content }
+    end
   end
 
   private
@@ -58,8 +82,8 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
+    # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+      params.fetch(:user, {})
     end
 end
