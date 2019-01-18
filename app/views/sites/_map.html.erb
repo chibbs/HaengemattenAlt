@@ -154,7 +154,7 @@
                       // TODO
                       var p = $("#popup-comments");
                       p.empty();
-                      data["reviews"].forEach(item => {
+                      data.forEach(item => {
                           var currentComment = $("<div class='ol-popup-comments-single'></div>");
                           var actualComment = $("<div class='ol-popup-comments-single-comment'></div>");
                           var stars = $("<div class='ol-popup-comments-single-stars'></div>");

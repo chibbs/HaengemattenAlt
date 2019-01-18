@@ -34,8 +34,8 @@ class Api::V1::SitesController < Api::V1::BaseController
         },
         belongs_to_user: site.user == current_user,
         review_count: site.reviews.size,
-        detail_page: site,
-		meanrating: site.meanrating,
+        detail_page: "#{api_v1_reviews_path()}?site_id=#{site.id}",
+		    meanrating: site.meanrating,
         sizes: format_sizes(site.sizes),
     }
     if site.user == current_user
