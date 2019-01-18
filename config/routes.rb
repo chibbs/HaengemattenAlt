@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   get 'home/index'
   root 'home#index'
-  
+
+  resources :sizes
   resources :sites
   resources :reviews
-  resources :users
+  resources :users do
+    member do
+      post :promote
+    end
+  end
   resources :sessions, only: [:new, :create, :destroy]
 
   namespace :api do

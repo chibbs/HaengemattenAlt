@@ -46,6 +46,12 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: 'User was successfully destroyed.'
   end
 
+  # POST /users/1/promote
+  def promote
+    @user.update(:admin => true)
+    redirect_to users_url, notice: 'User was promoted.'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

@@ -10,7 +10,7 @@
       <th>Last name</th>
       <th>Email</th>
       <th>Admin</th>
-      <th colspan="3"></th>
+      <th colspan="4"></th>
     </tr>
   </thead>
 
@@ -24,6 +24,7 @@
         <td><%= user.admin %></td>
         <td><%= link_to '<i class="fa fa-search"></i>'.html_safe, user %></td>
         <td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_user_path(user) if can? :update, user %></td>
+        <td><%= link_to '<i class="fa fa-angle-double-up"></i>'.html_safe, promote_user_path(user), method: :post %></td>
         <td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, user, method: :delete, data: { confirm: 'Are you sure?' } if can? :destroy, user %></td>
       </tr>
     <% end %>

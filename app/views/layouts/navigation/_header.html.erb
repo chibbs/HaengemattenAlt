@@ -25,20 +25,24 @@
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img class="img-circle" alt="User Image" src="http://placehold.it/160x160"> </img>
-
+                <img class="img-circle" alt="User Image" src="http://placehold.it/160x160" />
                 <p>
                   <%= current_user.first_name %> <%= current_user.last_name %> - Hammock Lover
                   <small>Member since <%= current_user.created_at %></small>
                 </p>
-              </li> 
+              </li>
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <%= link_to "Profile", home_index_path, class: "btn btn-default" %>
                 </div>
+                <% if can? :manage, Size %>
+                  <div class="pull-left">
+                    <%= link_to "Sizes", sizes_path, class: "btn btn-default" %>
+                  </div>
+                <% end %>
                 <div class="pull-right">
-                  <%= link_to "Log Out", logout_path %>
+                  <%= link_to "Log Out", logout_path, class: "btn btn-default" %>
                 </div>
               </li>
             </ul>
