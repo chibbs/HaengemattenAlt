@@ -11,12 +11,11 @@ class Api::V1::SitesController < Api::V1::BaseController
   end
 
   def show
-    @site = Site.find_by id: params[:id]
+    @site = Site.joins(:sizes).includes([:sizes, :reviews]).find(params[:id])
     if @site == nil
       render(json:{"error": "Key not found"})
     else
-      reviews = Review.where(site_id: @site.id)
-      render(json:format_site(@site).merge!("reviews": reviews))
+	  render(json:format_site(@site))
     end
   end
 
@@ -35,7 +34,7 @@ class Api::V1::SitesController < Api::V1::BaseController
         },
         belongs_to_user: site.user == current_user,
         review_count: site.reviews.size,
-        detail_page: api_v1_site_path(site),
+        detail_page: site,
         sizes: format_sizes(site.sizes)
     }
     if site.user == current_user
