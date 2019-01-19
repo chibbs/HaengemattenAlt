@@ -11,7 +11,11 @@ class SitesController < ApplicationController
 	  #bounds=Geokit::Bounds.from_point_and_radius(@somewhere,5)
     #@sites = Site.includes([:reviews,:sizes]).in_bounds(bounds)
 	  #@sites.sort_by{|s| s.distance_to(@somewhere)}
-	  @sites = Site.joins(:sizes).includes([:sizes, :reviews])
+
+		@sites = Site.joins(:sizes).includes([:sizes, :reviews])
+	  #respond_to do |format|
+	  #  format.js
+	  #end
   end
 
   # GET /sites/1
@@ -19,15 +23,30 @@ class SitesController < ApplicationController
   def show
 	#@site = Site.joins(:reviews).includes(:reviews).find(params[:id])
     @reviews = Review.where(site_id: @site.id).order("created_at DESC")
+	respond_to do |format|
+		format.html {}
+		#format.js {render layout: false} # Add this line to your respond_to block
+		format.js # renders show.js.erb
+		format.json
+	end
   end
 
   # GET /sites/new
   def new
     @site = Site.new
+	
+	respond_to do |format|
+		format.js
+	end
   end
 
   # GET /sites/1/edit
   def edit
+	# html and js like in https://medium.com/@AdamKing0126/ajax-and-rails-demystifying-remote-true-fe51ba2ce819
+	respond_to do |format|
+		format.html { render :edit }
+		format.js {}
+	end
   end
 
   # POST /sites
@@ -42,11 +61,15 @@ class SitesController < ApplicationController
     end
 
     respond_to do |format|
+	# see https://guides.rubyonrails.org/working_with_javascript_in_rails.html#a-simple-example
       if @site.save
-        format.html { redirect_to sites_url, notice: 'Site was successfully created.' }
+        format.html { redirect_to @site, notice: 'Site was successfully created.' }
+		#format.js   # renders create.js.erb, which could be used to redirect via javascript
+		format.js { render action: 'show', status: :created, location: @site }
         format.json { render :index, status: :created, location: @site }
       else
         format.html { render :new }
+		format.js { render :action => 'new' }
         format.json { render json: @site.errors, status: :unprocessable_entity }
       end
     end
@@ -62,28 +85,17 @@ class SitesController < ApplicationController
 	end
 	
 	respond_to do |format|
-		# We use an atomic transaction so that we can rollback
-		# the update if anything goes wrong.
-		Site.transaction do
 		  if @site.update(site_params)
-			# Avoid passing a nil value to `attach` since it'll raise
-			# a 'Blob must exist' validation error.
-			if params[:site][:images]
-			  # As of today, we cannot attach an
-			  # associated file without saving. It'll always
-			  # call `create!`. This might change soon.
-			  @site.images.attach(params[:site][:images])
-			end
-		  end
-		end
-
-		if @site.errors.none?
-		  format.html { redirect_to @site, notice: 'Site was successfully updated.' }
-		  format.json { render :show, status: :ok, location: @site }
-		else
+			format.html { redirect_to @site, notice: 'Site was successfully updated.' }
+			#format.js {redirect_to sites_path(id: @site.id)}
+			format.js {}	# like in https://medium.com/@AdamKing0126/ajax-and-rails-demystifying-remote-true-fe51ba2ce819
+			format.json { render :show, status: :ok, location: @site }
+		  else
 			format.html { render :edit }
+			format.js { render :edit }
 			format.json { render json: @site.errors, status: :unprocessable_entity }
-		end
+		  end
+
     end
   end
 
@@ -93,6 +105,7 @@ class SitesController < ApplicationController
     @site.destroy
     respond_to do |format|
       format.html { redirect_to sites_url, notice: 'Site was successfully destroyed.' }
+	  format.js
       format.json { head :no_content }
     end
   end

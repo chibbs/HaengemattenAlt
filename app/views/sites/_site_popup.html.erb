@@ -1,0 +1,15 @@
+<%= div_for site do %>
+	<h2><%= site.name %></h2>
+	<div class='description'><%= site.description %></div>
+	<div class='discoverer'><%= site.user.first_name %> <%= site.user.last_name %></div>
+
+	<% @revtext = (site.reviews.size == 1) ? site.reviews.size.to_s + ' Kommentar' : site.reviews.size.to_s + ' Kommentare' %>
+	<%= link_to @revtext, reviews_url(), :id => 'click_on_detail' %>
+	<% if site.user == current_user %>
+		<%#= link_to 'Bearbeiten', edit_site_path(site) %>
+		<%#= link_to 'Löschen', site, method: :delete, data: { confirm: "Are you sure?" } %>
+		<%= link_to 'Bearbeiten', edit_site_path(site), :class => 'btn btn-primary btn-block' %>
+		<%= link_to 'Löschen', site, :class => 'btn btn-warning btn-block', method: :delete, confirm: 'Are you sure?' %>
+	<% end %>
+	<div id='popup-comments' class='ol-popup-comments'></div>
+<% end %>
