@@ -1,7 +1,8 @@
 <tr id="thing_<%= thing.id %>">
   <td><%= thing.name %></td>
   <td>
-    <%= link_to 'Edit', edit_thing_path(thing), remote: true, :class => 'btn btn-sm btn-info' %>
+    <%= link_to 'Show', thing, remote: true, :class => 'btn btn-sm btn-info' %>
+    <%= link_to 'Edit', edit_thing_path(thing), remote: true, :class => 'btn btn-sm btn-primary' %>
     <%= link_to 'Delete', thing, remote: true, :method => :delete, data: {confirm: "Delete Thing: #{thing.name}"}, :class => 'btn btn-sm btn-danger' %>
   </td>
 </tr>

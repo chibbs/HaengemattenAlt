@@ -1,37 +1,3 @@
-<p id="notice"><%= notice %></p>
-
-
-<h1>Things</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @things.each do |thing| %>
-      <tr>
-        <td><%= thing.name %></td>
-        <td><%= link_to 'Show', thing, remote: true %></td>
-        <td><%= link_to 'Edit', edit_thing_path(thing) %></td>
-        <td><%= link_to 'Destroy', thing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<div id="detail"></div>
-<div id="target-for-change">
-  Now you see "ME"!
-</div>
-
-<br>
-
-<%= link_to 'New Thing', new_thing_path %>
-
 <div class="container">
  
   <h2>Things</h2>
@@ -40,7 +6,7 @@
   </div>
   <div class="new-thing"></div>
  
-  <table id class="table table-bordered table-striped">
+  <table id="search-results" class="table table-bordered table-striped">
     <thead>
     <tr>
       <th>Name</th>
@@ -51,6 +17,23 @@
 	  <%= render @things %>
     </tbody>
   </table>
+  
+  <div id="single-result" style="display:none;">
+	  <%= link_to 'Back to search results', things_path, remote: true %>
+	  <div id="target-for-change"></div>
+	  
+	  <table class="table table-bordered table-striped">
+	  <thead>
+		<tr>
+		  <th>Name</th>
+		  <th>Actions</th>
+		</tr>
+		</thead>
+		<tbody id="thing">
+		  <%= render @things %>
+		</tbody>
+	  </table>
+  </div>
  
   <%= render 'dialog' %>
  

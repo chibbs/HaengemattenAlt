@@ -1,3 +1,7 @@
-//alert('Number <%= params[:id] %>')
-$("#detail").html(<%= params[:id] %>);
-$("#target-for-change").html("<%= j render(partial: 'show') %>");
+<% logger.debug params %>
+$("#target-for-change").html("<%= j render(partial: 'show', locals: {thing: @thing}) %>");
+// works also, but styling is not appropriate here (renders _thing.html.erb)
+//$("#target-for-change").html("<%= j render @thing %>");
+$("#search-results").hide();
+$("#single-result").show();
+$("#thing").html("<%= j render @thing %>");
