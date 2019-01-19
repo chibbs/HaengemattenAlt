@@ -1,8 +1,0 @@
-<% logger.debug "edit.js.erb" %>
-$('#search-result-single').show();
-$("#search-result-single").html("<li id='back-link'><a href=#>\< back to search results</a></li>");
-$('li#back-link').click(function(){
-    $("#search-result-single").hide(); 
-	$("#search-results").show(); 
-})
-$("#search-result-single").append('<%= j render("form3") %>');

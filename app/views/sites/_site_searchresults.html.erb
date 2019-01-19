@@ -1,9 +1,0 @@
-<% logger.debug "_site_searchresults.html.erb" %>
-	<h2 class='hammock-header'><%= site.name %></h2>
-	<% site.meanrating.to_i.times do  %>
-		<span class='glyphicon glyphicon-star text-warning'></span>
-	<% end %>
-	<% (5 - site.meanrating.to_i).times do  %>
-		<span class='glyphicon glyphicon-star-empty text-muted'></span>
-	<% end %>
-	<div class='description'><%= site.description %></div>

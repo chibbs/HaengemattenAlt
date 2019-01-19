@@ -1,31 +1,60 @@
-<% logger.debug "show.html.erb" %>
+<p id="notice"><%= notice %></p>
 
-<div class="main-sidebar" style="box-shadow: 0px 1px 4px rgba(0,0,0,0.3);">
-  <div class="sidebar">
-    <form class="sidebar-form">
-      <div class="input-group">
-        <input class="form-control" placeholder="Search..." type="text" id="search-input" autocomplete="off"/>
-      </div>
-	  <ul class="sidebar-menu" id="search-result-single">
-		<li id='back-link'><a href=#>\< back to search results</a></li>
-		<%= render 'show_single' %>
-	  </ul>
-	  <div><%= @notice %></div>
-      <ul class="sidebar-menu" id="search-results" style="display: none;">
-		<%#= render(:partial => "site_searchresults", :collection => @sites, as: :site) %>
-		<!-- for each site in @sites: generate link (#show) and fill it with partial _site_searchresults.html.erb -->
-		<!-- the show-link will be handled in show.js.erb, because of remote:true (that makes it an ajax link) -->
-	  </ul>
-	  <%= link_to 'New Site', new_site_path, remote: true%>
-    </form>
-  </div>
-</div>
-<div class="sidebar-toggle-div" style="position:absolute; top:65px; margin-left: -10px; z-index: 8000;">
-<!-- Sidebar toggle button-->
-      
-	  <button class="sidebar-toggle" data-toggle="push-menu" aria-menu="seitliche Leiste ausblenden" style="width:30px; height:30px; background-color:white; cursor:pointer; box-shadow: 0px 1px 4px rgba(0,0,0,0.3);">
-		<i class="fa fa-caret-left"></i>
-	  </button>
-</div>
+<p>
+  <strong>Name:</strong>
+  <%= @site.name %>
+</p>
 
-<%#= render 'map', sites: @sites %>
+<p>
+  <strong>Author:</strong>
+  <%= @site.user.first_name %> <%= @site.user.last_name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @site.description %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @site.longitude %>
+</p>
+
+<p>
+  <strong>Latitude:</strong>
+  <%= @site.latitude %>
+</p>
+
+<p>
+  <strong>Sizes:</strong>
+  <%= @site.sizes.map(&:name).join(', ') %>
+</p>
+
+<% if @site.images.attached? %>
+<!-- @site.images.present? will always return true, use attached? to check presence -->
+  <p>
+    <strong>Images:</strong>
+    <br>
+	<% @site.images.each do |image| %>
+		<%= image_tag image.variant(resize: "100x100") %>
+	<% end %>
+  </p>
+<% end %>
+
+<p>
+  <strong>Reviews (<%= @site.reviews.size %>)</strong>
+  <% @site.reviews.each do |review| %>
+      <ul>
+	  <li><% review.rating.to_i.times do  %>
+			<span class="glyphicon glyphicon-star text-warning"></span>
+		<% end %>
+		<% review.blank_stars.times do %>
+			<span class="glyphicon glyphicon-star-empty text-muted"></span>
+		<% end %></li>
+		<li><%= review.comment %></li>
+	</ul>
+    <% end %>
+</p>
+
+<%= link_to 'Edit', edit_site_path(@site), class: 'btn btn-primary' if can? :update, Review %>
+<%= link_to 'Back', sites_path, class: 'btn btn-default' %>

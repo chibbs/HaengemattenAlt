@@ -1,9 +1,0 @@
-<% logger.debug "show.js.erb" %>
-$('#search-results').hide();
-$('#search-result-single').show();
-$("#search-result-single").html("<li id='back-link'><a href=#>\< back to search results</a></li>");
-$('li#back-link').click(function(){
-    $("#search-result-single").hide(); 
-	$("#search-results").show(); 
-})
-$("#search-result-single").append("<%= escape_javascript(render partial: 'sites/show_single', locals: { site: @site } ) %>");

@@ -1,37 +1,19 @@
-<%= javascript_include_tag "jquery", "jquery_ujs" %>
-<%= javascript_include_tag "application" %>
-<div class="main-sidebar" style="box-shadow: 0px 1px 4px rgba(0,0,0,0.3);">
-  <div class="sidebar">
-    <form class="sidebar-form">
-      <div class="input-group">
-        <input class="form-control" placeholder="Search..." type="text" id="search-input" autocomplete="off"/>
-      </div>
-	  <%= link_to "New Site", new_site_path, id: "new_link", remote: true %>
-	  <ul class="sidebar-menu" id="search-result-single" style="display: none;">
-		<li>back</li>
-	  </ul>
-	  <div><%= @notice %></div>
-      <ul class="sidebar-menu" id="search-results">
-		<%#= render(:partial => "site_searchresults", :collection => @sites, as: :site) %>
-		<!-- for each site in @sites: generate link (#show) and fill it with partial _site_searchresults.html.erb -->
-		<!-- the show-link will be handled in show.js.erb, because of remote:true (that makes it an ajax link) -->
-		<% @sites.each do |site| %>
-			<li class='search-entry' id='entry-<%= site.id %>'>
-				<%= link_to render(:partial => 'site_searchresults', locals: {site: site}), site_path(site), remote: true %>
-				<%#= link_to 'Show', site, remote: true %>
-			</li>
-		<% end %>
-	  </ul>
-	  <%= link_to 'New Site', new_site_path, remote: true%>
-    </form>
-  </div>
-</div>
-<div class="sidebar-toggle-div" style="position:absolute; top:65px; margin-left: -10px; z-index: 8000;">
-<!-- Sidebar toggle button-->
-      
-	  <button class="sidebar-toggle" data-toggle="push-menu" aria-menu="seitliche Leiste ausblenden" style="width:30px; height:30px; background-color:white; cursor:pointer; box-shadow: 0px 1px 4px rgba(0,0,0,0.3);">
-		<i class="fa fa-caret-left"></i>
-	  </button>
+<div id="map" class ="ol-map">
+  <%if notice %>
+  <p id="notice" class="ol-notice"><%= notice %></p>
+  <%end %>
 </div>
 
-<%#= render 'map', sites: @sites %>
+<div style="display: none;">
+  <div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content">
+    </div>
+  </div>
+</div>
+
+<%= render 'map', sites: @sites %>
+
+<div style="display: none; height: 0;">
+	<%= render 'form2', site: @site %>
+</div>
