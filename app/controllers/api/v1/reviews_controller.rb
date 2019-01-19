@@ -4,6 +4,7 @@ class Api::V1::ReviewsController < Api::V1::BaseController
       site = Site.where(id: params[:sites_id]).first
       unless site.nil?
         render(json:site.reviews)
+        return
       end
       render(json:[])
       return

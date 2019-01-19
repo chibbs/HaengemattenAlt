@@ -212,6 +212,7 @@ DEPENDENCIES
   jquery-rails (~> 4.3.1)
   listen (>= 3.0.5, < 3.2)
   mini_magick (~> 4.8)
+  multi_json (~> 1.13)
   puma (~> 3.11)
   rails (~> 5.2.1)
   sassc-rails (~> 2.1.0)
@@ -225,4 +226,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.17.2
+   1.17.3
