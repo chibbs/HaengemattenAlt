@@ -97,6 +97,15 @@ class SitesController < ApplicationController
     end
   end
 
+  # https://stackoverflow.com/questions/49890851/rails-5-2-rest-api-active-storage-react-add-attachment-url-to-controller-r
+	def image_url
+	  if self.image.attached?
+		Rails.application.routes.url_helpers.rails_blob_path(self.image, only_path: true)
+	  else
+		nil
+	  end
+	end
+	
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_site
