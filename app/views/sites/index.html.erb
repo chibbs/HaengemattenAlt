@@ -1,19 +1,58 @@
-<div id="map" class ="ol-map">
-  <%if notice %>
-  <p id="notice" class="ol-notice"><%= notice %></p>
-  <%end %>
-</div>
-
-<div style="display: none;">
-  <div id="popup" class="ol-popup">
-    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-    <div id="popup-content">
-    </div>
+<div class="main-sidebar" style="box-shadow: 0px 1px 4px rgba(0,0,0,0.3);">
+  <div class="sidebar">
+    <form class="sidebar-form">
+      <div class="input-group">
+        <input class="form-control" placeholder="Search..." type="text" id="search-input" autocomplete="off"/>
+      </div>
+    </form>
   </div>
 </div>
+<div class="sidebar-toggle-div" style="position:absolute; top:65px; margin-left: -10px; z-index: 8000;">
+<!-- Sidebar toggle button-->
+      
+	  <button class="sidebar-toggle" data-toggle="push-menu" aria-menu="seitliche Leiste ausblenden" style="width:30px; height:30px; background-color:white; cursor:pointer; box-shadow: 0px 1px 4px rgba(0,0,0,0.3);">
+		<i class="fa fa-caret-left"></i>
+	  </button>
+</div>
 
-<%= render 'map', sites: @sites %>
-
-<div style="display: none; height: 0;">
-	<%= render 'form2', site: @site %>
+<div class="container">
+<%#= render 'map', sites: @sites %>
+ 
+  <h2>Sites</h2>
+  <div class="well">
+    <%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" %>
+  </div>
+  <div class="new-site"></div>
+ 
+  <table id="search-results" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="sites">
+	  <%= render @sites %>
+    </tbody>
+  </table>
+  
+  <div id="single-result" style="display:none;">
+	  <%= link_to 'Back to search results', sites_path, remote: true %>
+	  <div id="target-for-change"></div>
+	  
+	  <table class="table table-bordered table-striped">
+	  <thead>
+		<tr>
+		  <th>Name</th>
+		  <th>Actions</th>
+		</tr>
+		</thead>
+		<tbody id="site">
+		  <%= render @sites %>
+		</tbody>
+	  </table>
+  </div>
+ 
+  <%= render 'dialog' %>
+ 
 </div>
