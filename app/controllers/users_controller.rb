@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   # POST /users/1/promote
   def promote
     @user.update(:admin => true)
-	respond_to do |format|
+    respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was promoted.' }
         format.json { render :show, status: :promoted, location: @user }
@@ -84,6 +84,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.fetch(:user, {})
+      # params.fetch(:user, {})
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
     end
 end
