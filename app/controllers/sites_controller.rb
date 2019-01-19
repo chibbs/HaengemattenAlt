@@ -44,8 +44,8 @@ class SitesController < ApplicationController
 
     respond_to do |format|
       if @site.save
-        #format.json { render :index, status: :created, location: @site }
-		format.json { head :no_content }
+        format.json { render :index, status: :created, location: @site }
+		#format.json { head :no_content }
 		format.js
       else
         format.json { render json: @site.errors, status: :unprocessable_entity }
@@ -76,8 +76,8 @@ class SitesController < ApplicationController
 			  @site.images.attach(params[:site][:images])
 			end
 			
-			#format.json { render :show, status: :ok, location: @site }
-			format.json { head :no_content }
+			format.json { render :show, status: :ok, location: @site }
+			#format.json { head :no_content }
 			format.js
 		  else
 			format.json { render json: @site.errors, status: :unprocessable_entity }

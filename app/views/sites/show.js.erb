@@ -1,6 +1,7 @@
 <% logger.debug params %>
-$("#target-for-change").html("<%= j render(partial: 'show', locals: {site: @site}) %>");
+//$("#target-for-change").html("<%= j render(partial: 'show', locals: {site: @site}) %>");
 
 $("#search-results").hide();
 $("#single-result").show();
-$("#site").html("<%= j render @site %>");
+//$("#site").html("<%= j render @site %>");
+$("#site").html("<%= j render(partial: 'show', locals: {site: @site}) %>");

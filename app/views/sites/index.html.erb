@@ -22,12 +22,14 @@
   <div class="well">
     <%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" %>
   </div>
-  <div class="new-site"></div>
  
   <table id="search-results" class="table table-bordered table-striped">
     <thead>
     <tr>
       <th>Name</th>
+	  <th>Mean Rating</th>
+	  <th>Description</th>
+	  <th>Image</th>
       <th>Actions</th>
     </tr>
     </thead>
@@ -44,6 +46,12 @@
 	  <thead>
 		<tr>
 		  <th>Name</th>
+		  <th>Author</th>
+		  <th>Description</th>
+		  <th>Position</th>
+		  <th>Sizes</th>
+		  <th>Images</th>
+		  <th>Ratings</th>
 		  <th>Actions</th>
 		</tr>
 		</thead>

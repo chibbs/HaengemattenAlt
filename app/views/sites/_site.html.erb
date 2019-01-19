@@ -1,8 +1,25 @@
 <tr id="site_<%= site.id %>">
   <td><%= site.name %></td>
   <td>
+    <% site.meanrating.to_i.times do %> 
+	  <span class="glyphicon glyphicon-star text-warning"></span>
+	<% end %>
+	<% (5 - site.meanrating.to_i).times do %> 
+	  <span class="glyphicon glyphicon-star-empty text-muted"></span>
+	<% end %>
+	(<%= site.reviews.size %>)</td>
+  <td><%= site.description %></td>
+  <td>
+	<% if site.images.attached? %>
+		<%# if site.images.each do |image| %>
+		<%= image_tag site.images[0].variant(resize: "100x100") %>
+	<% end %>
+  </td>
+  <td>
     <%= link_to 'Show', site, remote: true, :class => 'btn btn-sm btn-info' %>
-    <%= link_to 'Edit', edit_site_path(site), remote: true, :class => 'btn btn-sm btn-primary' %>
-    <%= link_to 'Delete', site, remote: true, :method => :delete, data: {confirm: "Delete Site: #{site.name}"}, :class => 'btn btn-sm btn-danger' %>
+	<% if current_user == site.user || current_user.admin %>
+		<%= link_to 'Edit', edit_site_path(site), remote: true, :class => 'btn btn-sm btn-primary' %>
+		<%= link_to 'Delete', site, remote: true, :method => :delete, data: {confirm: "Delete Site: #{site.name}"}, :class => 'btn btn-sm btn-danger' %>
+	<% end %>
   </td>
 </tr>
