@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :things
   get 'home/index'
   root 'home#index'
 
@@ -18,6 +19,10 @@ Rails.application.routes.draw do
       resources :reviews, only: [:index, :create, :show, :update, :destroy]
     end
   end
+  
+  scope :ujs, defaults: { format: :ujs } do
+    patch 'thing_totals' => 'things#totals'
+  end 
   
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
