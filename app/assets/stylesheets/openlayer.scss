@@ -1,3 +1,13 @@
+.fa-star {
+  &-positive {
+    color: #fada5e;
+  }
+
+  &-negative {
+    color: black;
+  }
+}
+
 .fixed {
   &.sidebar-collapse {
     .ol-map {
@@ -79,7 +89,13 @@
       &-comments {
         max-height: 100px;
         overflow: scroll;
-
+        transition: height 500ms ease-in-out, opacity 500ms ease-in-out;
+        height: 0;
+        opacity: 0;
+        &.active {
+          height: 100px;
+          opacity: 1;
+        }
         &-single {
           font-family: 'Playfair Display';
           margin: 10px 0;
@@ -90,16 +106,6 @@
             padding: 4px;
             margin-top: 4px;
             border-radius: 8px;
-
-            .fa-star {
-              &-positive {
-                color: #fada5e;
-              }
-
-              &-negative {
-                color: black;
-              }
-            }
           }
         }
       }
@@ -123,6 +129,16 @@
       }
 
       input {
+      }
+
+      .comment-container {
+        height: 0;
+        overflow: hidden;
+        transition: height 500ms ease-in-out;
+        &.active {
+          overflow: scroll;
+          height: 100px;
+        }
       }
     }
 

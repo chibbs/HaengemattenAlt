@@ -128,15 +128,28 @@
         if(isMine) {
             postfix = "<a class='btn btn-primary btn-block hammock-btn' href='"+ feature.get("edit") +"'>Bearbeiten</a>" +
                 "<a class='btn btn-danger btn-block' href='"+ feature.get("delete") +"'>Löschen</a>"
-
+        }
+        var stars = $("<div><span>Durchschnittsbewertung: </span></div>");
+        if(feature.get("meanrating")) {
+            var rating = feature.get("meanrating");
+            for(var i = 0; i < 5; i++) {
+                if (i < rating) {
+                    stars.append("<i class='fa fa-star fa-star-positive'>");
+                } else {
+                    stars.append("<i class='fa fa-star fa-star-negative'>");
+                }
+            }
+        } else {
+            stars.append($("<span> keine</span>"));
         }
         return "<h2>" + feature.get("name") + "</h2> " +
             "<div class='description'>" +
-            feature.get("description") + "</div>" +
+            feature.get("description") + "</div>" + stars.html() +
             "<div class='discoverer'>" + feature.get("user").first + " " + feature.get("user").last + "</div>" +
             "<a href='"+ feature.get('comment_url') +"' id='click_on_detail'>" +
             feature.get("review_count") + " " + comment +
-            "</a>" + postfix + "<div id='popup-comments' class='ol-popup-comments'></div>";
+            "</a>" + postfix + "<div id='popup-comments' class='ol-popup-comments'></div>" +
+            "<a href='#' onclick='createCommentForm()'>Kommentar verfassen</a>" + "<form class='comment-container'></form>";
     }
 
 
@@ -169,6 +182,13 @@
                     currentComment.append(stars);
                     p.append(currentComment);
                 });
+                if(p.hasClass("active")) {
+                    p.removeClass("active");
+                } else {
+                    if(data.length > 0) {
+                        p.addClass("active");
+                    }
+                }
             });
         });
         return coordinate;
@@ -197,6 +217,7 @@
 
     // Request and handle Hammocks
     $(document).ready(function(){
+        $(".sidebar-form .input-group").append(getStarFilter(5));
       requestHammocksFromServer();
       // Trigger once to fill sidebar with values
 
@@ -258,9 +279,32 @@
         erg = mapQuery(hammocks);
         // 2. Do the Search Query
         erg = searchQuery(erg, $("#search-input").val());
-        //
+        // 3. Do the Stars Query
+        erg = starsQuery(erg);
         updateMap(erg);
         updateSidebar(erg);
+    }
+
+    function starsQuery(dataset) {
+        var starsquery = $("#numstars").val();
+        // Data is a String, so convert it to null or undefined
+        if(starsquery === "null") {
+          starsquery = null;
+        } else if(starsquery === "undefined") {
+          starsquery = undefined;
+        }
+        if(starsquery === undefined) {
+            return dataset;
+        }
+        var result = dataset.filter(hammock => {
+            console.log(hammock.get("meanrating"));
+            if(starsquery === null) {
+              return hammock.get("meanrating") === null;
+            } else {
+              return hammock.get("meanrating") >= starsquery;
+            }
+        });
+        return result;
     }
 
     /**
@@ -294,6 +338,7 @@
         return result;
     }
 
+
     /**
      * Sidebar
      * */
@@ -301,17 +346,24 @@
         var search_results = $("#search-results");
         search_results.empty();
         values.forEach(value => {
-            var object = $("<li class='search-entry' data-id="+ value.get("id") +"></li>");
+            var object = $("<li class='search-entry' data-id=" + value.get("id") + "></li>");
             var header = $("<h2 class='hammock-header'></h2>");
             var content = $("<div class='description'></div>");
             var author = $("<span></span>");
             content.text(value.get("description"));
             header.text(value.get("name"));
             object.append(header);
-			for (i = 0; i < value.get("meanrating"); i++) {
-				var stars = $('<span class="glyphicon glyphicon-star text-warning"></span>');
-				object.append(stars);
-			}
+            if (value.get("meanrating")) {
+              var stars = $("<div></div>")
+              for (i = 0; i < 5; i++) {
+                  if (i < value.get("meanrating")) {
+                      stars.append("<i class='fa fa-star fa-star-positive'>");
+                  } else {
+                      stars.append("<i class='fa fa-star fa-star-negative'>");
+                  }
+              }
+              object.append(stars);
+            }
             object.append(content);
             var button = $("<button class='btn btn-primary search-link hammock-btn' type='button'><i class='fa fa-arrow-right'></i></button>");
             button.click(function() {
@@ -337,10 +389,39 @@
         });
     }
 
+    function createCommentForm() {
+        var container = $(".comment-container");
+        if(container.hasClass("active")) {
+            container.removeClass("active");
+        } else {
+            container.addClass("active");
+        }
+        container.empty();
+        container.append($("<label for='comment-text'>Text</label>"));
+        container.append($("<textarea class='form-control' id='comment-text' style='resize: vertical'>"));
+    }
+
     /**
      * Navigate to Marker in Map
      * */
     function navigateTo(point) {
         map.getView().animate({center: point.flatCoordinates, duration: 500, zoom: 14});
+    }
+
+    function getStarFilter(numberstars) {
+        var select = $("<select class='form-control' id='numstars'></select>");
+        select.append($("<option value=undefined>Alle Anzeigen</option>"));
+        select.append($("<option value=null>Nicht bewertet</option>"))
+        for(var i = 1; i <= numberstars; i++) {
+            var post = "Sterne";
+            if(i === 1) {
+                post = "Stern";
+            }
+            select.append($("<option value="+ i + ">Mindestens " + i + " " + post +" </option>"));
+        }
+        select.on("change", function(e) {
+            doQuery();
+        });
+        return select;
     }
 </script>
