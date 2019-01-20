@@ -15,12 +15,13 @@
 	  </button>
 </div>
 
+<!-- <div class="container" data-turbolinks="false"> -->
 <div class="container">
 <%#= render 'map', sites: @sites %>
  
   <h2>Sites</h2>
   <div class="well">
-    <%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" %>
+    <%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" if can? :create, Site  %>
   </div>
  
   <table id="search-results" class="table table-bordered table-striped">

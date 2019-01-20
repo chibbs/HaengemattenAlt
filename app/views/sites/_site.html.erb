@@ -16,11 +16,9 @@
 	<% end %>
   </td>
   <td>
-    <%= link_to 'Show', site, remote: true, :class => 'btn btn-sm btn-info' %>
-	<% if current_user == site.user || current_user.admin %>
-		<%= link_to 'Edit', edit_site_path(site), remote: true, :class => 'btn btn-sm btn-primary' %>
-		<%= link_to 'Delete', site, remote: true, :method => :delete, data: {confirm: "Delete Site: #{site.name}"}, :class => 'btn btn-sm btn-danger' %>
-	<% end %>
-	<%= link_to 'Rate', new_review_path(:site_id => site.id), remote: true, :class => 'btn btn-sm btn-info' %>
+    <%= link_to 'Show', site, remote: true, :class => 'btn btn-sm btn-info' if can? :show, Site %>
+	<%= link_to 'Edit', edit_site_path(site), remote: true, :class => 'btn btn-sm btn-primary' if can? :update, Site %>
+	<%= link_to 'Delete', site, remote: true, :method => :delete, data: {confirm: "Delete Site: #{site.name}"}, :class => 'btn btn-sm btn-danger' if can? :destroy, Site %>
+	<%= link_to 'Rate', new_review_path(:site_id => site.id), remote: true, :class => 'btn btn-sm btn-info' if can? :create, Review %>
   </td>
 </tr>
