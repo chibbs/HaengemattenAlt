@@ -3,23 +3,23 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "openlayer";
 
-.hammock-btn {
-	background-color: green;
-	}
-	
-.hammock-header span {
-	width: 3;
+// fix search-form height
+.skin-green-light .main-sidebar .sidebar-form.sidebar-form-small {
+	height: 10%;
+}
+
+// sidebar scrolling
+.main-sidebar {
+	box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+	overflow-y:scroll;
 }
 
 // toggle button for sidebar  
-.main-sidebar {
-	box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
-}
 .sidebar-toggle-div {
 	position: absolute; 
 	top: 60px; 
 	margin-left: -12px; 
-	z-index: 1;
+	z-index: 801;
 	
 	.sidebar-toggle {
 		width: 45px; 
@@ -27,5 +27,68 @@
 		background-color: white; 
 		cursor: pointer; 
 		box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+	}
+}
+
+// styling of entries in sitebar
+.sidebar {
+	
+	.results-link, .back-link {
+		margin: 0px 10px;
+	}
+	
+	.sidebar-menu {
+		//height: 100%;
+		//overflow-y:scroll;
+		//padding-bottom: 30px;
+		margin: 10px;
+		
+		h2 {
+			margin-top: 0px;
+			color: #3c8dbc;
+			span {
+				width: 3;
+			}
+		}
+		
+		.search-entry, .search-entry-single {
+			cursor: pointer;
+			background: white;
+			border: 1px solid #d2d6de;
+			border-top-right-radius: 2px;
+			border-bottom-right-radius: 2px;
+			padding: 14px;
+			margin: 0 0 20px;
+			overflow: auto;
+			
+			ul {
+				padding: 0;
+				li {
+					list-style: none;
+				}
+			}
+			
+			.description {
+				font-family: "Playfair Display", serif;
+				font-style: italic;
+			}
+			.description::after, .description::before {
+				content: '"';
+			}
+		}
+		
+		.search-entry {
+			img {
+				float: right;
+			}
+			
+		}
+		
+		.search-entry-single {
+			.description {
+				margin-top: 20px;
+				font-size: 20px;
+			}
+		}
 	}
 }

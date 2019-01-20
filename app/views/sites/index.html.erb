@@ -1,66 +1,36 @@
 <div class="main-sidebar">
   <div class="sidebar">
-    <form class="sidebar-form">
+    <form class="sidebar-form sidebar-form-small">
       <div class="input-group">
         <input class="form-control" placeholder="Search..." type="text" id="search-input" autocomplete="off"/>
       </div>
     </form>
+	<div id="search-results">
+		<%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary results-link" if can? :create, Site  %>
+		<ul id="sites" class="sidebar-menu">
+			<%= render @sites %>
+		</ul>
+	</div>
+	<div id="single-result" style="display:none;">
+		<%= link_to 'Back to search results', sites_path, remote: true, class: "back-link" if can? :index, Site %>
+		<ul id="site" class="sidebar-menu">
+		</ul>
+	</div>
   </div>
 </div>
+
 <div class="sidebar-toggle-div">
 <!-- Sidebar toggle button-->
-	  <button class="sidebar-toggle" data-toggle="push-menu" aria-menu="seitliche Leiste aus- und einblenden">
-		<i class="fa fa-caret-left"></i> <i class="fa fa-caret-right"></i>
-	  </button>
+  <button class="sidebar-toggle" data-toggle="push-menu" aria-menu="seitliche Leiste aus- und einblenden">
+	<i class="fa fa-caret-left"></i> <i class="fa fa-caret-right"></i>
+  </button>
 </div>
 
 <!-- <div class="container" data-turbolinks="false"> -->
 <div class="container">
-<%#= render 'map', sites: @sites %>
+
+  <%#= render 'map', sites: @sites %>
  
-  <h2>Sites</h2>
-  <div class="well">
-    <%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" if can? :create, Site  %>
-  </div>
- 
-  <table id="search-results" class="table table-bordered table-striped">
-    <thead>
-    <tr>
-      <th>Name</th>
-	  <th>Mean Rating</th>
-	  <th>Description</th>
-	  <th>Image</th>
-      <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody id="sites">
-	  <%= render @sites %>
-    </tbody>
-  </table>
-  
-  <div id="single-result" style="display:none;">
-	  <%= link_to 'Back to search results', sites_path, remote: true %>
-	  <div id="target-for-change"></div>
-	  
-	  <table class="table table-bordered table-striped">
-	  <thead>
-		<tr>
-		  <th>Name</th>
-		  <th>Author</th>
-		  <th>Description</th>
-		  <th>Position</th>
-		  <th>Sizes</th>
-		  <th>Images</th>
-		  <th>Ratings</th>
-		  <th>Actions</th>
-		</tr>
-		</thead>
-		<tbody id="site">
-		  <%= render @sites %>
-		</tbody>
-	  </table>
-  </div>
- 
+ <!-- bootstrap modal -->
   <%= render 'dialog' %>
- 
 </div>
