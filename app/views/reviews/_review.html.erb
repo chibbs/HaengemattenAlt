@@ -1,0 +1,13 @@
+<li id="review_<%= review.id %>">
+	<% review.rating.to_i.times do %> 
+	  <span class="glyphicon glyphicon-star text-warning"></span>
+	<% end %>
+	<% (5 - review.rating.to_i).times do %> 
+	  <span class="glyphicon glyphicon-star-empty text-muted"></span>
+	<% end %>
+	: <%= review.comment %> (<%= review.user.first_name %>)
+	<% if current_user == review.user || current_user.admin %>
+		<%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_review_path(review), remote: true  %>
+		<%= link_to '<i class="fa fa-trash"></i>'.html_safe, review, remote: true, method: :delete, data: {confirm: "Delete Comment: #{review.comment}"} %>
+	<% end %>
+</li>

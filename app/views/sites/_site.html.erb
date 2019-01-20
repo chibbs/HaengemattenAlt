@@ -1,6 +1,6 @@
 <tr id="site_<%= site.id %>">
   <td><%= site.name %></td>
-  <td>
+  <td id="meanrating_<%= site.id %>">
     <% site.meanrating.to_i.times do %> 
 	  <span class="glyphicon glyphicon-star text-warning"></span>
 	<% end %>
@@ -21,5 +21,6 @@
 		<%= link_to 'Edit', edit_site_path(site), remote: true, :class => 'btn btn-sm btn-primary' %>
 		<%= link_to 'Delete', site, remote: true, :method => :delete, data: {confirm: "Delete Site: #{site.name}"}, :class => 'btn btn-sm btn-danger' %>
 	<% end %>
+	<%= link_to 'Rate', new_review_path(:site_id => site.id), remote: true, :class => 'btn btn-sm btn-info' %>
   </td>
 </tr>
