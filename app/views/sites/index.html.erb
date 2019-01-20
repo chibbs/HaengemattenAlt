@@ -29,7 +29,8 @@
 <!-- <div class="container" data-turbolinks="false"> -->
 <div class="container">
 
-  <%#= render 'map', sites: @sites %>
+	<div id="map" class="ol-map"></div>
+  <%= render 'map', sites: @sites %>
  
  <!-- bootstrap modal -->
   <%= render 'dialog' %>
