@@ -50,6 +50,7 @@ class ReviewsController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @review.errors, status: :unprocessable_entity }
+		format.js { render 'shared/errors' }
       end
     end
   end
@@ -67,6 +68,7 @@ class ReviewsController < ApplicationController
       else
         format.html { render :edit }
         format.json { render json: @review.errors, status: :unprocessable_entity }
+		format.js { render 'shared/errors' }
       end
     end
   end

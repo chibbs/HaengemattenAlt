@@ -1,7 +1,7 @@
-<%= form_for(@site, remote: true, :html => { :role => "form" }) do |f| %>
-
-<% if @site.errors.any? %>
-    <div id="error_explanation">
+<%= form_for(@site, remote: true, :html => { :role => "form", class: :form_with_errors }) do |f| %>
+<div data-turbolinks="false">
+  <% if @site.errors.any? %>
+    <div id="error_explanation" class="bg-danger text-danger">
       <h2><%= pluralize(@site.errors.count, "error") %> prohibited this site from being saved:</h2>
 
       <ul>
@@ -11,39 +11,19 @@
       </ul>
     </div>
   <% end %>
-
-<div id="error_explanation" class="bg-danger text-danger">
-</div>
  
 <div class="row">
  <div class="col-sm-6">
   <div class="form-group">
-    <%= f.label :name, :class => "control-label" %>
+    <%= f.label :name, :class => "control-label" %>*
     <%= f.text_field :name, :class => "form-control first_input"  %>
   </div>
   <div class="form-group">
     <%= f.label :description, :class => "control-label" %>
     <%= f.text_area :description, :class => "form-control" %>
   </div>
-  <div class="form-group field">
-    <%= f.label :longitude, :class => "control-label" %>*
-    <%= f.text_field :longitude, class: "form-control" %>
-  </div>
-
-  <div class="form-group field">
-    <%= f.label :latitude, :class => "control-label" %>*
-    <%= f.text_field :latitude, class: "form-control" %>
-  </div>
-</div>
- 
-<div class="col-sm-6">
-  <div class="form-group field">
-    <%= f.label :sizes %>*
-    <%= collection_select(:site, :size_ids, Size.all, :id, :name, { include_hidden: false }, { :multiple => true }) %>
-  </div>
-
   <div class="field">  
-	<%= f.label :images %>
+	<%= f.label :images, :class => "control-label" %>
 		<% if @site.images.attached? %>
 			<p>
 				<% @site.images.each do |image| %>
@@ -60,9 +40,26 @@
 	<%#= f.file_field :images, multiple: true %>
 	<%= f.file_field :images, multiple: true, direct_upload: true %>
   </div>
+</div>
+ 
+<div class="col-sm-6">
+  <div class="form-group field">
+    <%= f.label :longitude, :class => "control-label" %>*
+    <%= f.text_field :longitude, class: "form-control" %>
+  </div>
+
+  <div class="form-group field">
+    <%= f.label :latitude, :class => "control-label" %>*
+    <%= f.text_field :latitude, class: "form-control" %>
+  </div>
+  <div class="form-group field">
+    <%= f.label :sizes, :class => "control-label" %>*
+    <%= collection_select(:site, :size_ids, Size.all, :id, :name, { include_hidden: false }, { :multiple => true }) %>
+  </div>
   <div class="form-group">
     <%= f.submit  @site.new_record? ? "Create Site" : "Update Site", :class => "btn btn-primary" %>
   </div>
+ </div>
 </div>
 </div>
 <% end %>

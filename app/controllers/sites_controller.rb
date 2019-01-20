@@ -49,6 +49,7 @@ class SitesController < ApplicationController
 		format.js
       else
         format.json { render json: @site.errors, status: :unprocessable_entity }
+		format.js { render 'shared/errors' }
       end
     end
   end
@@ -81,6 +82,7 @@ class SitesController < ApplicationController
 			format.js
 		  else
 			format.json { render json: @site.errors, status: :unprocessable_entity }
+			format.js { render 'shared/errors' }
 		  end
 		end
     end
