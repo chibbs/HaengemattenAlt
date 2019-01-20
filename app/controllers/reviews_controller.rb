@@ -41,6 +41,7 @@ class ReviewsController < ApplicationController
 	# used for partials rendering in SPA
 	@site = Site.find(@review.site_id)
 	@sites = Site.all
+	@reviews = Review.where(site_id: @site.id).order("created_at DESC")
 
     respond_to do |format|
       if @review.save
