@@ -25,30 +25,6 @@
         source: vectorSource
     });
 
-    /**
-     * The actual Map
-     **/
-    map = new ol.Map({
-        layers: [
-            tileLayer,
-            vectorLayer,
-        ],
-        overlays: [overlay],
-        target: 'map',
-        view: new ol.View({
-            center: ol.proj.fromLonLat([13.566360, 52.477995]),
-            minZoom: 2,
-            zoom:12,
-        })
-    });
-
-    map.on("moveend", function() {
-        mapUpdate();
-    });
-    map.on("zoomend", function() {
-        mapUpdate();
-    });
-
     // Defining the Marker Style...
     var iconStyle = new ol.style.Style({
         image: new ol.style.Icon(({
@@ -130,80 +106,8 @@
 
     // Request and handle Hammocks
     $(document).ready(function(){
+	  geoFindMe();
 		
-      requestHammocksFromServer(updateMap);
-      // Trigger once to fill sidebar with values
-
-      // Registering Click Handler
-      map.on('singleclick', function(evt) {
-          var coordinate = evt.coordinate;
-          var feature = map.forEachFeatureAtPixel(evt.pixel,
-              function(feature) {
-                  return feature;
-              });
-          if(feature) {
-              coordinate = feature.get("geometry").flatCoordinates;
-              $(container).addClass("marker");
-              content.innerHTML = featureToHTML(feature);
-              $("#click_on_detail").on("click", function(e) {
-                  e.preventDefault();
-                  $.ajax({
-                      url:this.href,
-                      method: "GET",
-
-                  }).done(function(data) {
-                      // TODO
-                      var p = $("#popup-comments");
-                      p.empty();
-                      data["reviews"].forEach(item => {
-                          var currentComment = $("<div class='ol-popup-comments-single'></div>");
-                          var actualComment = $("<div class='ol-popup-comments-single-comment'></div>");
-                          var stars = $("<div class='ol-popup-comments-single-stars'></div>");
-                          for(var i = 0; i < 5; i++) {
-                              if(i < item["rating"]) {
-                                  stars.append("<i class='fa fa-star fa-star-positive'>");
-                              } else {
-                                  stars.append("<i class='fa fa-star fa-star-negative'>");
-                              }
-                          }
-                          actualComment.text(item["comment"]);
-                          currentComment.append(actualComment);
-                          currentComment.append(stars);
-                          p.append(currentComment);
-                      });
-                  });
-              });
-
-          } else {
-              $(container).removeClass("marker");
-              var lonLat = ol.proj.toLonLat(coordinate);
-              content.innerHTML = emptySlot(lonLat);
-              document.getElementById("site_longitude").value = lonLat[0];
-              document.getElementById("site_latitude").value = lonLat[1];
-          }
-          overlay.setPosition(coordinate);
-          $("#popup").hide();
-          $("#popup").fadeIn();
-      });
-
-
-
-      // Register Close Button for Notice
-      closer.onclick = function() {
-          overlay.setPosition(undefined);
-          closer.blur();
-          return false;
-      };
-      // Trigerring resize event so map gets updated at start
-      window.dispatchEvent(new Event('resize'));
-      // Sidebar Toggle updates Map size after 500ms
-      $(".sidebar-toggle").on("click tap", function() {
-          console.log("Sidebar tap");
-          setTimeout( function() { map.updateSize();}, 500);
-      });
-      setTimeout(function() {
-          $(".ol-notice").fadeOut()
-      }, 2000);
     });
 
 
@@ -308,4 +212,125 @@
             }
         });
     }
+	
+	function drawMap(coordArray) {
+		console.log("Drawing map at " + coordArray);
+			
+		/**
+		 * The actual Map
+		 **/
+		map = new ol.Map({
+			layers: [
+				tileLayer,
+				vectorLayer,
+			],
+			//overlays: [overlay],
+			target: 'map',
+			view: new ol.View({
+				center: ol.proj.fromLonLat(coordArray),
+				minZoom: 2,
+				zoom:12,
+			})
+		});
+		
+		map.on("moveend", function() {
+			mapUpdate();
+		});
+		map.on("zoomend", function() {
+			mapUpdate();
+		});
+		
+		requestHammocksFromServer(updateMap);
+		  // Trigger once to fill sidebar with values
+
+		  // Registering Click Handler
+		  map.on('singleclick', function(evt) {
+			  var coordinate = evt.coordinate;
+			  var feature = map.forEachFeatureAtPixel(evt.pixel,
+				  function(feature) {
+					  return feature;
+				  });
+			  if(feature) {
+				  coordinate = feature.get("geometry").flatCoordinates;
+				  $(container).addClass("marker");
+				  content.innerHTML = featureToHTML(feature);
+				  $("#click_on_detail").on("click", function(e) {
+					  e.preventDefault();
+					  $.ajax({
+						  url:this.href,
+						  method: "GET",
+
+					  }).done(function(data) {
+						  // TODO
+						  var p = $("#popup-comments");
+						  p.empty();
+						  data["reviews"].forEach(item => {
+							  var currentComment = $("<div class='ol-popup-comments-single'></div>");
+							  var actualComment = $("<div class='ol-popup-comments-single-comment'></div>");
+							  var stars = $("<div class='ol-popup-comments-single-stars'></div>");
+							  for(var i = 0; i < 5; i++) {
+								  if(i < item["rating"]) {
+									  stars.append("<i class='fa fa-star fa-star-positive'>");
+								  } else {
+									  stars.append("<i class='fa fa-star fa-star-negative'>");
+								  }
+							  }
+							  actualComment.text(item["comment"]);
+							  currentComment.append(actualComment);
+							  currentComment.append(stars);
+							  p.append(currentComment);
+						  });
+					  });
+				  });
+
+			  } else {
+				  $(container).removeClass("marker");
+				  var lonLat = ol.proj.toLonLat(coordinate);
+				  content.innerHTML = emptySlot(lonLat);
+				  document.getElementById("site_longitude").value = lonLat[0];
+				  document.getElementById("site_latitude").value = lonLat[1];
+			  }
+			  overlay.setPosition(coordinate);
+			  $("#popup").hide();
+			  $("#popup").fadeIn();
+		  });
+
+		  // Register Close Button for Notice
+		  closer.onclick = function() {
+			  overlay.setPosition(undefined);
+			  closer.blur();
+			  return false;
+		  };
+		  // Trigerring resize event so map gets updated at start
+		  window.dispatchEvent(new Event('resize'));
+		  // Sidebar Toggle updates Map size after 500ms
+		  $(".sidebar-toggle").on("click tap", function() {
+			  console.log("Sidebar tap");
+			  setTimeout( function() { map.updateSize();}, 500);
+		  });
+		  setTimeout(function() {
+			  $(".ol-notice").fadeOut()
+		  }, 2000);
+	}
+	/**
+	 * get current location (browser) and draw map
+	 * default to London, if no coordinates present
+	 * author: Laura
+	 * */	
+	function geoFindMe() {
+	  if (!navigator.geolocation){error();}
+
+	  function success(position) {
+		var output = [position.coords.longitude, position.coords.latitude]
+		drawMap(output);
+	  };
+
+	  function error() {
+		// London coordinates
+		var output = [ -0.076132, 51.508530 ];
+		drawMap(output);
+	  };
+
+	  navigator.geolocation.getCurrentPosition(success, error);
+	}
 </script>
