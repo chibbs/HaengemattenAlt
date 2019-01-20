@@ -1,10 +1,4 @@
 $('#dialog').modal('toggle');
 $('#reviews').append('<%= j render (@review) %>');
-<%# logger.debug(Site.find(@review.site_id)) %>
-<%# @site = Site.find(@review.site_id) %>
-<%# logger.info(@site.meanrating) %>
-//$('#meanrating_<% @review.site_id %>').html('<%= @site.meanrating %>');
-<% @sites = Site.all %>
-<% @reviews = Review.where(site_id: @site.id).order("created_at DESC") %>
 $("#sites").html("<%= j render(partial: @sites) %>");
-$("#site").html("<%= j render(partial: 'sites/show', locals: {site: @site, reviews: @reviews}) %>");
+$('#site_<%= @site.id %>').replaceWith('<%= j render (@site) %>')

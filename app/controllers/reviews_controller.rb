@@ -37,7 +37,10 @@ class ReviewsController < ApplicationController
   def create
     @review = Review.new(review_params)
 	@review.user_id = current_user.id
+	
+	# used for partials rendering in SPA
 	@site = Site.find(@review.site_id)
+	@sites = Site.all
 
     respond_to do |format|
       if @review.save
