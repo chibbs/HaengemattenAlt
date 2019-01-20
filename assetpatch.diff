@@ -1,0 +1,39 @@
+From 9e719c7ffb016abafb17a4d8a0d90c94df8d1214 Mon Sep 17 00:00:00 2001
+From: Laura Woelbeling <s0548106@htw-berlin.de>
+Date: Sat, 19 Jan 2019 22:17:00 +0100
+Subject: [PATCH] bugfix: stylesheets not read by asset pipeline
+
+---
+ app/assets/stylesheets/application.css | 2 +-
+ app/assets/stylesheets/sites.scss      | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/app/assets/stylesheets/application.css b/app/assets/stylesheets/application.css
+index 5745fc3..e04ec91 100644
+--- a/app/assets/stylesheets/application.css
++++ b/app/assets/stylesheets/application.css
+@@ -1,5 +1,5 @@
+ /*
+  *
+- *= require style
++ *= require_tree .
+  *= require_self
+ */
+\ No newline at end of file
+diff --git a/app/assets/stylesheets/sites.scss b/app/assets/stylesheets/sites.scss
+index 24fbca7..86f738f 100644
+--- a/app/assets/stylesheets/sites.scss
++++ b/app/assets/stylesheets/sites.scss
+@@ -7,6 +7,6 @@
+ 	background-color: green;
+ 	}
+ 
+-. hammock-header span {
+-	width = 3;
++.hammock-header span {
++	width: 3;
+ }
+\ No newline at end of file
+-- 
+2.10.2.windows.1
+
