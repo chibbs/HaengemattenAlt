@@ -1,0 +1,30 @@
+<li class="search-entry-single" id="site_<%= site.id %>">
+  <h2>
+	<%= site.name %>
+	<%= link_to 'Edit', edit_site_path(site), remote: true, :class => 'btn btn-sm btn-primary' if can? :update, Site %>
+	<%= link_to 'Delete', site, remote: true, :method => :delete, data: {confirm: "Delete Site: #{site.name}"}, :class => 'btn btn-sm btn-danger' if can? :destroy, Site %>
+  </h2>
+  <div>entdeckt von <%= site.user.first_name %> <%= site.user.last_name %></div>
+  <div><%#= site.longitude %> <%#= site.latitude %></div>
+  <div>Größen: <%= site.sizes.map(&:name).join(', ') %></div>
+  
+  <div class="description"><%= site.description %></div>
+  
+  <div>
+	<% if site.images.attached? %>
+		<h3>Bilder</h3>
+		<% site.images.each do |image| %>
+			<span><%= image_tag image.variant(resize: "100x100") %></span>
+		<% end %>
+	<% end %>
+  </div>
+  
+  <div>
+    <h3>Bewertungen
+	<%= link_to 'Rate', new_review_path(:site_id => site.id), remote: true, :class => 'btn btn-sm btn-info' if can? :create, Review %>
+	</h3>
+	<ul id="reviews">
+		<%= render @reviews %>
+    </ul>
+  </div>
+</li>

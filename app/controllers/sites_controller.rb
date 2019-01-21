@@ -11,6 +11,8 @@ class SitesController < ApplicationController
 	  #bounds=Geokit::Bounds.from_point_and_radius(@somewhere,5)
     #@sites = Site.includes([:reviews,:sizes]).in_bounds(bounds)
 	  #@sites.sort_by{|s| s.distance_to(@somewhere)}
+	  @sites = Site.joins(:sizes).includes([:sizes, :reviews])
+	  
   end
 
   # GET /sites/1
@@ -42,11 +44,12 @@ class SitesController < ApplicationController
 
     respond_to do |format|
       if @site.save
-        format.html { redirect_to sites_url, notice: 'Site was successfully created.' }
         format.json { render :index, status: :created, location: @site }
+		#format.json { head :no_content }
+		format.js
       else
-        format.html { render :new }
         format.json { render json: @site.errors, status: :unprocessable_entity }
+		format.js { render 'shared/errors' }
       end
     end
   end
@@ -73,15 +76,14 @@ class SitesController < ApplicationController
 			  # call `create!`. This might change soon.
 			  @site.images.attach(params[:site][:images])
 			end
-		  end
-		end
-
-		if @site.errors.none?
-		  format.html { redirect_to @site, notice: 'Site was successfully updated.' }
-		  format.json { render :show, status: :ok, location: @site }
-		else
-			format.html { render :edit }
+			
+			format.json { render :show, status: :ok, location: @site }
+			#format.json { head :no_content }
+			format.js
+		  else
 			format.json { render json: @site.errors, status: :unprocessable_entity }
+			format.js { render 'shared/errors' }
+		  end
 		end
     end
   end
@@ -91,11 +93,12 @@ class SitesController < ApplicationController
   def destroy
     @site.destroy
     respond_to do |format|
+	  format.js
       format.html { redirect_to sites_url, notice: 'Site was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
-
+	
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_site

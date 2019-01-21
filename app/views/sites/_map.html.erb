@@ -1,5 +1,4 @@
-<script>
-    // TODO auslagern
+<script type="text/javascript">
     var container = document.getElementById('popup');
     var content = document.getElementById('popup-content');
     var closer = document.getElementById('popup-closer');
@@ -24,30 +23,6 @@
 
     var vectorLayer = new ol.layer.Vector({
         source: vectorSource
-    });
-
-    /**
-     * The actual Map
-     **/
-    map = new ol.Map({
-        layers: [
-            tileLayer,
-            vectorLayer,
-        ],
-        overlays: [overlay],
-        target: 'map',
-        view: new ol.View({
-            center: ol.proj.fromLonLat([13.566360, 52.477995]),
-            minZoom: 2,
-            zoom:12,
-        })
-    });
-
-    map.on("moveend", function() {
-        mapUpdate();
-    });
-    map.on("zoomend", function() {
-        mapUpdate();
     });
 
     // Defining the Marker Style...
@@ -82,23 +57,23 @@
     // Request all hammocks from the Server via Ajax
     function requestHammocksFromServer() {
         $.ajax({
-            url: "/api/v1/sites",
+            url: "sites.json",
         }).done(function(data) {
             hammocks = [];
+			console.log(data);
             // Converting hamocks to a Feature Object
             data.forEach(value => {
-                var position = value["position"];
                 // Transform from lonlat to Openlayers
+                var position = value["position"];
                 var geometry = new ol.geom.Point([position["lon"], position["lat"]]);
                 geometry.transform('EPSG:4326', 'EPSG:900913');
-                value["geometry"] = geometry;
+				value["geometry"] = geometry;
                 var feature = new ol.Feature(value);
                 feature.setStyle(iconStyle);
                 hammocks.push(feature);
 
             });
             updateMap(hammocks);
-            updateSidebar(hammocks);
         });
     }
 
@@ -217,45 +192,7 @@
 
     // Request and handle Hammocks
     $(document).ready(function(){
-        $(".sidebar-form .input-group").append(getStarFilter(5));
-      requestHammocksFromServer();
-      // Trigger once to fill sidebar with values
-
-      // Registering Click Handler
-      map.on('singleclick', function(evt) {
-          onMapClick(evt);
-      });
-
-      map.on('pointermove', function(evt){
-          vectorSource.getFeatures().forEach(f => {
-              f.setStyle(iconStyle);
-          });
-          var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-              return feature;
-          });
-          if(feature) {
-              feature.setStyle(hoverStyle);
-          }
-      });
-
-
-
-      // Register Close Button for Notice
-      closer.onclick = function() {
-          overlay.setPosition(undefined);
-          closer.blur();
-          return false;
-      };
-      // Trigerring resize event so map gets updated at start
-      window.dispatchEvent(new Event('resize'));
-      // Sidebar Toggle updates Map size after 500ms
-      $(".sidebar-toggle").on("click tap", function() {
-          console.log("Sidebar tap");
-          setTimeout( function() { map.updateSize();}, 500);
-      });
-      setTimeout(function() {
-          $(".ol-notice").fadeOut()
-      }, 2000);
+		geoFindMe();
     });
 
 
@@ -282,7 +219,6 @@
         // 3. Do the Stars Query
         erg = starsQuery(erg);
         updateMap(erg);
-        updateSidebar(erg);
     }
 
     function starsQuery(dataset) {
@@ -338,45 +274,6 @@
         return result;
     }
 
-
-    /**
-     * Sidebar
-     * */
-    function updateSidebar(values) {
-        var search_results = $("#search-results");
-        search_results.empty();
-        values.forEach(value => {
-            var object = $("<li class='search-entry' data-id=" + value.get("id") + "></li>");
-            var header = $("<h2 class='hammock-header'></h2>");
-            var content = $("<div class='description'></div>");
-            var author = $("<span></span>");
-            content.text(value.get("description"));
-            header.text(value.get("name"));
-            object.append(header);
-            if (value.get("meanrating")) {
-              var stars = $("<div></div>")
-              for (i = 0; i < 5; i++) {
-                  if (i < value.get("meanrating")) {
-                      stars.append("<i class='fa fa-star fa-star-positive'>");
-                  } else {
-                      stars.append("<i class='fa fa-star fa-star-negative'>");
-                  }
-              }
-              object.append(stars);
-            }
-            object.append(content);
-            var button = $("<button class='btn btn-primary search-link hammock-btn' type='button'><i class='fa fa-arrow-right'></i></button>");
-            button.click(function() {
-                navigateTo(value.get("geometry"));
-            });
-            object.append(button);
-            object.mouseenter(function(eve) {onHoverSearchResult(eve, hoverStyle)});
-            object.mouseleave(function(eve) {onHoverSearchResult(eve, iconStyle)});
-
-            search_results.append(object);
-        });
-    }
-
     function onHoverSearchResult(eve, hoverStyle) {
         highlightById($(eve.currentTarget).data("id"), hoverStyle);
     }
@@ -424,4 +321,93 @@
         });
         return select;
     }
+	
+	function drawMap(coordArray) {
+		console.log("Drawing map at " + coordArray);
+			
+		/**
+		 * The actual Map
+		 **/
+		map = new ol.Map({
+			layers: [
+				tileLayer,
+				vectorLayer,
+			],
+			//overlays: [overlay],
+			target: 'map',
+			view: new ol.View({
+				center: ol.proj.fromLonLat(coordArray),
+				minZoom: 2,
+				zoom:12,
+			})
+		});
+		
+		map.on("moveend", function() {
+			mapUpdate();
+		});
+		map.on("zoomend", function() {
+			mapUpdate();
+		});
+		
+		$(".sidebar-form .input-group").append(getStarFilter(5));
+      requestHammocksFromServer();
+      // Trigger once to fill sidebar with values
+
+      // Registering Click Handler
+      map.on('singleclick', function(evt) {
+          onMapClick(evt);
+      });
+
+      map.on('pointermove', function(evt){
+          vectorSource.getFeatures().forEach(f => {
+              f.setStyle(iconStyle);
+          });
+          var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+              return feature;
+          });
+          if(feature) {
+              feature.setStyle(hoverStyle);
+          }
+      });
+
+
+
+      // Register Close Button for Notice
+      closer.onclick = function() {
+          overlay.setPosition(undefined);
+          closer.blur();
+          return false;
+      };
+      // Trigerring resize event so map gets updated at start
+      window.dispatchEvent(new Event('resize'));
+      // Sidebar Toggle updates Map size after 500ms
+      $(".sidebar-toggle").on("click tap", function() {
+          console.log("Sidebar tap");
+          setTimeout( function() { map.updateSize();}, 500);
+      });
+      setTimeout(function() {
+          $(".ol-notice").fadeOut()
+      }, 2000);
+	}
+	/**
+	 * get current location (browser) and draw map
+	 * default to London, if no coordinates present
+	 * author: Laura
+	 * */	
+	function geoFindMe() {
+	  if (!navigator.geolocation){error();}
+
+	  function success(position) {
+		var output = [position.coords.longitude, position.coords.latitude]
+		drawMap(output);
+	  };
+
+	  function error() {
+		// London coordinates
+		var output = [ -0.076132, 51.508530 ];
+		drawMap(output);
+	  };
+
+	  navigator.geolocation.getCurrentPosition(success, error);
+	}
 </script>
