@@ -30,7 +30,8 @@
 <div class="container">
 
 	<div id="map" class="ol-map"></div>
-  <%= render 'map', sites: @sites %>
+	<div id="location" class="marker"><span class="icon-arrow-up"></span></div>
+  <%= render 'map2', sites: @sites %>
  
  <!-- bootstrap modal -->
   <%= render 'dialog' %>
