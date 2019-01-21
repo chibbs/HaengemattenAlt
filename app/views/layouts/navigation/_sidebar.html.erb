@@ -1,59 +1,10 @@
 <div class="main-sidebar">
   <div class="sidebar">
-    <% if current_user %>
-    <div class="user-panel">
-      <div class="pull-left image">
-        <img alt="User Image" class="user-image" src="http://placehold.it/160x160" />
-      </div>
-      <div class="pull-left info">
-        <p>
-          <a href="mailto:<%= current_user.email %>"><%= current_user.first_name %> <%= current_user.last_name %></a>
-        </p>
-        <a href="#">
-          <i class="fa fa-circle text-success">
-          </i>Online
-        </a>
-      </div>
-    </div>
-	<% end %>
-    <form action="#" class="sidebar-form" method="get">
+    <form class="sidebar-form">
       <div class="input-group">
-        <input class="form-control" name="q" placeholder="Search..." type="text" />
-        <span class="input-group-btn">
-        <button class="btn btn-flat" id="search-btn" name="search" type="submit">
-        <i class="fa fa-search">
-        </i></button></span>
+        <input class="form-control" placeholder="Search..." type="text" id="search-input" autocomplete="off"/>
       </div>
+      <ul class="sidebar-menu" id="search-results"></ul>
     </form>
-    <ul class="sidebar-menu">
-      <li class="header">
-        HEADER
-      </li>
-      <li class="active">
-        <a href="/">
-      <span>Home</span>
-      </a>
-      </li>
-      <li>
-        <%= link_to 'Hängematten', controller: 'sites' %>
-      </li>
-	  <li>
-        <%= link_to 'Reviews', controller: 'reviews' %>
-      </li>
-      <li class="treeview">
-        <a href="#">
-          <span>Multilevel</span>
-          <i class="fa fa-angle-left pull-right">
-          </i></a>
-        <ul class="treeview-menu">
-          <li>
-            <a href="#"> Link in level 2</a>
-          </li>
-          <li>
-            <a href="#"> Link in level 2</a>
-          </li>
-        </ul>
-      </li>
-    </ul>
   </div>
 </div>

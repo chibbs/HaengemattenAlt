@@ -1,43 +1,19 @@
-<p id="notice"><%= notice %></p>
+<div id="map" class ="ol-map">
+  <%if notice %>
+  <p id="notice" class="ol-notice"><%= notice %></p>
+  <%end %>
+</div>
 
-<h1>Sites</h1>
+<div style="display: none;">
+  <div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content">
+    </div>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-	  <th>Author</th>
-      <th>Longitude</th>
-      <th>Latitude</th>
-	  <th>Sizes</th>
-	  <th>Reviews</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<%= render 'map', site: @site %>
 
-  <tbody>
-    <% @sites.each do |site| %>
-      <tr>
-        <td><%= site.name %></td>
-        <td><%= site.description %></td>
-		<td><%= site.user.first_name %> <%= site.user.last_name %></td>
-        <td><%= site.longitude %></td>
-        <td><%= site.latitude %></td>
-		<td><%= site.sizes.map(&:name).join(', ') %></td>
-		<td><%= site.reviews.size %> reviews</td>
-        <td><%= link_to '<i class="fa fa-search"></i>'.html_safe, site %></td>
-		<% if current_user %>
-		<% if site.user_id==current_user.id %>
-			<td><%= link_to '<i class="fa fa-pencil"></i>'.html_safe, edit_site_path(site) %></td>
-			<td><%= link_to '<i class="fa fa-trash"></i>'.html_safe, site, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-		<% end %>
-		<% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Site', new_site_path %>
+<div style="display: none; height: 0;">
+	<%= render 'form2', site: @site %>
+</div>

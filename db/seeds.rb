@@ -11,7 +11,7 @@ Size.delete_all
 User.delete_all
 ActiveStorage::Attachment.all.each { |attachment| attachment.purge }
 
-user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@mustermann.de', password: 'password')
+user1 = User.create(first_name: 'Max', last_name: 'Mustermann', email: 'max@mustermann.de', password: 'password', admin: true)
 sizes = Size.create(name: 'small', text: '2-3 m')
 sizem = Size.create(name: 'medium', text: '4-5 m')
 sizel = Size.create(name: 'large', text: '6+ m')

@@ -29,4 +29,12 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
 .env
+
+# IDEA
+.idea
+*.iml
+
+# Ruby error reports
+ruby.exe.stackdump

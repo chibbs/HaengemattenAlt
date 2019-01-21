@@ -14,6 +14,16 @@ class Site < ApplicationRecord
   validates :latitude, presence: true
   validate :has_one_size_at_least
 
+  def meanrating
+	meanreviews = 0
+	if !reviews.empty?
+		reviews.each do |r|
+			meanreviews = meanreviews + r.rating.to_i
+		end
+		meanreviews = (meanreviews / reviews.size).to_i
+	end
+  end
+  
   def has_one_size_at_least
     if sizes.empty?
       errors.add(:sizes, "need one size at least")
@@ -26,6 +36,12 @@ class Site < ApplicationRecord
   before_update :purge_blobs
   
   scope :with_eager_loaded_images, -> { eager_load(images_attachments: :blob) }
+  
+  acts_as_mappable :default_units => :kms,
+                   :default_formula => :sphere,
+                   :distance_field_name => :distance,
+                   :lat_column_name => :latitude,
+                   :lng_column_name => :longitude
   
   # The post form in our views has a checkbox that marks
   # images_attachments for destruction. We can check if
