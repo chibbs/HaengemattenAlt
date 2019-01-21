@@ -1,0 +1,15 @@
+<script type="text/javascript">
+
+var marker_<%= site.id %> = L.marker([<%= site.latitude %>, <%= site.longitude %>], {icon: purpleIcon, title: '<%= site.name %>'});
+//console.log(marker_<%= site.id %>);
+marker_<%= site.id %>.addTo(map).bindPopup('<b><%= site.name %></b><br /><%= site.description %>');
+  $("#site_<%= site.id %>").mouseenter(function() {
+    marker_<%= site.id %>.openPopup();
+	marker_<%= site.id %>.setIcon(redIcon);
+  })
+  .mouseleave(function() {
+    marker_<%= site.id %>.closePopup();
+	marker_<%= site.id %>.setIcon(purpleIcon);
+  });
+
+</script>
