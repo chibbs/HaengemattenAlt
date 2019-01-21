@@ -50,16 +50,15 @@
 			console.log(data);
             // Converting hamocks to a Feature Object
             data.forEach(value => {
-                var position = value["position"];
                 // Transform from lonlat to Openlayers
+                var position = value["position"];
                 var geometry = new ol.geom.Point([position["lon"], position["lat"]]);
                 geometry.transform('EPSG:4326', 'EPSG:900913');
-                value["geometry"] = geometry;
+				value["geometry"] = geometry;
                 var feature = new ol.Feature(value);
                 feature.setStyle(iconStyle);
                 hammocks.push(feature);
                 updateMap(hammocks);
-                updateSidebar(hammocks);
             });
             handler(hammocks);
         });
@@ -133,7 +132,6 @@
         erg = searchQuery(erg, $("#search-input").val());
         //
         updateMap(erg);
-        updateSidebar(erg);
     }
 
     /**
@@ -165,35 +163,6 @@
                 return lonlat[0] < lon && lon < lonlat[2] && lonlat[1] < lat && lat < lonlat[3];
             });
         return result;
-    }
-
-    /**
-     * Sidebar
-     * */
-    function updateSidebar(values) {
-        var search_results = $("#search-results");
-        search_results.empty();
-        values.forEach(value => {
-			console.log(value);
-            var object = $("<li class='search-entry'></li>");
-            var header = $("<h2 class='hammock-header'></h2>");
-            var content = $("<div class='description'></div>");
-            var author = $("<span></span>");
-            content.text(value.get("description"));
-            header.text(value.get("name"));
-            object.append(header);
-			for (i = 0; i < value.get("meanrating"); i++) {
-				var stars = $('<span class="glyphicon glyphicon-star text-warning"></span>');
-				object.append(stars);
-			}
-            object.append(content);
-            var button = $("<button class='btn btn-primary search-link hammock-btn' type='button'><i class='fa fa-arrow-right'></i></button>");
-            button.click(function() {
-                navigateTo(value.get("geometry"));
-            });
-            object.append(button);
-            search_results.append(object);
-        });
     }
 
     /**
