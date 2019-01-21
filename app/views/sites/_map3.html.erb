@@ -1,0 +1,27 @@
+<script type="text/javascript">
+
+// the map
+//var map = L.map('map').setView([51.505, -0.09], 13);		// London
+var map = L.map('map').setView([52.4775692, 13.5670469], 12);	// Berlin Kaulsdorf
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// icon
+var purpleIcon = L.icon({
+	iconUrl: '<%= asset_path('hammock.png') %>',
+	//shadowUrl: '',
+
+	iconSize:     [44, 52], // size of the icon
+	//shadowSize:   [50, 64], // size of the shadow
+	iconAnchor:   [22, 50], // point of the icon which will correspond to marker's location
+	shadowAnchor: [4, 62],  // the same for the shadow
+	popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+<% @sites.each do |site| %>
+  L.marker([<%= site.latitude %>, <%= site.longitude %>], {icon: purpleIcon, title: '<%= site.name %>'}).addTo(map).bindPopup('<b><%= site.name %></b><br /><%= site.description %>');
+<% end %>
+
+</script>

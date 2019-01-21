@@ -1,6 +1,6 @@
 <div class="main-sidebar">
   <div class="sidebar">
-    <form class="sidebar-form sidebar-form-small">
+    <form class="sidebar-form">
       <div class="input-group">
         <input class="form-control" placeholder="Search..." type="text" id="search-input" autocomplete="off"/>
       </div>
@@ -12,7 +12,7 @@
 		</ul>
 	</div>
 	<div id="single-result" style="display:none;">
-		<%= link_to 'Back to search results', sites_path, remote: true, class: "back-link" if can? :index, Site %>
+		<%= link_to "Back to search results", sites_path, remote: true, class: "back-link" if can? :index, Site %>
 		<ul id="site" class="sidebar-menu">
 		</ul>
 	</div>
@@ -26,14 +26,11 @@
   </button>
 </div>
 
-<!-- <div class="container" data-turbolinks="false"> -->
 <div class="container">
 
-	<div id="map" class="ol-map"></div>
-	<div id="location" class="marker"><span class="icon-arrow-up"></span></div>
-  <%#= render 'map', sites: @sites %>
-  <%= javascript_include_tag params[:controller] %>
+	<div id="map" class="leaflet-map"><div id="popup"></div></div>
+    <%= render 'map3', sites: @sites %>
  
- <!-- bootstrap modal -->
-  <%= render 'dialog' %>
+	<!-- bootstrap modal -->
+	<%= render 'dialog' %>
 </div>
