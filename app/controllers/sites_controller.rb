@@ -93,7 +93,7 @@ class SitesController < ApplicationController
   def destroy
     @site.destroy
     respond_to do |format|
-	  format.js
+	  format.js { redirect_to sites_url }
       format.html { redirect_to sites_url, notice: 'Site was successfully destroyed.' }
       format.json { head :no_content }
     end
