@@ -77,12 +77,12 @@
 				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 			}
 			
-			ul {
+			/*ul {
 				padding: 0;
 				li {
 					list-style: none;
 				}
-			}
+			}*/
 			
 			h2 {
 				margin-top: 0px;
@@ -106,6 +106,48 @@
 				display: block;
 				padding: 0px;
 				margin: 0px 0px 20px;
+			}
+			
+			#reviews {
+				padding: 0;
+				
+				li {
+					list-style: none;
+				}
+				
+				/*.review-rating {
+					&:after {
+					  content: ':';
+					}
+				}*/
+				.review-rating::after {
+					content: ':';
+				}
+				
+				.review-details {
+					display: inline-flex;
+					margin-right: 5px;
+					
+				}
+				
+				.review-comment, .review-user {
+					//display: inline-block;
+					white-space: normal;
+					vertical-align: top;
+				}
+				.review-comment {
+					width: 150px;
+				}
+				.review-user {
+					width: 70px;
+					
+					&:before {
+					  content: '(';
+					}
+					&:after {
+					  content: ')';
+					}
+				}
 			}
 		}
 		.search-entry {
