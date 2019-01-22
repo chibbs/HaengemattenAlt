@@ -1,3 +1,20 @@
 $("#search-results").hide();
 $("#single-result").show();
 $("#site").html("<%= j render(partial: 'show', locals: {site: @site}) %>");
+
+// bind cross-target hover events
+	marker_<%= @site.id %>.on("mouseover", function() {
+		this.openPopup();
+		$("#site_single_<%= @site.id %>").addClass( "hover" );
+	});
+	marker_<%= @site.id %>.on("mouseout", function() {
+		this.closePopup();
+		$("#site_single_<%= @site.id %>").removeClass( "hover" );
+	});
+	$("#site_single_<%= @site.id %>").hover(function() {
+		marker_<%= @site.id %>.openPopup();
+		$("#divmarker_<%= @site.id %>").addClass( "hover" );
+	}, function() {
+		marker_<%= @site.id %>.closePopup();
+		$("#divmarker_<%= @site.id %>").removeClass( "hover" );
+	});

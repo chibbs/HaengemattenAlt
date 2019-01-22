@@ -1,4 +1,4 @@
-<li class="search-entry-single" id="site_<%= site.id %>">
+<li class="search-entry-single" id="site_single_<%= site.id %>">
   <%= link_to "< Back to search results", sites_path, remote: true, class: "back-link" if can? :index, Site %>
   <h2>
 	<%= site.name %>
