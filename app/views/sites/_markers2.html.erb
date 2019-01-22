@@ -1,26 +1,27 @@
 <script type="text/javascript">
 
 // create a new marker and add to map
-var marker_<%= site.id %> = L.marker([<%= site.latitude %>, <%= site.longitude %>], {icon: purpleIcon, title: '<%= site.name %>'});
+var marker_<%= site.id %> = L.marker([<%= site.latitude %>, <%= site.longitude %>], {icon: myDivIcon, title: '<%= site.name %>', riseOnHover: true});
 marker_<%= site.id %>.addTo(map).bindPopup('<b><%= site.name %></b><br /><%= site.description %>');
+
+$(marker_<%= site.id %>._icon).attr('id', 'divmarker_<%= site.id %>');
 
 // bind cross-target hover events
 marker_<%= site.id %>.on("mouseover", function() {
-	marker_<%= site.id %>.openPopup();
+	this.openPopup();
 	$("#site_<%= site.id %>").addClass( "hover" );
 });
 marker_<%= site.id %>.on("mouseout", function() {
-	marker_<%= site.id %>.closePopup();
+	this.closePopup();
 	$("#site_<%= site.id %>").removeClass( "hover" );
 });
 $("#site_<%= site.id %>").hover(function() {
-	markerHighlight(marker_<%= site.id %>);
+	marker_<%= site.id %>.openPopup();
 }, function() {
-	markerDehighlight(marker_<%= site.id %>);
+	marker_<%= site.id %>.closePopup();
 });
 
 // bind click event
-// very dirty! wrap the marker image in <a> tags
-$(marker_<%= site.id %>._icon).wrap("<%= empty_ajax_link_to site_path(site) %>");
+$("#divmarker_<%= site.id %>").html('<%= link_to "Show", site, remote: true %>');
 	 
 </script>

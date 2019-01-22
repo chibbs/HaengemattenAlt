@@ -1,8 +1,10 @@
 <script type="text/javascript">
 
 // the map
-var map = L.map('map', {zoomControl: false}).setView([51.505, -0.09], 12);		// London
-//var map = L.map('map').setView([52.4775692, 13.5670469], 12);	// Berlin Kaulsdorf
+var london = [51.505, -0.09];
+var kaulsdorf = [52.4775692, 13.5670469];
+var berlin = [52.455095,13.525432];
+var map = L.map('map', {zoomControl: false}).setView(london, 12);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -11,7 +13,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.control.zoom({position: 'bottomright'}).addTo(map);
 
 // icon
-var purpleIcon = L.icon({
+var purpleIcon = L.icon({	// automatically gets class leaflet-marker-icon
 	iconUrl: '<%= asset_path('hammock.png') %>',
 	shadowUrl: '<%= asset_path('marker-shadow.png') %>',
 
@@ -21,27 +23,17 @@ var purpleIcon = L.icon({
 	shadowAnchor: [12, 60],  // the same for the shadow
 	popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
-var redIcon = L.icon({
-	iconUrl: '<%= asset_path('hammock2.png') %>',
-	shadowUrl: '<%= asset_path('marker-shadow.png') %>',
-
+var myDivIcon = L.divIcon({	// automatically gets classes leaflet-marker-icon and leaflet-div-icon
+	popupAnchor:  [-3, -76], // point from which the popup should open relative to the iconAnchor
 	iconSize:     [44, 52], // size of the icon
 	shadowSize:   [60, 60], // size of the shadow
 	iconAnchor:   [22, 50], // point of the icon which will correspond to marker's location
 	shadowAnchor: [12, 60],  // the same for the shadow
-	popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
-// functions for events
-function  markerHighlight (m) {
-	m.openPopup();
-	m.setIcon(redIcon);
-}
-function  markerDehighlight (m) {
-	m.closePopup();
-	m.setIcon(purpleIcon);
-}
-
+// for testing
+L.marker(berlin, {icon: purpleIcon, title: 'HTW'}).addTo(map).bindPopup('HTW');
+//
 	
 	/**
 	 * map resize

@@ -144,11 +144,30 @@
 		margin-left: 0;
 	}
 	
-	// change marker color on mouseover
 	.leaflet-marker-icon {
+	
+		// change marker color on mouseover
 		&:hover {
 			filter: hue-rotate(80deg);
 			-webkit-filter: hue-rotate(80deg);
+		}
+		
+		/* if it is actually a div icon:
+		 * width, height & margins are filled by Leaflet (based on Icon Style definition)
+		 * just make background transparent
+		 * */
+		&.leaflet-div-icon {
+			background-image: image_url("hammock.png");
+			background-color: transparent;
+			border: none;
+			
+			// links inside marker: fill all (make whole div a link) and don't show text
+			a {
+				display:inline-block;
+				width:100%;
+				height:100%;
+				color:rgba(0,0,0,0);	// make invisible
+			}
 		}
 	}
   }
