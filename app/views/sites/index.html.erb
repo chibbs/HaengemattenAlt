@@ -1,3 +1,17 @@
+<div class="container">
+
+	<div id="map" class="leaflet-map"><div id="popup"></div></div>
+    <%= render 'map3' %>
+	
+	<%#= render 'markers, sites: @sites %>
+	<%#= render partial: 'markers', collection: @sites, as: :site, :formats => [:js] %>
+	<%= render partial: 'markers2', collection: @sites, as: :site %>
+ 
+	<!-- bootstrap modal -->
+	<%= render 'dialog' %>
+</div>
+
+<!-- important: sidebar must be rendered after map container, so that map is already there -->
 <div class="main-sidebar">
   <div class="sidebar">
     <form class="sidebar-form">
@@ -6,7 +20,7 @@
       </div>
     </form>
 	<div id="search-results">
-		<%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary results-link" if can? :create, Site  %>
+		<%#= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary results-link" if can? :create, Site  %>
 		<ul id="sites" class="sidebar-menu">
 			<%= render @sites %>
 		</ul>
@@ -23,17 +37,4 @@
   <button class="sidebar-toggle" data-toggle="push-menu" aria-menu="seitliche Leiste aus- und einblenden">
 	<i class="fa fa-caret-left"></i> <i class="fa fa-caret-right"></i>
   </button>
-</div>
-
-<div class="container">
-
-	<div id="map" class="leaflet-map"><div id="popup"></div></div>
-    <%= render 'map3' %>
-	
-	<%#= render 'markers, sites: @sites %>
-	<%#= render partial: 'markers', collection: @sites, as: :site, :formats => [:js] %>
-	<%= render partial: 'markers2', collection: @sites, as: :site %>
- 
-	<!-- bootstrap modal -->
-	<%= render 'dialog' %>
 </div>
