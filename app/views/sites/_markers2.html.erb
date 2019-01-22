@@ -1,15 +1,33 @@
 <script type="text/javascript">
 
+// create a new marker and add to map
 var marker_<%= site.id %> = L.marker([<%= site.latitude %>, <%= site.longitude %>], {icon: purpleIcon, title: '<%= site.name %>'});
-//console.log(marker_<%= site.id %>);
 marker_<%= site.id %>.addTo(map).bindPopup('<b><%= site.name %></b><br /><%= site.description %>');
-  $("#site_<%= site.id %>").mouseenter(function() {
-    marker_<%= site.id %>.openPopup();
-	marker_<%= site.id %>.setIcon(redIcon);
-  })
-  .mouseleave(function() {
-    marker_<%= site.id %>.closePopup();
-	marker_<%= site.id %>.setIcon(purpleIcon);
-  });
 
+// bind cross-target hover events
+marker_<%= site.id %>.on("mouseover", function() {
+	marker_<%= site.id %>.openPopup();
+	$("#site_<%= site.id %>").addClass( "hover" );
+});
+marker_<%= site.id %>.on("mouseout", function() {
+	marker_<%= site.id %>.closePopup();
+	$("#site_<%= site.id %>").removeClass( "hover" );
+});
+$("#site_<%= site.id %>").hover(function() {
+	markerHighlight(marker_<%= site.id %>);
+}, function() {
+	markerDehighlight(marker_<%= site.id %>);
+});
+
+// bind click event
+/* marker_<%= site.id %>.on("click", function() {
+	<%#= render(:partial => 'sites/show.js', locals: {site: site}) %>
+	//$(".onoff").wrap("<a href=\"link.html\"></a>");
+	console.log(marker_<%= site.id %>._icon);
+}); */
+//console.log(marker_<%= site.id %>._icon);
+//var ic = $(marker_<%= site.id %>._icon);
+//$("#popup").append("<%#= empty_ajax_link_to site_path(site) %>");
+$(marker_<%= site.id %>._icon).wrap("<%= empty_ajax_link_to site_path(site) %>");
+	 
 </script>

@@ -1,8 +1,8 @@
 <script type="text/javascript">
 
 // the map
-//var map = L.map('map').setView([51.505, -0.09], 13);		// London
-var map = L.map('map').setView([52.4775692, 13.5670469], 12);	// Berlin Kaulsdorf
+var map = L.map('map').setView([51.505, -0.09], 12);		// London
+//var map = L.map('map').setView([52.4775692, 13.5670469], 12);	// Berlin Kaulsdorf
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -30,9 +30,17 @@ var redIcon = L.icon({
 	popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
+// functions for events
+function  markerHighlight (m) {
+	m.openPopup();
+	m.setIcon(redIcon);
+}
+function  markerDehighlight (m) {
+	m.closePopup();
+	m.setIcon(purpleIcon);
+}
 
-
-// 
+// ///////////////////////////
 /*
 // what are layers? markers?
 layer.openTooltip(<LatLng> latlng?)
@@ -51,9 +59,9 @@ marker.remove()
 http://jsfiddle.net/kedar2a/5VLJU/8/
 	
 */
-	var testmarker = L.marker([52.4775692, 13.5670469]).addTo(map);
-	testmarker.bindPopup('Here!');
-	var ltlng = testmarker.getLatLng();
+	//var testmarker = L.marker([52.4775692, 13.5670469]).addTo(map);
+	//testmarker.bindPopup('Here!');
+	//var ltlng = testmarker.getLatLng();
 	//var p = testmarker.getPane();
 	//console.log(ltlng);
 	//console.log(p);
@@ -65,16 +73,52 @@ http://jsfiddle.net/kedar2a/5VLJU/8/
 			layer.setLatLng([newLat,newLon])
 		} 
 	}); */
+
+	////////////////////////
 	
-	// map resize
+	/**
+	 * map resize
+	 * if sidebar is toggled: wait for 500ms and resize map (keep center)
+	 * */
 	$(".sidebar-toggle").on("click tap", function() {
-		console.log("Sidebar tap");
 		var c = map.getCenter();
-		var z = map.getZoom();
-		var s = map.getSize();
-		//console.log(map.zoomControl);
-		//map.project(<LatLng> latlng, <Number> zoom)		// resize
-		map.project(c, z);
-		map = L.map('map').setView(c, z);
+		setTimeout( function() { 
+				console.log("resize map!");
+				map.invalidateSize();
+				map.panTo(c);
+			}, 500);
+	});
+	
+	/**
+	 * get current location (browser) and draw map
+	 * default to London, if no coordinates present
+	 * author: Laura
+	 * */	
+	function geoFindMe() {
+	  if (!navigator.geolocation){error();}
+
+	  function success(position) {
+		var output = [position.coords.latitude, position.coords.longitude]
+		var zoom = map.getZoom();
+		map.flyTo(output, zoom)
+		//map.setView(output, zoom)
+		map.panTo(output);
+	  };
+
+	  function error() {
+		// London coordinates
+		//var output = [ -0.076132, 51.508530 ];
+		//drawMap(output);
+	  };
+
+	  navigator.geolocation.getCurrentPosition(success, error);
+	}
+		
+	/**
+	 * wenn alles geladen ist: zentriere map auf derzeitigen Standort
+	 * */
+	$(document).ready(function(){
+		console.log("do geosearch");
+		geoFindMe();
 	});
 </script>
