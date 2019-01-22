@@ -1,4 +1,5 @@
 <li class="search-entry-single" id="site_<%= site.id %>">
+  <%= link_to "< Back to search results", sites_path, remote: true, class: "back-link" if can? :index, Site %>
   <h2>
 	<%= site.name %>
 	<%= link_to 'Edit', edit_site_path(site), remote: true, :class => 'btn btn-sm btn-primary' if can? :update, Site %>

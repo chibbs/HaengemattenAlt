@@ -59,9 +59,6 @@
 
 // styling of entries in sitebar
 .sidebar {
-	.results-link, .back-link {
-		margin: 0px 10px;
-	}
 	
 	.sidebar-menu {
 		margin: 10px 10px 50px 10px;
@@ -103,6 +100,12 @@
 				&:before, &:after {
 				  content: '"';
 				}
+			}
+			
+			.back-link {
+				display: block;
+				padding: 0px;
+				margin: 0px 0px 20px;
 			}
 		}
 		.search-entry {
