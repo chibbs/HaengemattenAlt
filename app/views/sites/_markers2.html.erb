@@ -20,14 +20,7 @@ $("#site_<%= site.id %>").hover(function() {
 });
 
 // bind click event
-/* marker_<%= site.id %>.on("click", function() {
-	<%#= render(:partial => 'sites/show.js', locals: {site: site}) %>
-	//$(".onoff").wrap("<a href=\"link.html\"></a>");
-	console.log(marker_<%= site.id %>._icon);
-}); */
-//console.log(marker_<%= site.id %>._icon);
-//var ic = $(marker_<%= site.id %>._icon);
-//$("#popup").append("<%#= empty_ajax_link_to site_path(site) %>");
+// very dirty! wrap the marker image in <a> tags
 $(marker_<%= site.id %>._icon).wrap("<%= empty_ajax_link_to site_path(site) %>");
 	 
 </script>

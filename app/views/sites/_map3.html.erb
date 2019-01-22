@@ -40,41 +40,6 @@ function  markerDehighlight (m) {
 	m.setIcon(purpleIcon);
 }
 
-// ///////////////////////////
-/*
-// what are layers? markers?
-layer.openTooltip(<LatLng> latlng?)
-or
-layer.openPopup(<LatLng> latlng?)
-
-// map.flyTo(<LatLng> latlng, <Number> zoom?, <Zoom/pan options> options?)
-
-// markers are added to a pane (default is markerPane)
-
-marker.getLatLng()
-marker.setLatLng(<LatLng> latlng)
-marker.setIcon(<Icon> icon)
-marker.remove()
-
-http://jsfiddle.net/kedar2a/5VLJU/8/
-	
-*/
-	//var testmarker = L.marker([52.4775692, 13.5670469]).addTo(map);
-	//testmarker.bindPopup('Here!');
-	//var ltlng = testmarker.getLatLng();
-	//var p = testmarker.getPane();
-	//console.log(ltlng);
-	//console.log(p);
-	//testmarker.openPopup();
-	
-	/* map.eachLayer(function (layer) { 
-		//console.log(layer);
-		if (layer.options.name === 'XXXXX') {
-			layer.setLatLng([newLat,newLon])
-		} 
-	}); */
-
-	////////////////////////
 	
 	/**
 	 * map resize
@@ -106,9 +71,7 @@ http://jsfiddle.net/kedar2a/5VLJU/8/
 	  };
 
 	  function error() {
-		// London coordinates
-		//var output = [ -0.076132, 51.508530 ];
-		//drawMap(output);
+		// do nothing
 	  };
 
 	  navigator.geolocation.getCurrentPosition(success, error);
