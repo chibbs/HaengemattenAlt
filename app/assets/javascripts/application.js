@@ -16,7 +16,7 @@
 //= require activestorage
 //= require turbolinks
 //= require direct_uploads
-//= require map/leaflet
+//= require_tree /map/.
 //= require_self
 //
 // fallback (not possible, if we have a second manifest)
