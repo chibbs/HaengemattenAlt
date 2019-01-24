@@ -15,11 +15,12 @@
 //= require bootstrap-sprockets
 //= require activestorage
 //= require turbolinks
+//= require direct_uploads
+//= require map/leaflet
 //= require_self
 //
 // fallback (not possible, if we have a second manifest)
 //= require_tree .
-
 
 $(document).ajaxError(function(event,xhr,options,exc) {
     
