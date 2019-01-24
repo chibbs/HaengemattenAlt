@@ -20,7 +20,7 @@
       </div>
     </form>
 	<div id="search-results">
-		<%#= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary results-link" if can? :create, Site  %>
+		<%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary results-link" if can? :create, Site  %>
 		<ul id="sites" class="sidebar-menu">
 			<%= render @sites %>
 		</ul>

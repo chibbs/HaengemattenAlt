@@ -11,12 +11,12 @@
 // about supported directives.
 //
 //= require jquery3
-//= require rails-ujs
+//= require jquery_ujs
 //= require bootstrap-sprockets
+//= require rails-ujs
 //= require activestorage
 //= require turbolinks
 //= require direct_uploads
-//= require_tree /map/.
 //= require_self
 //
 // fallback (not possible, if we have a second manifest)
