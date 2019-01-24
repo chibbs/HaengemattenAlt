@@ -38,3 +38,4 @@
 
 # Ruby error reports
 ruby.exe.stackdump
+*.diff
