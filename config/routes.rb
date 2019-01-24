@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   get 'home/index'
-  root 'home#index'
+  root 'sites#index'
 
   resources :sizes
   resources :sites
+  get 'sites/list', to: 'sites#list', as: 'list_sites'
   resources :reviews
   resources :users do
     member do
