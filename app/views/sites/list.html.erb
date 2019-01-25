@@ -1,11 +1,11 @@
 
  
   <h2>Sites</h2>
-  <%# if can? :create, Site  %>
+  <% if can? :create, Site  %>
 	  <div class="well">
-		<%#= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" %>
+		<%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" %>
 	  </div>
-  <%# end %>
+  <% end %>
  
   <table id="search-results" class="table table-bordered table-striped">
     <thead>
@@ -13,25 +13,27 @@
       <th>Name</th>
 	  <th>Mean Rating</th>
 	  <th>Description</th>
-	  <th>Image</th>
-      <th>Actions</th>
+	  <th># Images</th>
+      <th colspan="3">Actions</th>
     </tr>
     </thead>
     <tbody id="sites">
-	  <%= @sites.each do |site| %>
+	  <% @sites.each do |site| %>
 	  <tr>
-		<th><%= site.name %></th>
-		<th><%= site.meanrating %></th>
-		<th><%= site.description %></th>
-		<th>
-			<%#= if site.attachments.present? %>
-				<%#= site.attachments.count %>
-			<%# end %>
-		</th>
-		<th>Actions</th>
+		<td><%= site.name %></td>
+		<td><%= site.meanrating %></td>
+		<td><%= site.description %></td>
+		<td>
+			<% if site.images.attached? %>
+				<%= site.images.size %>
+			<% end %>
+		</td>
+		<td><%= link_to '<i class="fa fa-search"></i>'.html_safe, site %></td>
+        <td><%= link_to '<i class="fas fas-pencil"></i>'.html_safe, edit_site_path(site) if can? :update, site %></td>
+        <td><%= link_to '<i class="fas fas-trash"></i>'.html_safe, site, method: :delete, data: { confirm: 'Are you sure?' } if can? :destroy, site %></td>
 	  </tr>
 	  <% end %>
     </tbody>
   </table>
  
-  <%= render 'dialog' %>
+  <%#= render 'dialog' %>
