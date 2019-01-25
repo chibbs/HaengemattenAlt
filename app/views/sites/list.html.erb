@@ -1,0 +1,37 @@
+
+ 
+  <h2>Sites</h2>
+  <%# if can? :create, Site  %>
+	  <div class="well">
+		<%#= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary" %>
+	  </div>
+  <%# end %>
+ 
+  <table id="search-results" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Name</th>
+	  <th>Mean Rating</th>
+	  <th>Description</th>
+	  <th>Image</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="sites">
+	  <%= @sites.each do |site| %>
+	  <tr>
+		<th><%= site.name %></th>
+		<th><%= site.meanrating %></th>
+		<th><%= site.description %></th>
+		<th>
+			<%#= if site.attachments.present? %>
+				<%#= site.attachments.count %>
+			<%# end %>
+		</th>
+		<th>Actions</th>
+	  </tr>
+	  <% end %>
+    </tbody>
+  </table>
+ 
+  <%= render 'dialog' %>

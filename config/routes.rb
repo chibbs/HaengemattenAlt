@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   root 'sites#index'
 
   resources :sizes
-  resources :sites
   get 'sites/list', to: 'sites#list', as: 'list_sites'
+  resources :sites
   resources :reviews
   resources :users do
     member do
