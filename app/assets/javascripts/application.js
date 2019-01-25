@@ -10,17 +10,18 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery3
+//= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
 //= require direct_uploads
 //= require_self
 //
 // fallback (not possible, if we have a second manifest)
 //= require_tree .
+
+/* global $ */
 
 $(document).ajaxError(function(event,xhr,options,exc) {
     
