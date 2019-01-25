@@ -1,14 +1,15 @@
 # README
 
+
 ## About ##
 
-https://htw-imi-wt1-rails-hammockapp.herokuapp.com
+https://htw-imi-wt1-hammockapp2.herokuapp.com
 
-This is a student work belonging to a web technology course at HTW Berlin. 
+This is a student work belonging to a web technology course at HTW Berlin. It is an alternative version of the web app found in repository https://github.com/Sinnaj94/HaengemattenApp.
 We built a web app, that enables people to share knowledge about locations where one can put his/her hammock :-)
 It is a Ruby on Rails project, which uses sqlite2 as a database (on heroku we switched to postgresql), Bootstrap 3 for the frontend and openstreetmap for map rendering.
 
-Authors: Jannis Jahr, Max Menzel and Laura Woelbeling
+Authors: Laura Woelbeling (+ Jannis Jahr & Max Menzel)
 
 Berlin, January 2019
 
