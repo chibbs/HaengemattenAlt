@@ -13,8 +13,7 @@
   <body class="fixed skin-green-light">
     <div class="wrapper">
         <%= render 'layouts/navigation/header'%>
-		<%#= render 'layouts/navigation/sidebar'%>
-        <div class="content-wrapper">
+        <div class="<%= content_for?(:wrapperclass) ? yield(:wrapperclass) : "content-wrapper" %>">
             <%= yield %>
         </div>
         <%= render 'layouts/navigation/footer' %>
