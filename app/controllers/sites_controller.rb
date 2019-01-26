@@ -30,6 +30,10 @@ class SitesController < ApplicationController
   # GET /sites/new
   def new
     @site = Site.new
+	respond_to do |format|
+	  format.html
+	  format.js
+	end
   end
 
   # GET /sites/1/edit

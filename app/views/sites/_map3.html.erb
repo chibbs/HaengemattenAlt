@@ -77,6 +77,8 @@ var myDivIcon = L.divIcon({	// automatically gets classes leaflet-marker-icon an
 	/**
 	 * wenn alles geladen ist: zentriere map auf derzeitigen Standort
 	 * */
+	jQuery.noConflict();	// repair jQuery (if not, modals may not be showing
+	
 	$(document).ready(function(){
 		console.log("do geosearch");
 		geoFindMe();
