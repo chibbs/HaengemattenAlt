@@ -1,12 +1,8 @@
-<% content_for :wrapperclass, "content-wrapper-full" %>
+<% content_for :wrapperclass, "content-wrapper content-wrapper-full" %>
 <div class="container">
 
 	<div id="map" class="leaflet-map"><div id="popup"></div></div>
     <%= render 'map3' %>
-	
-	<%#= render 'markers, sites: @sites %>
-	<%#= render partial: 'markers', collection: @sites, as: :site, :formats => [:js] %>
-	<%#= render partial: 'markers2', collection: @sites, as: :site %>
  
 	<!-- bootstrap modal -->
 	<%= render 'dialog' %>

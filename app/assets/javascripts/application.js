@@ -15,6 +15,7 @@
 //= require bootstrap-sprockets
 //= require rails-ujs
 //= require activestorage
+//= require turbolinks
 //= require direct_uploads
 //= require_self
 //

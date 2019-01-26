@@ -21,14 +21,14 @@
 	<% end %>
 <% end %>
 
-<div id="temp_code">
+<div class="temp_code">
 	<script type="text/javascript">
 	
 $(document).ready(function(){		// important: first load jquery and create the map!
 
 	// create a new marker and add to map
 	console.log("start loading marker <%= site.id %>");
-	var marker_<%= site.id %> = L.marker([<%= site.latitude %>, <%= site.longitude %>], {icon: myDivIcon, title: '<%= site.name %>', riseOnHover: true});
+	marker_<%= site.id %> = L.marker([<%= site.latitude %>, <%= site.longitude %>], {icon: myDivIcon, title: '<%= site.name %>', riseOnHover: true});
 	marker_<%= site.id %>.addTo(map).bindPopup('<b><%= site.name %></b><br /><%= site.description %>');
 
 	$(marker_<%= site.id %>._icon).attr('id', 'divmarker_<%= site.id %>');
