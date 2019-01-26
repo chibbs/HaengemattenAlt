@@ -5,7 +5,8 @@ $('#dialog h3').html("<i class='glyphicon glyphicon-plus'></i> Add New Site");
 $('.modal-body').html('<%= j render("form") %>');
  
 // Show the dynamic dialog
-$('#dialog').modal("show");
+jQuery.noConflict();
+$('#dialog').modal('show');
  
 // Set focus to the first element
 $('#dialog').on('shown.bs.modal', function () {
