@@ -10,20 +10,14 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
-	  #@somewhere = [52.477995,13.566360]
-	  #@sites = Site.within(5, :origin => @somewhere).order('distance ASC')
-	  #@sites = Site.by_distance(:origin => @somewhere).order('distance ASC')
-	  #bounds=Geokit::Bounds.from_point_and_radius(@somewhere,5)
-    #@sites = Site.includes([:reviews,:sizes]).in_bounds(bounds)
-	  #@sites.sort_by{|s| s.distance_to(@somewhere)}
-	  @sites = Site.joins(:sizes).includes([:sizes, :reviews])
+	  somewhere = [52.477995,13.566360]
+	  @sites = Site.by_distance(:origin => somewhere).order('distance ASC')
 	  
   end
 
   # GET /sites/1
   # GET /sites/1.json
   def show
-	#@site = Site.joins(:reviews).includes(:reviews).find(params[:id])
     @reviews = Review.where(site_id: @site.id).order("created_at DESC")
   end
 
