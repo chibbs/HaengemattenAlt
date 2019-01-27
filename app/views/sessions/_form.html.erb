@@ -1,5 +1,11 @@
 <%= form_tag sessions_path, remote: true, :html => { :role => "form", class: :form_with_errors } do |form| %>
-  
+  <% if flash[:alert] %>
+    <div id="error_explanation" class="alert"><%= flash[:alert] %></div>
+  <% end %>
+  <% if flash[:notice] %>
+    <div id="notice" class="notice"><%= flash[:notice] %></div>
+  <% end %>
+
   <div class="field">
     <%= label_tag :email %>
     <%= text_field_tag :email, params[:email] %>
