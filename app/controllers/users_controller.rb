@@ -45,9 +45,11 @@ class UsersController < ApplicationController
       if @user.save
         format.html { redirect_to login_path, notice: 'User was successfully created.' }
         format.json { render login_path, status: :created, location: @user }
+		format.js { render 'sessions/new', locals: { email: @user.email} }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+		format.js { render 'shared/errors' }
       end
     end
   end

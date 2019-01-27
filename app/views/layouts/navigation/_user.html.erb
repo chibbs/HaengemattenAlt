@@ -1,0 +1,33 @@
+<% if current_user %>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	  <%= image_tag "User_with_smile-160.png", class:"user-image" %>
+	  <span class="hidden-xs"><%= current_user.first_name %> <%= current_user.last_name %></span>
+	</a>
+	<ul class="dropdown-menu">
+	  <!-- User image -->
+	  <li class="user-header">
+		<%= image_tag "User_with_smile-160.png", class:"img-circle" %>
+		<p>
+		  <%= current_user.first_name %> <%= current_user.last_name %><br />
+		  <% if current_user.admin %>Admin<% else %>Hammock Lover<% end %>
+		  <small>Member since <%= current_user.created_at.to_s(:german_date) %></small>
+		</p>
+	  </li>
+	  <!-- Menu Footer-->
+	  <li class="user-footer">
+		<div class="pull-left">
+		  <%= link_to "Profile", profile_path, class: "btn btn-default" %>
+		</div>
+		<% if current_user.admin %>
+			<div class="pull-left">
+			<%= link_to "Admin", admin_path, class: "btn btn-default" %>
+			</div>
+		<% end %>
+		<div class="pull-right">
+		  <%= link_to "Log Out", logout_path, remote: true, class: "btn btn-default" %>
+		</div>
+	  </li>
+	</ul>
+<% else %>
+	<%= link_to "Log In", login_path, remote: true %>
+<% end %>
