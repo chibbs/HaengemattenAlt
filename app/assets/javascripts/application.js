@@ -16,6 +16,7 @@
 //= require activestorage
 //= require turbolinks
 //= require direct_uploads
+//= require adminlte
 //= require_self
 //
 // fallback (not possible, if we have a second manifest)
