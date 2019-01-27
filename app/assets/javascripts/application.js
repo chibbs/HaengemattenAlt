@@ -18,6 +18,7 @@
 //= require direct_uploads
 //= require adminlte
 //= require_self
+//= require map
 //
 // fallback (not possible, if we have a second manifest)
 //= require_tree .

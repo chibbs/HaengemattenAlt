@@ -11,7 +11,8 @@ class SitesController < ApplicationController
   # GET /sites.json
   def index
 	  somewhere = [52.477995,13.566360]
-	  @sites = Site.by_distance(:origin => somewhere).order('distance ASC')
+	  #@sites = Site.by_distance(:origin => somewhere).order('distance ASC')
+	  @sites = Site.all
 	  
   end
 
