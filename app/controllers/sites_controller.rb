@@ -10,9 +10,11 @@ class SitesController < ApplicationController
   # GET /sites
   # GET /sites.json
   def index
-	  somewhere = [52.477995,13.566360]
-	  #@sites = Site.by_distance(:origin => somewhere).order('distance ASC')
-	  @sites = Site.all
+	  @somewhere = [52.477995,13.566360]
+	  @sites = Site.joins(:sizes).includes([:sizes, :reviews])
+	  @sites.sort_by{|s| s.distance_to(@somewhere)}
+	  
+	  #@sites = Site.by_distance(:origin => @somewhere).order('distance ASC')
 	  
   end
 

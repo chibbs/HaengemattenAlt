@@ -83,4 +83,12 @@ function geoFindMe() {
 
   navigator.geolocation.getCurrentPosition(success, error);
 }
+
+/**
+ * wenn alles geladen ist: zentriere map auf derzeitigen Standort
+ * */
+$(document).ready(function(){
+	console.log("do geosearch");
+	geoFindMe();
+});
 	
