@@ -3,9 +3,9 @@
 <% if can? :show, Site %>
 	<%= link_to site, remote: true do %>
 	  <li class="search-entry" id="site_<%= site.id %>" data-id="<%= site.id %>">
-		<%# if site.images.attached? %>
-		<%#= image_tag site.images[0].variant(resize: "100x100") %>
-		<%# end %>
+		<% if site.images.attached? %>
+		<%= image_tag site.images[0].variant(resize: "100x100") %>
+		<% end %>
 		<h2><%= site.name %></h2>
 		<div id="meanrating_<%= site.id %>">
 		<% site.meanrating.to_i.times do %>
