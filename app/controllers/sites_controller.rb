@@ -24,7 +24,9 @@ class SitesController < ApplicationController
 
   # GET /sites/new
   def new
-    @site = Site.new
+	@site = Site.new
+	@site.latitude = params[:latitude]
+	@site.longitude = params[:longitude]
 	respond_to do |format|
 	  format.html
 	  format.js

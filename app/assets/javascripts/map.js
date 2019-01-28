@@ -42,6 +42,22 @@ function initMap() {
 			}, 500);
 	});
 	
+	// Script for adding marker on map click
+	function onMapClick(e) {
+		console.log(e.latlng);
+		var lnk3 = $("#new-link").attr("href");
+		console.log(lnk3);
+		var lnk4 = lnk3 + "?latitude=" + e.latlng.lat + "&longitude=" + e.latlng.lng;
+		console.log(lnk4);
+		
+		$("#new-link").attr('href', lnk4);
+		$("#new-link")[0].click();
+		$("#new-link").attr('href', lnk3);
+
+	}
+
+	map.on('click', onMapClick);
+	
 	console.log("map loaded!");
 }
 	

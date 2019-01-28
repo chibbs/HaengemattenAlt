@@ -1,8 +1,9 @@
 <% content_for :wrapperclass, "content-wrapper content-wrapper-full" %>
 <div class="container">
-
+	<!-- these two are needed by the map -->
 	<div id="map" class="leaflet-map"><div id="popup"></div></div>
-    <%#= render 'map3' %>
+	<%= link_to "New Site", new_site_path, remote: true, id: "new-link", class: "hidden"  %>
+	
 	<script>initMap();</script>
  
 	<!-- bootstrap modal -->
@@ -18,7 +19,6 @@
       </div>
     </form>
 	<div id="search-results">
-		<%= link_to "New Site", new_site_path, remote: true, class: "btn btn-primary results-link" if can? :create, Site  %>
 		<ul id="sites" class="sidebar-menu">
 			<%= render @sites %>
 		</ul>
