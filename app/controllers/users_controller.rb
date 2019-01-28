@@ -48,7 +48,7 @@ class UsersController < ApplicationController
         format.json { render login_path, status: :created, location: @user }
 		format.js { render 'sessions/new', locals: { email: @user.email} }
       else
-        flash.alert = "Registration not possible due to errors"
+        #flash.alert = "Registration not possible due to errors"
 		format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
 		format.js { render 'shared/errors' }
